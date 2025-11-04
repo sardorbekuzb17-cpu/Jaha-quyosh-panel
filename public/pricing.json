@@ -1,0 +1,31 @@
+{
+  "pricing": [
+    {
+      "id": "1",
+      "package_name": "Uy uchun Standart",
+      "description": "Kichik uylar uchun ideal",
+      "price": 15000000,
+      "duration": "20 yil kafolat",
+      "includes": ["4kW tizim", "O'rnatish", "1 yil texnik xizmat"],
+      "is_popular": false
+    },
+    {
+      "id": "2",
+      "package_name": "Uy uchun Premium",
+      "description": "O'rta va katta uylar uchun",
+      "price": 25000000,
+      "duration": "25 yil kafolat",
+      "includes": ["8kW tizim", "O'rnatish", "3 yil texnik xizmat", "Monitoring"],
+      "is_popular": true
+    },
+    {
+      "id": "3",
+      "package_name": "Biznes uchun",
+      "description": "Kichik biznes va ofislar uchun",
+      "price": 45000000,
+      "duration": "25 yil kafolat",
+      "includes": ["15kW tizim", "Professional o'rnatish", "5 yil texnik xizmat", "Monitoring", "24/7 qo'llab-quvvatlash"],
+      "is_popular": false
+    }
+  ]
+}

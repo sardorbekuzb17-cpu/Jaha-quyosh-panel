@@ -13,17 +13,9 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _logoController;
   late AnimationController _textController;
-  late AnimationController _backgroundController;
-  late AnimationController _particleController;
-  late AnimationController _pulseController;
 
   late Animation<double> _logoScaleAnimation;
-  late Animation<double> _logoRotationAnimation;
   late Animation<double> _textFadeAnimation;
-  late Animation<double> _textSlideAnimation;
-  late Animation<Color?> _backgroundColorAnimation;
-  late Animation<double> _particleAnimation;
-  late Animation<double> _pulseAnimation;
 
   @override
   void initState() {
@@ -40,22 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
     );
 
-    _backgroundController = AnimationController(
-      duration: const Duration(milliseconds: 2000),
-      vsync: this,
-    );
-
-    _particleController = AnimationController(
-      duration: const Duration(milliseconds: 3000),
-      vsync: this,
-    );
-
-    _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
-
-    // Logo animatsiyalari
+    // Logo animatsiyasi
     _logoScaleAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -64,15 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.elasticOut,
     ));
 
-    _logoRotationAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _logoController,
-      curve: Curves.easeInOut,
-    ));
-
-    // Matn animatsiyalari
+    // Matn animatsiyasi
     _textFadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -81,58 +50,13 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.easeIn,
     ));
 
-    _textSlideAnimation = Tween<double>(
-      begin: 50.0,
-      end: 0.0,
-    ).animate(CurvedAnimation(
-      parent: _textController,
-      curve: Curves.easeOut,
-    ));
-
-    // Background animatsiyasi
-    _backgroundColorAnimation = ColorTween(
-      begin: Colors.white,
-      end: Colors.blue[50],
-    ).animate(CurvedAnimation(
-      parent: _backgroundController,
-      curve: Curves.easeInOut,
-    ));
-
-    // Particle animatsiyasi
-    _particleAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _particleController,
-      curve: Curves.easeInOut,
-    ));
-
-    // Pulse animatsiyasi
-    _pulseAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.2,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeInOut,
-    ));
-
     // Animatsiyalarni boshlash
     _startAnimations();
   }
 
   void _startAnimations() async {
-    // Background animatsiyasini boshlash
-    _backgroundController.forward();
-
-    // Particle animatsiyasini boshlash
-    _particleController.repeat();
-
-    // 300ms kutib logo animatsiyasini boshlash
-    await Future.delayed(const Duration(milliseconds: 300));
+    // Logo animatsiyasini boshlash
     _logoController.forward();
-
-    // Pulse animatsiyasini boshlash
-    _pulseController.repeat(reverse: true);
 
     // 800ms kutib matn animatsiyasini boshlash
     await Future.delayed(const Duration(milliseconds: 800));
@@ -161,119 +85,133 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: Listenable.merge([
-        _logoController,
-        _textController,
-        _backgroundController,
-      ]),
-      builder: (context, child) {
-        return Scaffold(
-          backgroundColor: Colors.black,
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: RadialGradient(
-                center: Alignment.center,
-                radius: 1.5,
-                colors: [
-                  Colors.blue[900]!.withValues(alpha: 0.8),
-                  Colors.blue[800]!.withValues(alpha: 0.6),
-                  Colors.indigo[900]!.withValues(alpha: 0.9),
-                  Colors.black,
-                ],
-                stops: const [0.0, 0.3, 0.7, 1.0],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.blue[50]!,
+              Colors.white,
+            ],
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Logo animatsiyasi
+              AnimatedBuilder(
+                animation: _logoScaleAnimation,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: _logoScaleAnimation.value,
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [Colors.blue[900]!, Colors.blue[600]!],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withValues(alpha: 0.3),
+                            spreadRadius: 5,
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.wb_sunny,
+                        size: 60,
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
+                },
               ),
-            ),
-            child: Stack(
-              children: [
-                // Animated particles background
-                _buildParticles(),
 
-                // Main content
-                _buildMainContent(),
-              ],
-            ),
-          ),
-          ),
-        );
-      },
-    );
-  }
+              const SizedBox(height: 40),
 
-  Widget _buildLogo() {
-    // Agar logo.png mavjud bo'lsa, uni ishlatamiz, aks holda icon
-    return FutureBuilder<bool>(
-      future: _checkLogoExists(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data == true) {
-          // Logo rasm mavjud
-          return ClipOval(
-            child: Image.asset(
-              'assets/images/logo.png',
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return _buildDefaultIcon();
-              },
-            ),
-          );
-        } else {
-          // Default icon
-          return _buildDefaultIcon();
-        }
-      },
-    );
-  }
+              // Matn animatsiyasi
+              AnimatedBuilder(
+                animation: _textFadeAnimation,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: _textFadeAnimation.value,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Jahongir Solar',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue[900],
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Quyosh Panellari',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.blue[700],
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
 
-  Widget _buildDefaultIcon() {
-    return AnimatedBuilder(
-      animation: _logoController,
-      builder: (context, child) {
-        return Transform.rotate(
-          angle: _logoRotationAnimation.value * 6.28, // 360 daraja
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: RadialGradient(
-                colors: [
-                  Colors.yellow[300]!,
-                  Colors.orange[400]!,
-                  Colors.blue[600]!,
-                ],
-                stops: const [0.0, 0.7, 1.0],
+                        // Loading indicator
+                        SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.blue[600]!,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-            ),
-            child: const Icon(
-              Icons.wb_sunny,
-              size: 60,
-              color: Colors.white,
-            ),
+
+              const SizedBox(height: 60),
+
+              // Pastki matn
+              AnimatedBuilder(
+                animation: _textFadeAnimation,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: _textFadeAnimation.value * 0.7,
+                    child: Text(
+                      'Toza energiya, yorqin kelajak',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
-  }
-
-  Future<bool> _checkLogoExists() async {
-    try {
-      // Logo mavjudligini tekshirish
-      // Agar assets/images/logo.png mavjud bo'lsa true qaytaradi
-
-      // Hozircha default icon ishlatamiz
-      // Logo qo'shgandan so'ng bu qatorni o'zgartiring:
-      // return true;
-      return false;
-    } catch (e) {
-      return false;
-    }
   }
 
   @override
   void dispose() {
     _logoController.dispose();
     _textController.dispose();
-    _backgroundController.dispose();
     super.dispose();
   }
 }

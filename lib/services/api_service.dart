@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ApiService {
   static const String baseUrl =
-      'https://jaha-quyosh-panel-jaha-quyosh-panellars-projects.vercel.app'; // Haqiqiy Vercel URL
+      'https://raw.githubusercontent.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/main/public'; // GitHub Raw fayllar
   late Dio _dio;
 
   ApiService() {
@@ -72,8 +72,7 @@ class ApiService {
         throw Exception('Internet aloqasi yo\'q');
       }
 
-      final response = await _dio.get('/version-check',
-          queryParameters: {'current_version': currentVersion});
+      final response = await _dio.get('/version-check.json');
       return response.data ?? {};
     } catch (e) {
       print('Yangilanish tekshirishda xatolik: $e');
