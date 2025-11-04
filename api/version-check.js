@@ -13,7 +13,7 @@ export default function handler(req, res) {
   
   // Eng so'nggi versiya ma'lumotlari
   const latestVersion = "1.1.0";
-  const downloadUrl = "https://github.com/YOUR_USERNAME/solar-panel-app/releases/download/v1.1.0/solar-panel-app.apk";
+  const downloadUrl = "https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/releases/download/v1.1.0/solar-panel-app.apk";
   
   res.status(200).json({
     latest_version: latestVersion,
