@@ -125,8 +125,8 @@ APK fayl `build/app/outputs/flutter-apk/` papkasida yaratiladi.
 ## 🔐 Admin panel
 
 ### Kirish ma'lumotlari:
-- **Email:** sardorbekuzb17@gmail.com
-- **Parol:** Sardo9050r
+- **Email:** ***************************
+- **Parol:** ***************************
 
 ### Admin funksiyalari:
 - Panel qo'shish/tahrirlash/o'chirish
