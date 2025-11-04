@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ApiService {
   static const String baseUrl =
-      'https://jaha-quyosh-panel.vercel.app'; // JSON fayllar uchun
+      'https://jaha-quyosh-panel-jaha-quyosh-panellars-projects.vercel.app'; // Haqiqiy Vercel URL
   late Dio _dio;
 
   ApiService() {
