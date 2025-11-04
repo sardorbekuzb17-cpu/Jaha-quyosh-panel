@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ApiService {
   static const String baseUrl =
-      'https://jaha-quyosh-panel.vercel.app/api'; // Haqiqiy Vercel URL
+      'https://jaha-quyosh-panel.vercel.app'; // JSON fayllar uchun
   late Dio _dio;
 
   ApiService() {
@@ -27,7 +27,7 @@ class ApiService {
         throw Exception('Internet aloqasi yo\'q');
       }
 
-      final response = await _dio.get('/panels');
+      final response = await _dio.get('/panels.json');
       return response.data['panels'] ?? [];
     } catch (e) {
       print('Panel ma\'lumotlarini olishda xatolik: $e');
@@ -57,7 +57,7 @@ class ApiService {
         throw Exception('Internet aloqasi yo\'q');
       }
 
-      final response = await _dio.get('/contact');
+      final response = await _dio.get('/contact.json');
       return response.data ?? {};
     } catch (e) {
       print('Aloqa ma\'lumotlarini olishda xatolik: $e');
