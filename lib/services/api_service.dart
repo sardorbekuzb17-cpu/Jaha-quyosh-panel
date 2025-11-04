@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ApiService {
   static const String baseUrl =
-      'https://jaha-quyosh-panel.vercel.app/api'; // Vercel URL
+      'https://jaha-quyosh-panel.vercel.app/api'; // Haqiqiy Vercel URL
   late Dio _dio;
 
   ApiService() {
