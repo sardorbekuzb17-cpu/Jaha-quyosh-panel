@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaha Quyosh Panel API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .api-endpoint {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        .api-endpoint a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .api-endpoint a:hover {
+            text-decoration: underline;
+        }
+        .description {
+            margin-top: 5px;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌞 Jaha Quyosh Panel API</h1>
+        <p>Quyosh paneli ilovasi uchun API xizmatlari</p>
+        
+        <h2>📡 Mavjud API Endpoints:</h2>
+        
+        <div class="api-endpoint">
+            <a href="/api/version-check?current_version=1.0.0" target="_blank">
+                GET /api/version-check
+            </a>
+            <div class="description">Ilova versiyasini tekshirish va yangilanish ma'lumotlari</div>
+        </div>
+        
+        <div class="api-endpoint">
+            <a href="/api/panels" target="_blank">
+                GET /api/panels
+            </a>
+            <div class="description">Quyosh paneli turlari va texnik ma'lumotlar</div>
+        </div>
+        
+        <div class="api-endpoint">
+            <a href="/api/contact" target="_blank">
+                GET /api/contact
+            </a>
+            <div class="description">Bog'lanish ma'lumotlari va aloqa</div>
+        </div>
+        
+        <h2>📱 Flutter Ilovasi:</h2>
+        <p>Bu API Flutter ilovasi uchun yaratilgan. Ilovani GitHub dan yuklab olishingiz mumkin:</p>
+        <div class="api-endpoint">
+            <a href="https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel" target="_blank">
+                GitHub Repository
+            </a>
+            <div class="description">Quyosh paneli Flutter ilovasi manba kodi</div>
+        </div>
+        
+        <h2>🚀 Ishlab chiquvchi:</h2>
+        <p>Jahongir - Quyosh paneli mutaxassisi</p>
+        <p>📞 Telefon: +998930874758</p>
+        <p>📱 Telegram: @jahonbas</p>
+    </div>
+</body>
+</html>
