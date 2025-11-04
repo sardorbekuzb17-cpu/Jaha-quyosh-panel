@@ -100,26 +100,26 @@ class _PricingScreenState extends State<PricingScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Narx Paketlari',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue[900],
+                      color: Colors.blue,
                     ),
                   ),
                   IconButton(
                     onPressed: _loadPricing,
-                    icon: Icon(Icons.refresh, color: Colors.blue[900]),
+                    icon: const Icon(Icons.refresh, color: Colors.blue),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-              Text(
+              const Text(
                 'Sizning ehtiyojlaringizga mos keladigan paketni tanlang',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.grey[700],
+                  color: Colors.grey,
                 ),
               ),
               const SizedBox(height: 30),
@@ -157,7 +157,7 @@ class _PricingScreenState extends State<PricingScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 10,
             offset: const Offset(0, 3),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:solar_panel_info/widgets/info_card.dart';
+import '../widgets/ads_carousel.dart';
 import 'faq_screen.dart';
 
 class InfoScreen extends StatelessWidget {
@@ -20,43 +21,47 @@ class InfoScreen extends StatelessWidget {
                 color: Colors.blue[900],
               ),
             ),
-            SizedBox(height: 20),
-            InfoCard(
+
+            // Reklama Carousel
+            const AdsCarousel(),
+
+            const SizedBox(height: 20),
+            const InfoCard(
               title: 'Quyosh Energiyasi Nima?',
               content:
                   'Quyosh energiyasi quyosh nurlaridan olinadigan toza, qayta tiklanuvchi energiya manbasidir. Bu energiya quyosh panelari yordamida elektr energiyaga aylantiriladi.',
               icon: Icons.wb_sunny,
             ),
-            SizedBox(height: 20),
-            InfoCard(
+            const SizedBox(height: 20),
+            const InfoCard(
               title: 'Afzalliklari',
               content:
                   '• Atrof-muhitga zarar bermaydi\n• Uzoq muddatli investitsiya\n• Kam xizmat ko\'rsatish talabi\n• Energiya narxlaridan mustaqillik',
               icon: Icons.check_circle,
             ),
-            SizedBox(height: 20),
-            InfoCard(
+            const SizedBox(height: 20),
+            const InfoCard(
               title: 'Qanday Ishlaydi?',
               content:
                   'Quyosh panelari quyosh nurlarini elektr energiyaga aylantiradi. Bu energiya uy tarmog\'iga ulanadi va uy elektr jihozlari uchun foydalaniladi.',
               icon: Icons.settings,
             ),
-            SizedBox(height: 20),
-            InfoCard(
+            const SizedBox(height: 20),
+            const InfoCard(
               title: 'Tejamkorlik',
               content:
                   'O\'rta hajmli tizim 20 yil davomida 30-50 million so\'m tejash imkonini beradi. Bu energiya hisobini sezilarli darajada kamaytiradi.',
               icon: Icons.savings,
             ),
             const SizedBox(height: 20),
-            InfoCard(
+            const InfoCard(
               title: 'O\'zbekistonda quyosh energiyasi',
               content:
                   'O\'zbekiston yiliga 320 kun quyoshli kun bor. Bu quyosh panellari uchun ideal sharoit yaratadi. Davlat tomonidan qo\'llab-quvvatlash dasturlari mavjud.',
               icon: Icons.wb_sunny,
             ),
             const SizedBox(height: 20),
-            InfoCard(
+            const InfoCard(
               title: 'Texnik xizmat',
               content:
                   'Quyosh panellari minimal texnik xizmat talab qiladi. Yiliga 1-2 marta tozalash va tekshirish kifoya. 25 yilgacha kafolat beriladi.',

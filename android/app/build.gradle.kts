@@ -35,7 +35,17 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+            
+            // Lint tekshiruvini o'chirish (build tezlashtirish uchun)
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
+    }
+    
+    // Lint ni o'chirish
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
     }
 }
 

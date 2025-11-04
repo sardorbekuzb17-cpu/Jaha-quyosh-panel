@@ -120,7 +120,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
+                      color: Colors.grey.withValues(alpha: 0.1),
                       spreadRadius: 1,
                       blurRadius: 6,
                       offset: const Offset(0, 3),
@@ -309,7 +309,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       ),
                       const SizedBox(height: 16),
                       _buildInfoRow(
-                          'Kunlik quyosh soatlari', '${_sunHoursPerDay} soat'),
+                          'Kunlik quyosh soatlari', '$_sunHoursPerDay soat'),
                       _buildInfoRow('Tizim samaradorligi',
                           '${(_systemEfficiency * 100).toInt()}%'),
                       _buildInfoRow('Elektr narxi',
@@ -401,7 +401,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 6,
             offset: const Offset(0, 3),
@@ -413,7 +413,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: color, size: 24),

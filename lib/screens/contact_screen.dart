@@ -66,13 +66,6 @@ class _ContactScreenState extends State<ContactScreen> {
     }
   }
 
-  Future<void> _sendEmail(String email) async {
-    final Uri emailUri = Uri(scheme: 'mailto', path: email);
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    }
-  }
-
   Future<void> _openSocialMedia(String platform, String username) async {
     String url = '';
     if (platform == 'telegram') {

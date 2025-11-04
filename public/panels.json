@@ -2,59 +2,192 @@
   "panels": [
     {
       "id": "1",
-      "name": "Jinko Solar Monokristalin Panel",
-      "description": "Klass A, Tier 1 - Monokristalin texnologiya, 715W quvvat, KPD 23%",
-      "image_url": "https://example.com/jinko_mono.jpg",
-      "power": 715,
-      "efficiency": 23.0,
-      "warranty": "25 yil mahsulot kafolati",
-      "price": 1162500,
+      "name": "LONGi Hi-MO 6 10kW Tizim",
+      "description": "LONGi Hi-MO 6 seriyasi, 10kW to'liq tizim. N-type TOPCon texnologiya, 21.8% samaradorlik.",
+      "image_url": "",
+      "power": 10000,
+      "efficiency": 21.8,
+      "warranty": "25 yil",
+      "price": 80000000,
       "features": [
-        "Jinko Solar brendi",
-        "Klass A sifat",
-        "Tier 1 ishlab chiqaruvchi",
-        "Monokristalin texnologiya",
-        "Yuqori KPD 23%",
+        "LONGi Hi-MO 6 seriyasi",
+        "N-type TOPCon texnologiya",
+        "21.8% samaradorlik",
+        "10kW quvvat",
         "25 yil kafolat",
-        "Ob-havo bardoshli"
+        "To'liq tizim",
+        "Professional o'rnatish"
       ]
     },
     {
       "id": "2",
-      "name": "DEYE Setevoy Invertor",
-      "description": "50 kVt, 3 fazali setevoy invertor, KPD 98.6%",
-      "image_url": "https://example.com/deye_inverter.jpg",
-      "power": 50000,
-      "efficiency": 98.6,
-      "warranty": "10 yil kafolat",
-      "price": 25625000,
+      "name": "LONGi Hi-MO 6 20kW Tizim",
+      "description": "LONGi Hi-MO 6 seriyasi, 20kW tizim. Bifacial texnologiya, yuqori energiya ishlab chiqarish.",
+      "image_url": "",
+      "power": 20000,
+      "efficiency": 22.0,
+      "warranty": "25 yil",
+      "price": 150000000,
       "features": [
-        "DEYE brendi",
-        "3 fazali tizim",
-        "Yuqori KPD 98.6%",
-        "Setevoy ulanish",
-        "MPPT nazorat",
-        "Wi-Fi monitoring",
-        "IP65 himoya darajasi"
+        "LONGi Hi-MO 6 seriyasi",
+        "Bifacial texnologiya",
+        "22.0% samaradorlik",
+        "20kW quvvat",
+        "25 yil kafolat",
+        "Yuqori energiya ishlab chiqarish",
+        "Ikki tomonlama qabul qilish"
       ]
     },
     {
       "id": "3",
-      "name": "Elektromontaj Prinajlejnosti",
-      "description": "Ikki qatlamli PV kabel, avtomat, nakonechniklar va boshqa jihozlar",
-      "image_url": "https://example.com/electrical_kit.jpg",
-      "power": 0,
-      "efficiency": 0,
-      "warranty": "5 yil kafolat",
-      "price": 5000000,
+      "name": "LONGi Hi-MO 7 30kW Tizim",
+      "description": "LONGi Hi-MO 7 seriyasi, 30kW tizim. Yangi avlod N-type texnologiya, 22.5% samaradorlik.",
+      "image_url": "",
+      "power": 30000,
+      "efficiency": 22.5,
+      "warranty": "30 yil",
+      "price": 220000000,
       "features": [
-        "Ikki qatlamli PV kabel",
-        "Avtomatik uzgichlar",
-        "Nakonechniklar",
-        "Ulagichlar",
-        "Himoya qurilmalari",
-        "Sertifikatlangan",
-        "Xavfsizlik standartlari"
+        "LONGi Hi-MO 7 seriyasi",
+        "Yangi avlod N-type",
+        "22.5% samaradorlik",
+        "30kW quvvat",
+        "30 yil kafolat",
+        "Premium sifat",
+        "Yuqori ishonchlilik"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "LONGi Hi-MO 7 40kW Tizim",
+      "description": "LONGi Hi-MO 7 seriyasi, 40kW tizim. Premium sifat, yuqori ishonchlilik.",
+      "image_url": "",
+      "power": 40000,
+      "efficiency": 22.6,
+      "warranty": "30 yil",
+      "price": 280000000,
+      "features": [
+        "LONGi Hi-MO 7 seriyasi",
+        "Premium sifat",
+        "22.6% samaradorlik",
+        "40kW quvvat",
+        "30 yil kafolat",
+        "Yuqori ishonchlilik",
+        "Tijorat uchun ideal"
+      ]
+    },
+    {
+      "id": "5",
+      "name": "LONGi Hi-MO X6 50kW Tizim",
+      "description": "LONGi Hi-MO X6 seriyasi, 50kW tizim. Maksimal quvvat, tijorat uchun ideal.",
+      "image_url": "",
+      "power": 50000,
+      "efficiency": 22.8,
+      "warranty": "30 yil",
+      "price": 340000000,
+      "features": [
+        "LONGi Hi-MO X6 seriyasi",
+        "Maksimal quvvat",
+        "22.8% samaradorlik",
+        "50kW quvvat",
+        "30 yil kafolat",
+        "Tijorat uchun ideal",
+        "Yuqori unumdorlik"
+      ]
+    },
+    {
+      "id": "6",
+      "name": "LONGi Hi-MO X6 60kW Tizim",
+      "description": "LONGi Hi-MO X6 seriyasi, 60kW tizim. Katta tijorat obyektlari uchun.",
+      "image_url": "",
+      "power": 60000,
+      "efficiency": 23.0,
+      "warranty": "30 yil",
+      "price": 400000000,
+      "features": [
+        "LONGi Hi-MO X6 seriyasi",
+        "Katta tijorat obyektlari",
+        "23.0% samaradorlik",
+        "60kW quvvat",
+        "30 yil kafolat",
+        "Professional yechim",
+        "Yuqori samaradorlik"
+      ]
+    },
+    {
+      "id": "7",
+      "name": "LONGi Hi-MO X6 70kW Tizim",
+      "description": "LONGi Hi-MO X6 seriyasi, 70kW tizim. Sanoat obyektlari uchun professional yechim.",
+      "image_url": "",
+      "power": 70000,
+      "efficiency": 23.1,
+      "warranty": "30 yil",
+      "price": 460000000,
+      "features": [
+        "LONGi Hi-MO X6 seriyasi",
+        "Sanoat obyektlari",
+        "23.1% samaradorlik",
+        "70kW quvvat",
+        "30 yil kafolat",
+        "Professional yechim",
+        "Ishonchli ishlash"
+      ]
+    },
+    {
+      "id": "8",
+      "name": "LONGi Hi-MO X6 80kW Tizim",
+      "description": "LONGi Hi-MO X6 seriyasi, 80kW tizim. Katta sanoat uchun yuqori quvvat.",
+      "image_url": "",
+      "power": 80000,
+      "efficiency": 23.2,
+      "warranty": "30 yil",
+      "price": 520000000,
+      "features": [
+        "LONGi Hi-MO X6 seriyasi",
+        "Katta sanoat",
+        "23.2% samaradorlik",
+        "80kW quvvat",
+        "30 yil kafolat",
+        "Yuqori quvvat",
+        "Maksimal unumdorlik"
+      ]
+    },
+    {
+      "id": "9",
+      "name": "LONGi Hi-MO X6 90kW Tizim",
+      "description": "LONGi Hi-MO X6 seriyasi, 90kW tizim. Enterprise level yechim.",
+      "image_url": "",
+      "power": 90000,
+      "efficiency": 23.3,
+      "warranty": "30 yil",
+      "price": 580000000,
+      "features": [
+        "LONGi Hi-MO X6 seriyasi",
+        "Enterprise level",
+        "23.3% samaradorlik",
+        "90kW quvvat",
+        "30 yil kafolat",
+        "Katta loyihalar",
+        "Yuqori ishonchlilik"
+      ]
+    },
+    {
+      "id": "10",
+      "name": "LONGi Hi-MO X6 100kW Tizim",
+      "description": "LONGi Hi-MO X6 seriyasi, 100kW tizim. Zavod va fabrikalar uchun maksimal quvvat.",
+      "image_url": "",
+      "power": 100000,
+      "efficiency": 23.4,
+      "warranty": "30 yil",
+      "price": 640000000,
+      "features": [
+        "LONGi Hi-MO X6 seriyasi",
+        "Zavod va fabrikalar",
+        "23.4% samaradorlik",
+        "100kW quvvat",
+        "30 yil kafolat",
+        "Maksimal quvvat",
+        "Industrial yechim"
       ]
     }
   ]

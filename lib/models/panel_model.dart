@@ -107,3 +107,111 @@ class ContactModel {
     );
   }
 }
+
+// SolarPanel class for compatibility
+class SolarPanel {
+  final String id;
+  final String name;
+  final String description;
+  final double price;
+  final double power;
+  final String efficiency;
+  final String warranty;
+
+  SolarPanel({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.power,
+    required this.efficiency,
+    required this.warranty,
+  });
+}
+
+// Real quyosh paneli ma'lumotlari
+class SolarPanelData {
+  static List<SolarPanel> getPanels() {
+    return [
+      SolarPanel(
+        id: '1',
+        name: 'JinkoSolar Tiger Neo 540W',
+        description:
+            'Yuqori samaradorlikka ega N-type monokristalin panel, Tiger Neo seriyasi.',
+        price: 3200000, // 3.2M so'm
+        power: 540,
+        efficiency: '22.3%',
+        warranty: '25 yil',
+      ),
+      SolarPanel(
+        id: '2',
+        name: 'Canadian Solar HiKu6 450W',
+        description:
+            'Ishonchli va samarali monokristalin panel, keng qo\'llaniladi.',
+        price: 2800000, // 2.8M so'm
+        power: 450,
+        efficiency: '21.2%',
+        warranty: '25 yil',
+      ),
+      SolarPanel(
+        id: '3',
+        name: 'Trina Solar Vertex S+ 500W',
+        description:
+            'Vertex seriyasining yuqori quvvatli paneli, bifacial texnologiya.',
+        price: 3500000, // 3.5M so'm
+        power: 500,
+        efficiency: '21.8%',
+        warranty: '25 yil',
+      ),
+      SolarPanel(
+        id: '4',
+        name: 'LONGi Hi-MO 5m 540W',
+        description:
+            'LONGi kompaniyasining eng yangi Hi-MO seriyasi, M10 wafer.',
+        price: 3300000, // 3.3M so'm
+        power: 540,
+        efficiency: '22.1%',
+        warranty: '25 yil',
+      ),
+      SolarPanel(
+        id: '5',
+        name: 'JA Solar JAM72S30 450W',
+        description:
+            'PERC texnologiyali monokristalin panel, yuqori ishonchlilik.',
+        price: 2700000, // 2.7M so'm
+        power: 450,
+        efficiency: '20.9%',
+        warranty: '25 yil',
+      ),
+      SolarPanel(
+        id: '6',
+        name: 'First Solar Series 6 Plus',
+        description:
+            'CdTe thin-film texnologiyasi, yuqori haroratda yaxshi ishlaydi.',
+        price: 2200000, // 2.2M so'm
+        power: 420,
+        efficiency: '19.5%',
+        warranty: '25 yil',
+      ),
+      SolarPanel(
+        id: '7',
+        name: 'Hanwha Q CELLS Q.PEAK DUO BLK ML-G10+ 405W',
+        description: 'Qora ramkali estetik dizayn, Q.ANTUM DUO texnologiyasi.',
+        price: 2900000, // 2.9M so'm
+        power: 405,
+        efficiency: '20.6%',
+        warranty: '25 yil',
+      ),
+      SolarPanel(
+        id: '8',
+        name: 'SunPower Maxeon 3 400W',
+        description:
+            'Premium sifatli panel, eng yuqori samaradorlik va ishonchlilik.',
+        price: 4500000, // 4.5M so'm
+        power: 400,
+        efficiency: '22.6%',
+        warranty: '25 yil',
+      ),
+    ];
+  }
+}

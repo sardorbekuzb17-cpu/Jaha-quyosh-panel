@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'panels_screen.dart';
+import 'inverters_screen.dart';
 import 'pricing_screen.dart';
 import 'contact_screen.dart';
 import 'info_screen.dart';
@@ -20,9 +21,10 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isOnline = true;
   final UpdateService _updateService = UpdateService();
 
-  final List<Widget> _children = [
+  final List<Widget> _children = const [
     InfoScreen(),
     PanelsScreen(),
+    InvertersScreen(),
     PricingScreen(),
     CalculatorScreen(),
     ContactScreen(),
@@ -85,6 +87,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+          // Yangilanish tekshirish tugmasi
+          IconButton(
+            onPressed: () {
+              _updateService.checkForUpdates(context, forceCheck: true);
+            },
+            icon: const Icon(Icons.system_update),
+            tooltip: 'Yangilanishni tekshirish',
+          ),
           // Admin panel tugmasi
           IconButton(
             onPressed: () {
@@ -134,7 +144,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.solar_power),
-            label: 'Panel turlari',
+            label: 'Panellar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.electrical_services),
+            label: 'Inverterlar',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.price_change),

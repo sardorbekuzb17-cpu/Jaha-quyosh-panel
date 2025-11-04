@@ -26,7 +26,9 @@ class UpdateService {
       final packageInfo = await PackageInfo.fromPlatform();
       final currentVersion = packageInfo.version;
 
-      final updateInfo = await _apiService.checkForUpdates(currentVersion);
+      // Demo: Yangilanish simulyatsiyasi
+      // Haqiqiy loyihada bu GitHub API yoki boshqa server API dan keladi
+      final updateInfo = await _checkForUpdatesDemo(currentVersion);
 
       if (updateInfo.isNotEmpty) {
         final latestVersion = updateInfo['latest_version'];
@@ -46,8 +48,36 @@ class UpdateService {
       // Oxirgi tekshirish vaqtini saqlash
       await prefs.setInt(_lastCheckKey, now);
     } catch (e) {
-      print('Yangilanish tekshirishda xatolik: $e');
+      // Debug: Yangilanish tekshirishda xatolik: $e
     }
+  }
+
+  // Demo yangilanish tekshiruvi
+  Future<Map<String, dynamic>> _checkForUpdatesDemo(
+      String currentVersion) async {
+    // Simulyatsiya: 2 soniya kutish
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Faqat versiya 1.0.0 bo'lsa yangilanish ko'rsatish
+    if (currentVersion == '1.0.0') {
+      return {
+        'latest_version': '1.1.0',
+        'is_required': false,
+        'download_url':
+            'https://github.com/your-username/solar-panel-app/releases/latest',
+        'release_notes': '''Yangi xususiyatlar:
+• Inverterlar bo'limi qo'shildi
+• Real panel modellari qo'shildi  
+• Yangilanish tizimi yaxshilandi
+• Interfeys tezligi oshirildi
+• Xatolar tuzatildi
+
+Ushbu yangilanish tavsiya etiladi!'''
+      };
+    }
+
+    // Yangilanish yo'q
+    return {};
   }
 
   // Yangilanish dialogini ko'rsatish
@@ -58,7 +88,7 @@ class UpdateService {
       barrierDismissible: !isRequired,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Row(
+          title: const Row(
             children: [
               Icon(Icons.system_update, color: Colors.blue),
               SizedBox(width: 10),
@@ -106,18 +136,23 @@ class UpdateService {
                   await prefs.setString(_skipVersionKey, version);
                   Navigator.of(context).pop();
                 },
-                child: Text('Keyinroq'),
+                child: const Text('Keyinroq'),
               ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text('Bekor qilish'),
-            ),
+            if (!isRequired)
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Bekor qilish'),
+              ),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 _launchDownloadUrl(downloadUrl);
               },
-              child: Text('Yuklab olish'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Yuklab olish'),
             ),
           ],
         );
@@ -127,8 +162,9 @@ class UpdateService {
 
   // Yuklab olish URL ni ochish
   Future<void> _launchDownloadUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     }
   }
 

@@ -9,8 +9,8 @@ class ApiService {
   ApiService() {
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: Duration(seconds: 10),
-      receiveTimeout: Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
     ));
   }
 
@@ -30,7 +30,7 @@ class ApiService {
       final response = await _dio.get('/panels.json');
       return response.data['panels'] ?? [];
     } catch (e) {
-      print('Panel ma\'lumotlarini olishda xatolik: $e');
+      // Debug: Panel ma'lumotlarini olishda xatolik: $e
       return [];
     }
   }
@@ -45,7 +45,7 @@ class ApiService {
       final response = await _dio.get('/pricing');
       return response.data['pricing'] ?? [];
     } catch (e) {
-      print('Narx ma\'lumotlarini olishda xatolik: $e');
+      // Debug: Narx ma'lumotlarini olishda xatolik: $e
       return [];
     }
   }
@@ -60,7 +60,7 @@ class ApiService {
       final response = await _dio.get('/contact.json');
       return response.data ?? {};
     } catch (e) {
-      print('Aloqa ma\'lumotlarini olishda xatolik: $e');
+      // Debug: Aloqa ma'lumotlarini olishda xatolik: $e
       return {};
     }
   }
@@ -75,7 +75,7 @@ class ApiService {
       final response = await _dio.get('/version-check.json');
       return response.data ?? {};
     } catch (e) {
-      print('Yangilanish tekshirishda xatolik: $e');
+      // Debug: Yangilanish tekshirishda xatolik: $e
       return {};
     }
   }
@@ -87,7 +87,7 @@ class ApiService {
 
       await _dio.post('/stats', data: stats);
     } catch (e) {
-      print('Statistika yuborishda xatolik: $e');
+      // Debug: Statistika yuborishda xatolik: $e
     }
   }
 }

@@ -4,10 +4,12 @@ import 'services/update_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(SolarPanelApp());
+  runApp(const SolarPanelApp());
 }
 
 class SolarPanelApp extends StatefulWidget {
+  const SolarPanelApp({Key? key}) : super(key: key);
+
   @override
   _SolarPanelAppState createState() => _SolarPanelAppState();
 }
@@ -23,7 +25,7 @@ class _SolarPanelAppState extends State<SolarPanelApp> {
 
   void _checkForUpdates() async {
     // Ilovani ishga tushirganda yangilanishni tekshirish
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
       _updateService.checkForUpdates(context);
     }
@@ -43,7 +45,7 @@ class _SolarPanelAppState extends State<SolarPanelApp> {
           elevation: 2,
         ),
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

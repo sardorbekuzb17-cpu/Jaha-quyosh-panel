@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:solar_panel_info/models/solar_panel.dart';
+import '../models/panel_model.dart';
 
 class PanelCard extends StatelessWidget {
-  final SolarPanel panel;
+  final PanelModel panel;
 
-  PanelCard({required this.panel});
+  const PanelCard({Key? key, required this.panel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,10 @@ class PanelCard extends StatelessWidget {
               color: Colors.blue[100],
               borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             ),
-            child: Icon(
+            child: const Icon(
               Icons.solar_power,
               size: 80,
-              color: Colors.blue[900],
+              color: Colors.blue,
             ),
           ),
           Padding(
@@ -43,7 +43,7 @@ class PanelCard extends StatelessWidget {
                     color: Colors.blue[900],
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   panel.description,
                   style: TextStyle(
@@ -51,9 +51,9 @@ class PanelCard extends StatelessWidget {
                     height: 1.5,
                   ),
                 ),
-                SizedBox(height: 15),
-                Divider(),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
+                const Divider(),
+                const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -62,9 +62,9 @@ class PanelCard extends StatelessWidget {
                       children: [
                         Text(
                           'Narxi:',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
-                            color: Colors.grey[600],
+                            color: Colors.grey,
                           ),
                         ),
                         Text(
@@ -82,9 +82,9 @@ class PanelCard extends StatelessWidget {
                       children: [
                         Text(
                           'Quvvati:',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
-                            color: Colors.grey[600],
+                            color: Colors.grey,
                           ),
                         ),
                         Text(
@@ -99,7 +99,7 @@ class PanelCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -110,11 +110,11 @@ class PanelCard extends StatelessWidget {
                           'Samaradorlik:',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.grey[600],
+                            color: Colors.grey,
                           ),
                         ),
                         Text(
-                          panel.efficiency,
+                          '${panel.efficiency.toStringAsFixed(1)}%',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class PanelCard extends StatelessWidget {
                           'Kafolat:',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.grey[600],
+                            color: Colors.grey,
                           ),
                         ),
                         Text(
