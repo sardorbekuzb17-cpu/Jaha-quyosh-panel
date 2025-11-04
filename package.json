@@ -1,0 +1,19 @@
+{
+  "name": "jaha-quyosh-panel-api",
+  "version": "1.0.0",
+  "description": "Quyosh paneli ilovasi uchun API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "start": "echo 'This is a serverless project'"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": ["solar", "panel", "api", "vercel"],
+  "author": "Jahongir",
+  "license": "MIT"
+}
