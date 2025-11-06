@@ -26,7 +26,7 @@ class PanelModel {
       id: json['id'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
-      imageUrl: json['image_url'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
       power: (json['power'] ?? 0).toDouble(),
       efficiency: (json['efficiency'] ?? 0).toDouble(),
       warranty: json['warranty'] ?? '',
@@ -40,7 +40,7 @@ class PanelModel {
       'id': id,
       'name': name,
       'description': description,
-      'image_url': imageUrl,
+      'imageUrl': imageUrl,
       'power': power,
       'efficiency': efficiency,
       'warranty': warranty,
@@ -66,18 +66,18 @@ class PricingModel {
     required this.price,
     required this.duration,
     required this.includes,
-    this.isPopular = false,
+    required this.isPopular,
   });
 
   factory PricingModel.fromJson(Map<String, dynamic> json) {
     return PricingModel(
       id: json['id'] ?? '',
-      packageName: json['package_name'] ?? '',
+      packageName: json['packageName'] ?? '',
       description: json['description'] ?? '',
       price: (json['price'] ?? 0).toDouble(),
       duration: json['duration'] ?? '',
       includes: List<String>.from(json['includes'] ?? []),
-      isPopular: json['is_popular'] ?? false,
+      isPopular: json['isPopular'] ?? false,
     );
   }
 }
@@ -102,13 +102,12 @@ class ContactModel {
       phone: json['phone'] ?? '',
       email: json['email'] ?? '',
       address: json['address'] ?? '',
-      workingHours: json['working_hours'] ?? '',
-      socialMedia: Map<String, String>.from(json['social_media'] ?? {}),
+      workingHours: json['workingHours'] ?? '',
+      socialMedia: Map<String, String>.from(json['socialMedia'] ?? {}),
     );
   }
 }
 
-// SolarPanel class for compatibility
 class SolarPanel {
   final String id;
   final String name;
@@ -117,6 +116,7 @@ class SolarPanel {
   final double power;
   final String efficiency;
   final String warranty;
+  final String imageUrl;
 
   SolarPanel({
     required this.id,
@@ -126,6 +126,7 @@ class SolarPanel {
     required this.power,
     required this.efficiency,
     required this.warranty,
+    this.imageUrl = '',
   });
 }
 
@@ -133,84 +134,116 @@ class SolarPanel {
 class SolarPanelData {
   static List<SolarPanel> getPanels() {
     return [
+      // Quyosh panellari tizimi - quvvat bo'yicha
       SolarPanel(
         id: '1',
-        name: 'JinkoSolar Tiger Neo 540W',
+        name: 'LONGi Hi-MO 6 10kW Tizim',
         description:
-            'Yuqori samaradorlikka ega N-type monokristalin panel, Tiger Neo seriyasi.',
-        price: 3200000, // 3.2M so'm
-        power: 540,
-        efficiency: '22.3%',
+            'LONGi Hi-MO 6 seriyasi, 10kW to\'liq tizim. N-type TOPCon texnologiya, 21.8% samaradorlik.',
+        price: 6300, // $6300
+        power: 10000,
+        efficiency: '21.8%',
         warranty: '25 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-15-58.jpg',
       ),
       SolarPanel(
         id: '2',
-        name: 'Canadian Solar HiKu6 450W',
+        name: 'LONGi Hi-MO 6 20kW Tizim',
         description:
-            'Ishonchli va samarali monokristalin panel, keng qo\'llaniladi.',
-        price: 2800000, // 2.8M so'm
-        power: 450,
-        efficiency: '21.2%',
+            'LONGi Hi-MO 6 seriyasi, 20kW tizim. Bifacial texnologiya, yuqori energiya ishlab chiqarish.',
+        price: 11800, // $11800
+        power: 20000,
+        efficiency: '22.0%',
         warranty: '25 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-16-02.jpg',
       ),
       SolarPanel(
         id: '3',
-        name: 'Trina Solar Vertex S+ 500W',
+        name: 'LONGi Hi-MO 7 30kW Tizim',
         description:
-            'Vertex seriyasining yuqori quvvatli paneli, bifacial texnologiya.',
-        price: 3500000, // 3.5M so'm
-        power: 500,
-        efficiency: '21.8%',
-        warranty: '25 yil',
+            'LONGi Hi-MO 7 seriyasi, 30kW tizim. Yangi avlod N-type texnologiya, 22.5% samaradorlik.',
+        price: 17300, // $17300
+        power: 30000,
+        efficiency: '22.5%',
+        warranty: '30 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-16-06.jpg',
       ),
       SolarPanel(
         id: '4',
-        name: 'LONGi Hi-MO 5m 540W',
+        name: 'LONGi Hi-MO 7 40kW Tizim',
         description:
-            'LONGi kompaniyasining eng yangi Hi-MO seriyasi, M10 wafer.',
-        price: 3300000, // 3.3M so'm
-        power: 540,
-        efficiency: '22.1%',
-        warranty: '25 yil',
+            'LONGi Hi-MO 7 seriyasi, 40kW tizim. Premium sifat, yuqori ishonchlilik.',
+        price: 22000, // $22000
+        power: 40000,
+        efficiency: '22.6%',
+        warranty: '30 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-16-08.jpg',
       ),
       SolarPanel(
         id: '5',
-        name: 'JA Solar JAM72S30 450W',
+        name: 'LONGi Hi-MO X6 50kW Tizim',
         description:
-            'PERC texnologiyali monokristalin panel, yuqori ishonchlilik.',
-        price: 2700000, // 2.7M so'm
-        power: 450,
-        efficiency: '20.9%',
-        warranty: '25 yil',
+            'LONGi Hi-MO X6 seriyasi, 50kW tizim. Maksimal quvvat, tijorat uchun ideal.',
+        price: 26800, // $26800
+        power: 50000,
+        efficiency: '22.8%',
+        warranty: '30 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-16-10.jpg',
       ),
       SolarPanel(
         id: '6',
-        name: 'First Solar Series 6 Plus',
+        name: 'LONGi Hi-MO X6 60kW Tizim',
         description:
-            'CdTe thin-film texnologiyasi, yuqori haroratda yaxshi ishlaydi.',
-        price: 2200000, // 2.2M so'm
-        power: 420,
-        efficiency: '19.5%',
-        warranty: '25 yil',
+            'LONGi Hi-MO X6 seriyasi, 60kW tizim. Katta tijorat obyektlari uchun.',
+        price: 31500, // $31500
+        power: 60000,
+        efficiency: '23.0%',
+        warranty: '30 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-16-12.jpg',
       ),
       SolarPanel(
         id: '7',
-        name: 'Hanwha Q CELLS Q.PEAK DUO BLK ML-G10+ 405W',
-        description: 'Qora ramkali estetik dizayn, Q.ANTUM DUO texnologiyasi.',
-        price: 2900000, // 2.9M so'm
-        power: 405,
-        efficiency: '20.6%',
-        warranty: '25 yil',
+        name: 'LONGi Hi-MO X6 70kW Tizim',
+        description:
+            'LONGi Hi-MO X6 seriyasi, 70kW tizim. Sanoat obyektlari uchun professional yechim.',
+        price: 36200, // $36200
+        power: 70000,
+        efficiency: '23.1%',
+        warranty: '30 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-16-13.jpg',
       ),
       SolarPanel(
         id: '8',
-        name: 'SunPower Maxeon 3 400W',
+        name: 'LONGi Hi-MO X6 80kW Tizim',
         description:
-            'Premium sifatli panel, eng yuqori samaradorlik va ishonchlilik.',
-        price: 4500000, // 4.5M so'm
-        power: 400,
-        efficiency: '22.6%',
-        warranty: '25 yil',
+            'LONGi Hi-MO X6 seriyasi, 80kW tizim. Katta sanoat uchun yuqori quvvat.',
+        price: 41000, // $41000
+        power: 80000,
+        efficiency: '23.2%',
+        warranty: '30 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-15-58.jpg',
+      ),
+      SolarPanel(
+        id: '9',
+        name: 'LONGi Hi-MO X6 90kW Tizim',
+        description:
+            'LONGi Hi-MO X6 seriyasi, 90kW tizim. Enterprise level yechim.',
+        price: 45700, // $45700
+        power: 90000,
+        efficiency: '23.3%',
+        warranty: '30 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-16-02.jpg',
+      ),
+      SolarPanel(
+        id: '10',
+        name: 'LONGi Hi-MO X6 100kW Tizim',
+        description:
+            'LONGi Hi-MO X6 seriyasi, 100kW tizim. Zavod va fabrikalar uchun maksimal quvvat.',
+        price: 50400, // $50400
+        power: 100000,
+        efficiency: '23.4%',
+        warranty: '30 yil',
+        imageUrl: 'assets/images/inverters/photo_2025-11-05_15-16-06.jpg',
       ),
     ];
   }

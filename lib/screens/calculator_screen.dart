@@ -54,6 +54,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           ? maxCapacityByRoof
           : _recommendedCapacity;
 
+      // Minimum 10kW quvvat
+      if (_recommendedCapacity < 10) {
+        _recommendedCapacity = 10;
+      }
+
       // Taxminiy narx
       _estimatedCost = _recommendedCapacity * 1000 * _solarPanelCostPerWatt;
 

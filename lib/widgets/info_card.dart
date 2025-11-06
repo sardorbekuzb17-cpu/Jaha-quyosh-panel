@@ -31,20 +31,20 @@ class InfoCard extends StatelessWidget {
                   color: Colors.blue[900],
                   size: 30,
                 ),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Text(
               content,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 height: 1.5,
               ),

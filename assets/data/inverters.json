@@ -1,0 +1,70 @@
+{
+  "inverters": [
+    {
+      "id": "huawei-50ktl",
+      "name": "Huawei SUN2000-50KTL-M0",
+      "power": "50kW",
+      "price": 45000000,
+      "image": "assets/images/inverters/huawei-50ktl.jpg",
+      "description": "Yuqori samarali uch fazali inverter",
+      "features": [
+        "98.7% maksimal samaradorlik",
+        "6 ta MPPT tracker",
+        "IP66 himoya darajasi",
+        "Smart monitoring tizimi",
+        "10 yillik kafolat"
+      ],
+      "specifications": {
+        "input_voltage": "200-1000V DC",
+        "output_voltage": "380V/400V AC",
+        "dimensions": "1075×555×300 mm",
+        "weight": "74 kg",
+        "efficiency": "98.7%"
+      }
+    },
+    {
+      "id": "sma-sunny",
+      "name": "SMA Sunny Tripower 25000TL",
+      "power": "25kW",
+      "price": 35000000,
+      "image": "assets/images/inverters/sma-sunny.jpg",
+      "description": "Professional darajadagi inverter",
+      "features": [
+        "98.3% maksimal samaradorlik",
+        "Integrallashgan monitoring",
+        "IP65 himoya darajasi",
+        "OptiTrac Global Peak",
+        "5 yillik kafolat"
+      ],
+      "specifications": {
+        "input_voltage": "150-1000V DC",
+        "output_voltage": "380V/400V AC",
+        "dimensions": "661×682×264 mm",
+        "weight": "61 kg",
+        "efficiency": "98.3%"
+      }
+    },
+    {
+      "id": "growatt-max",
+      "name": "Growatt MAX 50KTL3-LV",
+      "power": "50kW",
+      "price": 40000000,
+      "image": "assets/images/inverters/growatt-max.jpg",
+      "description": "Yuqori ishonchliliktagi inverter",
+      "features": [
+        "98.8% maksimal samaradorlik",
+        "4 ta MPPT tracker",
+        "IP66 himoya darajasi",
+        "OLED display",
+        "5 yillik kafolat"
+      ],
+      "specifications": {
+        "input_voltage": "180-1000V DC",
+        "output_voltage": "380V/400V AC",
+        "dimensions": "855×555×275 mm",
+        "weight": "63 kg",
+        "efficiency": "98.8%"
+      }
+    }
+  ]
+}

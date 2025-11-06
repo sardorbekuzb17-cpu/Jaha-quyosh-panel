@@ -1,0 +1,53 @@
+{
+  "ads": [
+    {
+      "id": "ad1",
+      "title": "Yangi Quyosh Panellari",
+      "description": "Yuqori samarali, 25 yil kafolatli quyosh panellari",
+      "image_url": "assets/images/ads/solar_panel_1.jpg",
+      "link": "https://example.com/solar1",
+      "start_date": "2025-11-01T00:00:00Z",
+      "end_date": "2025-12-31T23:59:59Z",
+      "is_active": true,
+      "category": "panels",
+      "price": 299.99,
+      "additional_info": {
+        "power": "400W",
+        "warranty": "25 yil",
+        "manufacturer": "SolarTech"
+      }
+    },
+    {
+      "id": "ad2",
+      "title": "Maxsus Taklif",
+      "description": "Quyosh panellari to'plamiga 20% chegirma",
+      "image_url": "assets/images/ads/special_offer.jpg",
+      "link": "https://example.com/offer",
+      "start_date": "2025-11-01T00:00:00Z",
+      "end_date": "2025-11-30T23:59:59Z",
+      "is_active": true,
+      "category": "offers",
+      "price": 999.99,
+      "additional_info": {
+        "discount": "20%",
+        "valid_until": "2025-11-30"
+      }
+    },
+    {
+      "id": "ad3",
+      "title": "Professional O'rnatish",
+      "description": "Tajribali mutaxassislar tomonidan o'rnatish xizmati",
+      "image_url": "assets/images/ads/installation.jpg",
+      "link": "https://example.com/installation",
+      "start_date": "2025-11-01T00:00:00Z",
+      "end_date": "2025-12-31T23:59:59Z",
+      "is_active": true,
+      "category": "services",
+      "price": 199.99,
+      "additional_info": {
+        "service_type": "Installation",
+        "warranty": "2 yil"
+      }
+    }
+  ]
+}

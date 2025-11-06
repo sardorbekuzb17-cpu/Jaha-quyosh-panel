@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart';
+import 'screens/inverters_page.dart';
 import 'services/update_service.dart';
 
 void main() async {
@@ -34,18 +34,19 @@ class _SolarPanelAppState extends State<SolarPanelApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Quyosh Paneli Ma'lumotlari",
+      title: "Quyosh24",
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.grey[100],
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.blue[900],
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF1A237E),
           foregroundColor: Colors.white,
           elevation: 2,
         ),
       ),
-      home: const SplashScreen(),
+      home:
+          const InvertersPage(), // Test uchun to'g'ridan-to'g'ri inverterlar sahifasini ochamiz
       debugShowCheckedModeBanner: false,
     );
   }

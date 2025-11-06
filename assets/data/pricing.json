@@ -1,0 +1,47 @@
+{
+  "solar_packages": [
+    {
+      "id": "10kw",
+      "name": "10 kW Solar Panel To'plami",
+      "power": 10,
+      "price": 60000000,
+      "description": "Uy-joy uchun mo'ljallangan 10 kW quvvatli quyosh panellari to'plami",
+      "includes": [
+        "Quyosh panellari",
+        "Invertor",
+        "Akkumulyatorlar",
+        "O'rnatish uskunalari",
+        "Professional o'rnatish"
+      ],
+      "specifications": {
+        "daily_production": "40-50 kWh",
+        "panel_quantity": "~25-30 dona",
+        "required_area": "~60-70 m²",
+        "warranty": "25 yil",
+        "estimated_savings": "Oyiga 1,500,000 so'm"
+      }
+    },
+    {
+      "id": "20kw",
+      "name": "20 kW Solar Panel To'plami",
+      "power": 20,
+      "price": 85000000,
+      "description": "Katta uy-joy va kichik biznes uchun mo'ljallangan 20 kW quvvatli quyosh panellari to'plami",
+      "includes": [
+        "Yuqori samarali quyosh panellari",
+        "Professional invertor",
+        "Kuchli akkumulyatorlar tizimi",
+        "To'liq o'rnatish uskunalari",
+        "Professional o'rnatish va sozlash",
+        "1 yil bepul texnik xizmat"
+      ],
+      "specifications": {
+        "daily_production": "80-100 kWh",
+        "panel_quantity": "~50-60 dona",
+        "required_area": "~120-140 m²",
+        "warranty": "25 yil",
+        "estimated_savings": "Oyiga 3,000,000 so'm"
+      }
+    }
+  ]
+}

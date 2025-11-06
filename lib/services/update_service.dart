@@ -100,22 +100,22 @@ Ushbu yangilanish tavsiya etiladi!'''
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Yangi versiya: $version'),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               if (releaseNotes.isNotEmpty) ...[
-                Text('Yangiliklar:',
+                const Text('Yangiliklar:',
                     style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(releaseNotes),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
               ],
               if (isRequired)
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.red[50],
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.warning, color: Colors.red, size: 16),
                       SizedBox(width: 5),

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "title": "O'zbekistonda Quyosh Energiyasi Rivojlanmoqda",
+    "description": "O'zbekiston hukumati 2030 yilga qadar 5 GW quyosh energiyasi quvvatini o'rnatishni rejalashtirmoqda. Bu loyiha mamlakatning energiya xavfsizligini oshiradi va atrof-muhitga ijobiy ta'sir ko'rsatadi.",
+    "imageUrl": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800",
+    "date": "2024-11-01",
+    "category": "Yangiliklar",
+    "link": "https://kun.uz"
+  },
+  {
+    "id": "2",
+    "title": "Yangi Avlod Quyosh Panellari",
+    "description": "Longi kompaniyasi 600W quvvatli yangi avlod quyosh panellarini taqdim etdi. Bu panellar 22% gacha yuqori samaradorlikka ega va uzoq muddatli kafolat bilan ta'minlanadi.",
+    "imageUrl": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800",
+    "date": "2024-10-28",
+    "category": "Texnologiya",
+    "link": ""
+  },
+  {
+    "id": "3",
+    "title": "Quyosh Panellari Narxi Pasaymoqda",
+    "description": "2024 yilda quyosh panellari narxi 15% ga kamaydi. Bu esa ko'proq odamlar uchun quyosh energiyasini qulay qiladi va investitsiya qaytish muddatini qisqartiradi.",
+    "imageUrl": "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=800",
+    "date": "2024-10-25",
+    "category": "Narxlar",
+    "link": ""
+  },
+  {
+    "id": "4",
+    "title": "Yangi Qonun: Quyosh Energiyasi Uchun Imtiyozlar",
+    "description": "O'zbekiston hukumati quyosh panellari o'rnatuvchilar uchun yangi imtiyozlar va subsidiyalar dasturini e'lon qildi. Endi uy egalari 30% gacha chegirma olishlari mumkin.",
+    "imageUrl": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800",
+    "date": "2024-10-20",
+    "category": "Qonunlar",
+    "link": "https://lex.uz"
+  },
+  {
+    "id": "5",
+    "title": "Quyosh Energiyasi: Kelajak Energiyasi",
+    "description": "Dunyo bo'yicha quyosh energiyasi eng tez rivojlanayotgan energiya manbai hisoblanadi. 2025 yilda global quvvat 2 TW dan oshishi kutilmoqda.",
+    "imageUrl": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800",
+    "date": "2024-10-15",
+    "category": "Yangiliklar",
+    "link": ""
+  }
+]

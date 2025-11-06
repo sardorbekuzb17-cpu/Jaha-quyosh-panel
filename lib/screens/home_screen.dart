@@ -5,9 +5,11 @@ import 'inverters_screen.dart';
 import 'pricing_screen.dart';
 import 'contact_screen.dart';
 import 'info_screen.dart';
-import 'calculator_screen.dart';
 import 'admin_login_screen.dart';
+import 'order_screen.dart';
+import 'news_screen.dart';
 import '../services/update_service.dart';
+import '../services/notification_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
     PanelsScreen(),
     InvertersScreen(),
     PricingScreen(),
-    CalculatorScreen(),
     ContactScreen(),
   ];
 
@@ -35,6 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _checkConnectivity();
     _listenToConnectivity();
+    _initializeNotifications();
+  }
+
+  void _initializeNotifications() async {
+    await NotificationService().initialize();
   }
 
   void _checkConnectivity() async {
@@ -62,38 +68,28 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quyosh Paneli Ma\'lumotlari'),
+        title: const Text('Quyosh24'),
         centerTitle: true,
         actions: [
-          // Internet holati ko'rsatkichi
-          Container(
-            margin: const EdgeInsets.only(right: 16),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  _isOnline ? Icons.wifi : Icons.wifi_off,
-                  color: _isOnline ? Colors.green : Colors.red,
-                  size: 20,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  _isOnline ? 'Online' : 'Offline',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: _isOnline ? Colors.green : Colors.red,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Yangilanish tekshirish tugmasi
+          // Yangiliklar tugmasi
           IconButton(
             onPressed: () {
-              _updateService.checkForUpdates(context, forceCheck: true);
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const NewsScreen()),
+              );
             },
-            icon: const Icon(Icons.system_update),
-            tooltip: 'Yangilanishni tekshirish',
+            icon: const Icon(Icons.newspaper),
+            tooltip: 'Yangiliklar',
+          ),
+          // Buyurtma tugmasi
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const OrderScreen()),
+              );
+            },
+            icon: const Icon(Icons.shopping_cart),
+            tooltip: 'Buyurtma Berish',
           ),
           // Admin panel tugmasi
           IconButton(
@@ -153,10 +149,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.price_change),
             label: 'Narxlar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calculate),
-            label: 'Kalkulyator',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.contact_phone),

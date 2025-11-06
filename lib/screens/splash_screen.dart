@@ -90,12 +90,15 @@ class _SplashScreenState extends State<SplashScreen>
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Colors.blue[50]!,
+              Colors.orange[100]!,
+              Colors.yellow[50]!,
               Colors.white,
+              Colors.blue[50]!,
             ],
+            stops: const [0.0, 0.3, 0.7, 1.0],
           ),
         ),
         child: Center(
@@ -109,26 +112,26 @@ class _SplashScreenState extends State<SplashScreen>
                   return Transform.scale(
                     scale: _logoScaleAnimation.value,
                     child: Container(
-                      width: 120,
-                      height: 120,
+                      width: 200,
+                      height: 200,
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          colors: [Colors.blue[900]!, Colors.blue[600]!],
-                        ),
+                        borderRadius: BorderRadius.circular(24),
+                        color: Colors.white,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.blue.withValues(alpha: 0.3),
-                            spreadRadius: 5,
-                            blurRadius: 15,
-                            offset: const Offset(0, 5),
+                            color: Colors.orange.withValues(alpha: 0.4),
+                            spreadRadius: 8,
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.wb_sunny,
-                        size: 60,
-                        color: Colors.white,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: Image.asset(
+                          'assets/images/icon.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   );
@@ -146,7 +149,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Column(
                       children: [
                         Text(
-                          'Jahongir Solar',
+                          'Jahon Group',
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
@@ -156,7 +159,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Quyosh Panellari',
+                          'Quyosh Stansiyasi o\'rnatish',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.blue[700],

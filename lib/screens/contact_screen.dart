@@ -42,8 +42,7 @@ class _ContactScreenState extends State<ContactScreen> {
     final offlineContact = ContactModel(
       phone: '+998930874758',
       email: '@jahonbas',
-      address:
-          'Navoiy viloyati, Uchquduq tumani !3 A28\nMarkaziy ko\'cha, 15-uy',
+      address: 'Navoiy viloyati, Uchquduq tumani',
       workingHours:
           'Dushanba - Juma: 9:00 - 18:00\nShanba: 10:00 - 16:00\nYakshanba: Dam olish kuni',
       socialMedia: {
@@ -268,7 +267,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   ),
                 )
               else if (_contactInfo != null) ...[
-                // Asosiy aloqa tugmalari
+                // Tezkor bog'lanish tugmalari
                 _buildQuickContactButtons(),
 
                 const SizedBox(height: 30),
@@ -277,7 +276,7 @@ class _ContactScreenState extends State<ContactScreen> {
                 _buildContactCard(
                   icon: Icons.phone,
                   title: 'Telefon raqami',
-                  content: _contactInfo!.phone,
+                  content: '+998 93 087 47 58',
                   onTap: () => _makePhoneCall(_contactInfo!.phone),
                   buttonText: 'Qo\'ng\'iroq qilish',
                 ),

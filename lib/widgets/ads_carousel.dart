@@ -10,7 +10,6 @@ class AdsCarousel extends StatefulWidget {
 
 class _AdsCarouselState extends State<AdsCarousel> {
   int _currentIndex = 0;
-  final cs.CarouselController _carouselController = cs.CarouselController();
   List<Map<String, String>> _availableAds = [];
 
   @override
@@ -20,30 +19,26 @@ class _AdsCarouselState extends State<AdsCarousel> {
   }
 
   void _loadAvailableAds() {
-    // Faqat mavjud rasmlar uchun ad data yaratish
-    _availableAds = _adData.take(5).toList(); // Birinchi 5 ta rasm
+    // Barcha mavjud rasmlar uchun ad data yaratish
+    _availableAds = _adData;
   }
 
-  // Reklama rasmlari ro'yxati - barcha formatlarni qo'llab-quvvatlash
+  // Reklama rasmlari ro'yxati - haqiqiy rasm nomlari
   List<String> get _adImages {
-    List<String> images = [];
-
-    // JPG formatdagi rasmlar
-    for (int i = 1; i <= 10; i++) {
-      images.add('assets/images/ads/ad$i.jpg');
-    }
-
-    // PNG formatdagi rasmlar
-    for (int i = 1; i <= 10; i++) {
-      images.add('assets/images/ads/ad$i.png');
-    }
-
-    // JPEG formatdagi rasmlar
-    for (int i = 1; i <= 10; i++) {
-      images.add('assets/images/ads/ad$i.jpeg');
-    }
-
-    return images;
+    return [
+      'assets/images/ads/photo_2025-11-04_23-01-09.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-18.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-21.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-25.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-26.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-28.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-29.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-31.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-33.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-34.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-35.jpg',
+      'assets/images/ads/photo_2025-11-04_23-01-36.jpg',
+    ];
   }
 
   // Reklama matnlari - dinamik generatsiya
@@ -101,32 +96,27 @@ class _AdsCarouselState extends State<AdsCarousel> {
         children: [
           // Carousel Slider
           cs.CarouselSlider.builder(
-            carouselController: _carouselController,
             itemCount: _availableAds.length,
             itemBuilder: (context, index, realIndex) {
               final ad = _availableAds[index];
               return _buildAdCard(ad, index);
             },
             options: cs.CarouselOptions(
-              height: 220,
+              height: 300,
               autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 3), // Tezroq aylanish
-              autoPlayAnimationDuration:
-                  const Duration(milliseconds: 1000), // Smooth animation
-              autoPlayCurve: Curves.easeInOutCubic, // Yaxshi curve
-              enlargeCenterPage: true,
-              enlargeFactor: 0.25, // Ko'proq kattalashtirish
-              viewportFraction: 0.85, // Yonidagi rasmlar ko'rinsin
+              autoPlayInterval: const Duration(seconds: 4),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              autoPlayCurve: Curves.easeInOutCubic,
+              enlargeCenterPage: false,
+              viewportFraction: 1.0,
               aspectRatio: 16 / 9,
               initialPage: 0,
               enableInfiniteScroll: true,
               reverse: false,
               scrollDirection: Axis.horizontal,
-              pauseAutoPlayOnTouch: true, // Touch qilganda to'xtatish
-              pauseAutoPlayOnManualNavigate:
-                  true, // Manual navigate qilganda to'xtatish
-              pauseAutoPlayInFiniteScroll:
-                  false, // Infinite scroll'da davom etish
+              pauseAutoPlayOnTouch: true,
+              pauseAutoPlayOnManualNavigate: true,
+              pauseAutoPlayInFiniteScroll: false,
               onPageChanged: (index, reason) {
                 setState(() {
                   _currentIndex = index;
@@ -141,18 +131,15 @@ class _AdsCarouselState extends State<AdsCarousel> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: _availableAds.asMap().entries.map((entry) {
-              return GestureDetector(
-                onTap: () => _carouselController.animateToPage(entry.key),
-                child: Container(
-                  width: _currentIndex == entry.key ? 12 : 8,
-                  height: _currentIndex == entry.key ? 12 : 8,
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentIndex == entry.key
-                        ? Colors.blue[700]
-                        : Colors.grey[400],
-                  ),
+              return Container(
+                width: _currentIndex == entry.key ? 12 : 8,
+                height: _currentIndex == entry.key ? 12 : 8,
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentIndex == entry.key
+                      ? Colors.blue[700]
+                      : Colors.grey[400],
                 ),
               );
             }).toList(),
@@ -165,27 +152,29 @@ class _AdsCarouselState extends State<AdsCarousel> {
   Widget _buildAdCard(Map<String, String> ad, int index) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            spreadRadius: 2,
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            color: Colors.black.withValues(alpha: 0.2),
+            spreadRadius: 0,
+            blurRadius: 10,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(0),
         child: Stack(
           fit: StackFit.expand,
           children: [
             // Background Image
             Image.asset(
               ad['image']!,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
+              width: double.infinity,
+              height: double.infinity,
               errorBuilder: (context, error, stackTrace) {
                 // Agar rasm topilmasa, gradient background
                 return Container(
