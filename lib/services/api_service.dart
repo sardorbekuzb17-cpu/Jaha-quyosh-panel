@@ -72,11 +72,16 @@ class ApiService {
       }
 
       final response = await _dio.get('/version-check.json');
-      print('Current: $currentVersion, Latest: ${response.data['latest_version']}');
+      final data = response.data;
       
-      return response.data ?? {};
+      if (data != null && data is Map<String, dynamic>) {
+        // Debug: Current: $currentVersion, Latest: ${data['latest_version']}
+        return data;
+      }
+      
+      return {};
     } catch (e) {
-      print('Yangilanish tekshirishda xatolik: $e');
+      // Debug: Yangilanish tekshirishda xatolik: $e
       return {};
     }
   }

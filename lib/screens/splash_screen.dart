@@ -79,34 +79,13 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           );
           
-          // Dialog ko'rsatish
-          Timer(const Duration(seconds: 1), () {
-            _showUpdateDialog();
-          });
+
         }
       },
     );
   }
   
-  void _showUpdateDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Yangilanish mavjud'),
-        content: const Text('Yangi versiya: 1.5.0'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Keyinroq'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Yuklab olish'),
-          ),
-        ],
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {

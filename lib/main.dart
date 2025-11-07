@@ -24,7 +24,11 @@ class _SolarPanelAppState extends State<SolarPanelApp> {
   }
 
   void _checkForUpdates() async {
-    // Hech narsa qilmaslik
+    // Ilova ochilganda avtomatik yangilanish tekshiruvi
+    await Future.delayed(const Duration(seconds: 3));
+    if (mounted) {
+      _updateService.checkForUpdates(context, forceCheck: true);
+    }
   }
 
   @override

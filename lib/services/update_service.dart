@@ -61,12 +61,13 @@ class UpdateService {
       if (updateInfo.isNotEmpty) {
         final latestVersion = updateInfo['latest_version'];
         
-        if (latestVersion != currentVersion) {
+        // Versiyalarni string sifatida taqqoslash
+        if (latestVersion.toString() != currentVersion.toString()) {
           return {
-            'latest_version': latestVersion,
+            'latest_version': latestVersion.toString(),
             'is_required': updateInfo['force_update'] ?? false,
-            'download_url': updateInfo['download_url'],
-            'release_notes': updateInfo['changelog'] ?? 'Yangilanish mavjud'
+            'download_url': updateInfo['download_url'].toString(),
+            'release_notes': updateInfo['changelog']?.toString() ?? 'Yangilanish mavjud'
           };
         }
       }
@@ -157,13 +158,16 @@ class UpdateService {
     );
   }
 
-  // Yuklab olish URL ni ochish
+  // APK avtomatik yuklab olish
   Future<void> _launchDownloadUrl(String url) async {
     try {
-      final Uri uri = Uri.parse(url);
+      // Avtomatik yuklab olish uchun direct download link
+      final Uri uri = Uri.parse('https://drive.google.com/uc?export=download&id=1iaYH47qIoL9qe5wfj-IeeovQIbMoS_Km');
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } catch (e) {
-      // URL ochishda xatolik
+      // Xatolik bo'lsa oddiy link
+      final Uri uri = Uri.parse(url);
+      await launchUrl(uri);
     }
   }
 
