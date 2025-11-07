@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import '../models/panel_model.dart';
-import '../services/api_service.dart';
 import '../widgets/panel_card.dart';
 
 class PanelsScreen extends StatefulWidget {
@@ -11,7 +11,6 @@ class PanelsScreen extends StatefulWidget {
 }
 
 class _PanelsScreenState extends State<PanelsScreen> {
-  final ApiService _apiService = ApiService();
   List<PanelModel> _panels = [];
   bool _isLoading = true;
   String _errorMessage = '';
@@ -26,14 +25,8 @@ class _PanelsScreenState extends State<PanelsScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final panelsData = await _apiService.getPanels();
-      final panels =
-          panelsData.map((data) => PanelModel.fromJson(data)).toList();
-
-      setState(() {
-        _panels = panels;
-        _isLoading = false;
-      });
+      // To'g'ridan-to'g'ri local JSON'dan o'qish
+      await _loadLocalPanels();
     } catch (e) {
       setState(() {
         _errorMessage = 'Ma\'lumotlarni yuklashda xatolik: $e';
@@ -41,6 +34,29 @@ class _PanelsScreenState extends State<PanelsScreen> {
       });
 
       // Offline ma'lumotlarni yuklash
+      _loadOfflineData();
+    }
+  }
+
+  Future<void> _loadLocalPanels() async {
+    try {
+      // JSON fayldan o'qish
+      final String response =
+          await DefaultAssetBundle.of(context).loadString('public/panels.json');
+
+      final data = json.decode(response);
+      final List<dynamic> panelsJson = data['panels'];
+
+      final panels =
+          panelsJson.map((data) => PanelModel.fromJson(data)).toList();
+
+      setState(() {
+        _panels = panels;
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('JSON fayldan o\'qishda xato: $e');
+      // Xato bo'lsa, offline ma'lumotlarni yuklash
       _loadOfflineData();
     }
   }
@@ -121,21 +137,21 @@ class _PanelsScreenState extends State<PanelsScreen> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.orange.shade200),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
-                      const Icon(Icons.warning, color: Colors.orange),
-                      const SizedBox(width: 10),
+                      Icon(Icons.warning, color: Colors.orange),
+                      SizedBox(width: 10),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Offline rejim',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Text(
+                            Text(
                               'Internet aloqasi yo\'q. Offline ma\'lumotlar ko\'rsatilmoqda.',
                             ),
                           ],

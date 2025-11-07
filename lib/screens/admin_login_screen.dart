@@ -250,12 +250,12 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 // Orqaga qaytish tugmasi
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Row(
+                  child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.arrow_back),
-                      const SizedBox(width: 8),
-                      const Text('Orqaga qaytish'),
+                      Icon(Icons.arrow_back),
+                      SizedBox(width: 8),
+                      Text('Orqaga qaytish'),
                     ],
                   ),
                 ),

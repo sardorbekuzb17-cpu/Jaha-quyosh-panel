@@ -2,8 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ApiService {
-  static const String baseUrl =
-      'https://raw.githubusercontent.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/main/public'; // GitHub Raw fayllar
+  static const String baseUrl = 'https://raw.githubusercontent.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/main/public'; // GitHub Raw
   late Dio _dio;
 
   ApiService() {
@@ -68,14 +67,20 @@ class ApiService {
   // Yangilanish ma'lumotlarini tekshirish
   Future<Map<String, dynamic>> checkForUpdates(String currentVersion) async {
     try {
+      print('Yangilanish tekshirilmoqda... Current: $currentVersion');
+      
       if (!await hasInternetConnection()) {
+        print('Internet aloqasi yo\'q');
         throw Exception('Internet aloqasi yo\'q');
       }
 
+      print('API ga so\'rov yuborilmoqda...');
       final response = await _dio.get('/version-check.json');
+      print('API javob: ${response.data}');
+      
       return response.data ?? {};
     } catch (e) {
-      // Debug: Yangilanish tekshirishda xatolik: $e
+      print('Yangilanish tekshirishda xatolik: $e');
       return {};
     }
   }

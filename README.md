@@ -5,18 +5,15 @@ Quyosh panellari haqida to'liq ma'lumot beruvchi professional Flutter ilovasi.
 ## 🌟 Asosiy funksiyalar
 
 ### 👥 Foydalanuvchi uchun:
+- **Bosh sahifa** - Reklama va asosiy ma'lumotlar
 - **Panel turlari** - Turli xil quyosh paneli turlarini ko'rish
-- **Narx paketlari** - Turli narx paketlari va taqqoslash
-- **Aloqa ma'lumotlari** - Bog'lanish uchun barcha ma'lumotlar
+- **Inverterlar** - Yuqori sifatli inverterlar haqida ma'lumot
+- **Aloqa** - Telefon, Telegram, Instagram orqali bog'lanish
 - **Online/Offline rejim** - Internet bo'lmasa ham ishlaydi
-- **Avtomatik yangilanish** - Yangi versiyalar haqida xabar berish
 
 ### 🔧 Admin panel:
 - **Login tizimi** - Xavfsiz kirish
-  - Email: `sardorbekuzb17@gmail.com`
-  - Parol: `Sardo9050r`
 - **Panel boshqaruvi** - Yangi panellar qo'shish, tahrirlash, o'chirish
-- **Narx boshqaruvi** - Paketlarni boshqarish
 - **Aloqa tahrirlash** - Kontakt ma'lumotlarini yangilash
 - **Statistika** - Foydalanuvchi harakatlari va hisobotlar
 
@@ -33,19 +30,18 @@ Quyosh panellari haqida to'liq ma'lumot beruvchi professional Flutter ilovasi.
 ## 📱 Ekran tasvirlari
 
 ### Asosiy ekranlar:
-1. **Splash Screen** - Yuklanish ekrani
-2. **Home Screen** - Asosiy sahifa
-3. **Panels Screen** - Panel turlari
-4. **Pricing Screen** - Narx paketlari
-5. **Contact Screen** - Aloqa ma'lumotlari
+1. **Splash Screen** - Yuklanish ekrani (JAHON GROUP branding)
+2. **Bosh sahifa** - Reklama carousel
+3. **Panellar** - Quyosh panellari ro'yxati
+4. **Inverterlar** - Inverterlar ro'yxati
+5. **Aloqa** - Telefon, Telegram, Instagram, Manzil, Xizmatlar
 
 ### Admin paneli:
 1. **Login Screen** - Kirish ekrani
 2. **Dashboard** - Boshqaruv paneli
 3. **Panel Management** - Panel boshqaruvi
-4. **Pricing Management** - Narx boshqaruvi
-5. **Contact Management** - Aloqa boshqaruvi
-6. **Statistics** - Statistika va hisobotlar
+4. **Contact Management** - Aloqa boshqaruvi
+5. **Statistics** - Statistika va hisobotlar
 
 ## 🛠 O'rnatish va ishga tushirish
 
@@ -92,9 +88,8 @@ flutter run -d windows
 Ilova quyidagi API endpointlar bilan ishlaydi:
 
 - `GET /api/panels` - Panel ma'lumotlari
-- `GET /api/pricing` - Narx paketlari
+- `GET /api/inverters` - Inverter ma'lumotlari
 - `GET /api/contact` - Aloqa ma'lumotlari
-- `GET /api/version-check` - Versiya tekshiruvi
 - `POST /api/stats` - Statistika yuborish
 
 ### Server o'rnatish:
@@ -130,7 +125,6 @@ APK fayl `build/app/outputs/flutter-apk/` papkasida yaratiladi.
 
 ### Admin funksiyalari:
 - Panel qo'shish/tahrirlash/o'chirish
-- Narx paketlarini boshqarish
 - Aloqa ma'lumotlarini yangilash
 - Foydalanuvchi statistikasini ko'rish
 - Tizimdan xavfsiz chiqish
@@ -172,8 +166,8 @@ APK fayl `build/app/outputs/flutter-apk/` papkasida yaratiladi.
 
 Savollar yoki muammolar bo'lsa:
 - **Telefon:** +998 93 087 47 58
-- **Email:** sardorbekuzb17@gmail.com
-- **Telegram:** @jahongir_solar
+- **Telegram:** https://t.me/quyosh24_sun24
+- **Instagram:** https://www.instagram.com/quyosh24_
 
 ## 📄 Litsenziya
 
@@ -190,13 +184,14 @@ Bu loyiha shaxsiy foydalanish uchun yaratilgan.
 
 ### Rejalashtirilgan yangilanishlar:
 - 🔄 Push notifications
-- 🔄 Quyosh paneli kalkulyatori
 - 🔄 Xarita integratsiyasi
 - 🔄 Til o'zgartirish (Ingliz tili)
 - 🔄 Dark mode
+- 🔄 Video galereya
 
 ---
 
-**Ishlab chiquvchi:** Jahongir  
-**Sana:** 2024  
+**Kompaniya:** JAHON GROUP  
+**Manzil:** Navoiy viloyati, Uchquduq tumani, 13-A28  
+**Sana:** 2025  
 **Versiya:** 1.0.0

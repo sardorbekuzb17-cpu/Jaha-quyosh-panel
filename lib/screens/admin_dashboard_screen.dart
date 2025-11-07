@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/cache_service.dart';
 import 'admin_panels_screen.dart';
-import 'admin_pricing_screen.dart';
 import 'admin_contact_screen.dart';
 import 'admin_stats_screen.dart';
 
@@ -16,7 +15,6 @@ class AdminDashboardScreen extends StatefulWidget {
 class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   String _adminEmail = '';
   int _totalPanels = 0;
-  int _totalPricing = 0;
   int _totalUsers = 0;
 
   @override
@@ -39,7 +37,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     setState(() {
       _totalUsers = stats.length;
       _totalPanels = 5; // Demo ma'lumot
-      _totalPricing = 3; // Demo ma'lumot
     });
   }
 
@@ -169,10 +166,10 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _buildStatCard(
-                    'Narx paketlari',
-                    _totalPricing.toString(),
-                    Icons.price_change,
-                    Colors.green,
+                    'Foydalanuvchilar',
+                    _totalUsers.toString(),
+                    Icons.people,
+                    Colors.purple,
                   ),
                 ),
               ],
@@ -183,19 +180,19 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               children: [
                 Expanded(
                   child: _buildStatCard(
-                    'Foydalanuvchilar',
-                    _totalUsers.toString(),
-                    Icons.people,
-                    Colors.purple,
+                    'Bugungi ko\'rishlar',
+                    '24',
+                    Icons.visibility,
+                    Colors.blue,
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _buildStatCard(
-                    'Bugungi ko\'rishlar',
-                    '24',
-                    Icons.visibility,
-                    Colors.blue,
+                    'Inverterlar',
+                    '6',
+                    Icons.electrical_services,
+                    Colors.green,
                   ),
                 ),
               ],
@@ -220,18 +217,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               () => Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) => const AdminPanelsScreen()),
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            _buildMenuCard(
-              'Narx paketlari',
-              'Narx paketlarini tahrirlash',
-              Icons.price_change,
-              Colors.green,
-              () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const AdminPricingScreen()),
               ),
             ),
             const SizedBox(height: 12),

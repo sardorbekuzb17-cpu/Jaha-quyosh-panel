@@ -52,31 +52,28 @@ class UpdateService {
     }
   }
 
-  // Demo yangilanish tekshiruvi
+  // Real yangilanish tekshiruvi
   Future<Map<String, dynamic>> _checkForUpdatesDemo(
       String currentVersion) async {
-    // Simulyatsiya: 2 soniya kutish
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Faqat versiya 1.0.0 bo'lsa yangilanish ko'rsatish
-    if (currentVersion == '1.0.0') {
-      return {
-        'latest_version': '1.1.0',
-        'is_required': false,
-        'download_url':
-            'https://github.com/your-username/solar-panel-app/releases/latest',
-        'release_notes': '''Yangi xususiyatlar:
-• Inverterlar bo'limi qo'shildi
-• Real panel modellari qo'shildi  
-• Yangilanish tizimi yaxshilandi
-• Interfeys tezligi oshirildi
-• Xatolar tuzatildi
-
-Ushbu yangilanish tavsiya etiladi!'''
-      };
+    try {
+      final updateInfo = await _apiService.checkForUpdates(currentVersion);
+      
+      if (updateInfo.isNotEmpty) {
+        final latestVersion = updateInfo['latest_version'];
+        
+        if (latestVersion != currentVersion) {
+          return {
+            'latest_version': latestVersion,
+            'is_required': updateInfo['force_update'] ?? false,
+            'download_url': updateInfo['download_url'],
+            'release_notes': updateInfo['changelog'] ?? 'Yangilanish mavjud'
+          };
+        }
+      }
+    } catch (e) {
+      // Xatolik bo'lsa yangilanish yo'q
     }
-
-    // Yangilanish yo'q
+    
     return {};
   }
 
@@ -100,22 +97,22 @@ Ushbu yangilanish tavsiya etiladi!'''
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Yangi versiya: $version'),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               if (releaseNotes.isNotEmpty) ...[
-                Text('Yangiliklar:',
+                const Text('Yangiliklar:',
                     style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(releaseNotes),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
               ],
               if (isRequired)
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.red[50],
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.warning, color: Colors.red, size: 16),
                       SizedBox(width: 5),
@@ -144,9 +141,9 @@ Ushbu yangilanish tavsiya etiladi!'''
                 child: const Text('Bekor qilish'),
               ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.of(context).pop();
-                _launchDownloadUrl(downloadUrl);
+                await _launchDownloadUrl(downloadUrl);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
@@ -162,9 +159,11 @@ Ushbu yangilanish tavsiya etiladi!'''
 
   // Yuklab olish URL ni ochish
   Future<void> _launchDownloadUrl(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+    try {
+      final Uri uri = Uri.parse(url);
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      // URL ochishda xatolik
     }
   }
 

@@ -24,10 +24,10 @@ class _SolarPanelAppState extends State<SolarPanelApp> {
   }
 
   void _checkForUpdates() async {
-    // Ilovani ishga tushirganda yangilanishni tekshirish
+    // Real yangilanish tekshiruvi
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
-      _updateService.checkForUpdates(context);
+      _updateService.checkForUpdates(context, forceCheck: true);
     }
   }
 

@@ -6,7 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:solar_panel_info/main.dart';
+import 'package:quyosh24/main.dart';
 
 void main() {
   testWidgets('Solar Panel App smoke test', (WidgetTester tester) async {

@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:solar_panel_info/widgets/info_card.dart';
 import '../widgets/ads_carousel.dart';
-import 'faq_screen.dart';
+import 'video_player_screen.dart';
 
 class InfoScreen extends StatelessWidget {
   const InfoScreen({Key? key}) : super(key: key);
+
+  void _openYouTubeVideo(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const VideoPlayerScreen(
+          videoId: 'K3Z-aETHPng',
+          title: 'Quyosh Paneli O\'rnatish',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -14,126 +26,208 @@ class InfoScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Quyosh Energiyasi Haqida',
+              'Quyosh Energiyasi',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.blue[900],
               ),
             ),
+            const SizedBox(height: 20),
 
             // Reklama Carousel
             const AdsCarousel(),
 
-            const SizedBox(height: 20),
-            const InfoCard(
-              title: 'Quyosh Energiyasi Nima?',
-              content:
-                  'Quyosh energiyasi quyosh nurlaridan olinadigan toza, qayta tiklanuvchi energiya manbasidir. Bu energiya quyosh panelari yordamida elektr energiyaga aylantiriladi.',
-              icon: Icons.wb_sunny,
-            ),
-            const SizedBox(height: 20),
-            const InfoCard(
-              title: 'Afzalliklari',
-              content:
-                  '• Atrof-muhitga zarar bermaydi\n• Uzoq muddatli investitsiya\n• Kam xizmat ko\'rsatish talabi\n• Energiya narxlaridan mustaqillik',
-              icon: Icons.check_circle,
-            ),
-            const SizedBox(height: 20),
-            const InfoCard(
-              title: 'Qanday Ishlaydi?',
-              content:
-                  'Quyosh panelari quyosh nurlarini elektr energiyaga aylantiradi. Bu energiya uy tarmog\'iga ulanadi va uy elektr jihozlari uchun foydalaniladi.',
-              icon: Icons.settings,
-            ),
-            const SizedBox(height: 20),
-            const InfoCard(
-              title: 'Tejamkorlik',
-              content:
-                  'O\'rta hajmli tizim 20 yil davomida 30-50 million so\'m tejash imkonini beradi. Bu energiya hisobini sezilarli darajada kamaytiradi.',
-              icon: Icons.savings,
-            ),
-            const SizedBox(height: 20),
-            const InfoCard(
-              title: 'O\'zbekistonda quyosh energiyasi',
-              content:
-                  'O\'zbekiston yiliga 320 kun quyoshli kun bor. Bu quyosh panellari uchun ideal sharoit yaratadi. Davlat tomonidan qo\'llab-quvvatlash dasturlari mavjud.',
-              icon: Icons.wb_sunny,
-            ),
-            const SizedBox(height: 20),
-            const InfoCard(
-              title: 'Texnik xizmat',
-              content:
-                  'Quyosh panellari minimal texnik xizmat talab qiladi. Yiliga 1-2 marta tozalash va tekshirish kifoya. 25 yilgacha kafolat beriladi.',
-              icon: Icons.build,
-            ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 30),
 
-            // FAQ tugmasi
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.orange[400]!, Colors.orange[600]!],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
+            // Video Qo'llanmalar
+            Text(
+              'Video Qo\'llanmalar',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue[900],
               ),
+            ),
+            const SizedBox(height: 15),
+
+            // Video 1
+            _buildVideoCard(
+              context,
+              title: 'Quyosh Paneli O\'rnatish',
+              description:
+                  'Quyosh panelini qanday o\'rnatish haqida to\'liq qo\'llanma',
+              thumbnail: '🎬',
+              onTap: () => _openYouTubeVideo(context),
+            ),
+
+            const SizedBox(height: 15),
+
+            // Video 2
+            _buildVideoCard(
+              context,
+              title: 'Quyosh Energiyasi Tizimi',
+              description: 'Quyosh energiyasi tizimining ishlash prinsipi',
+              thumbnail: '📹',
+              onTap: () => _openSecondVideo(context),
+            ),
+
+            const SizedBox(height: 15),
+
+            // Video 3
+            _buildVideoCard(
+              context,
+              title: 'Quyosh Paneli Texnik Xizmati',
+              description: 'Quyosh panellariga texnik xizmat ko\'rsatish',
+              thumbnail: '🎥',
+              onTap: () => _openThirdVideo(context),
+            ),
+
+            const SizedBox(height: 15),
+
+            // Video 4
+            _buildVideoCard(
+              context,
+              title: 'Quyosh Energiyasi Afzalliklari',
+              description: 'Quyosh energiyasining foydali tomonlari',
+              thumbnail: '☀️',
+              onTap: () => _openFourthVideo(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVideoCard(
+    BuildContext context, {
+    required String title,
+    required String description,
+    required String thumbnail,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.red[700]!, Colors.red[500]!],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.red.withValues(alpha: 0.3),
+              spreadRadius: 2,
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Text(
+                  thumbnail,
+                  style: const TextStyle(fontSize: 40),
+                ),
+              ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(
-                    Icons.quiz,
-                    size: 48,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Savollaringiz bormi?',
-                    style: TextStyle(
-                      fontSize: 20,
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Tez-tez so\'raladigan savollar bo\'limida javoblarni toping',
-                    style: TextStyle(
+                  Text(
+                    description,
+                    style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.white70,
+                      color: Colors.white,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const FAQScreen()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.orange[600],
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
+                  const SizedBox(height: 10),
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.play_circle_filled,
+                        color: Colors.white,
+                        size: 20,
                       ),
-                    ),
-                    child: const Text(
-                      'FAQ ko\'rish',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                      SizedBox(width: 5),
+                      Text(
+                        'Video ko\'rish',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
             ),
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+              size: 20,
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _openSecondVideo(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const VideoPlayerScreen(
+          videoId: '0EEC9Gh9F9U',
+          title: 'Quyosh Energiyasi Tizimi',
+        ),
+      ),
+    );
+  }
+
+  void _openThirdVideo(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const VideoPlayerScreen(
+          videoId: '0EEC9Gh9F9U',
+          title: 'Quyosh Paneli Texnik Xizmati',
+        ),
+      ),
+    );
+  }
+
+  void _openFourthVideo(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const VideoPlayerScreen(
+          videoId: 'wq2zyAsWluc',
+          title: 'Quyosh Energiyasi Afzalliklari',
         ),
       ),
     );

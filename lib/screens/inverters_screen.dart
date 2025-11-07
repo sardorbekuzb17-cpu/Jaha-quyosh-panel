@@ -11,16 +11,7 @@ class InvertersScreen extends StatefulWidget {
 
 class _InvertersScreenState extends State<InvertersScreen> {
   List<Inverter> _inverters = [];
-  List<Inverter> _filteredInverters = [];
   bool _isLoading = true;
-  String _selectedType = 'Barchasi';
-  String _searchQuery = '';
-
-  final List<String> _inverterTypes = [
-    'Barchasi',
-    'String Inverter',
-    'Hybrid Inverter',
-  ];
 
   @override
   void initState() {
@@ -33,25 +24,11 @@ class _InvertersScreenState extends State<InvertersScreen> {
 
     // Simulate loading delay
     Future.delayed(const Duration(seconds: 1), () {
+      final inverters = InverterData.getInverters();
       setState(() {
-        _inverters = InverterData.getInverters();
-        _filteredInverters = _inverters;
+        _inverters = inverters;
         _isLoading = false;
       });
-    });
-  }
-
-  void _filterInverters() {
-    setState(() {
-      _filteredInverters = _inverters.where((inverter) {
-        final matchesType =
-            _selectedType == 'Barchasi' || inverter.type == _selectedType;
-        final matchesSearch = inverter.name
-                .toLowerCase()
-                .contains(_searchQuery.toLowerCase()) ||
-            inverter.brand.toLowerCase().contains(_searchQuery.toLowerCase());
-        return matchesType && matchesSearch;
-      }).toList();
     });
   }
 
@@ -70,17 +47,18 @@ class _InvertersScreenState extends State<InvertersScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Inverterlar',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.orange[900],
+                      color: Color.fromARGB(255, 213, 10, 112),
                     ),
                   ),
                   IconButton(
                     onPressed: _loadInverters,
-                    icon: Icon(Icons.refresh, color: Colors.orange[900]),
+                    icon: const Icon(Icons.refresh,
+                        color: Color.fromARGB(255, 213, 10, 112)),
                   ),
                 ],
               ),
@@ -94,53 +72,6 @@ class _InvertersScreenState extends State<InvertersScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Search bar
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    _searchQuery = value;
-                  });
-                  _filterInverters();
-                },
-                decoration: InputDecoration(
-                  hintText: 'Inverter qidirish...',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Filter chips
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: _inverterTypes.map((type) {
-                    final isSelected = _selectedType == type;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: FilterChip(
-                        label: Text(type),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          setState(() {
-                            _selectedType = type;
-                          });
-                          _filterInverters();
-                        },
-                        backgroundColor: Colors.grey[200],
-                        selectedColor: Colors.orange[100],
-                        checkmarkColor: Colors.orange[900],
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              const SizedBox(height: 20),
-
               // Content
               if (_isLoading)
                 const Center(
@@ -149,7 +80,7 @@ class _InvertersScreenState extends State<InvertersScreen> {
                     child: CircularProgressIndicator(),
                   ),
                 )
-              else if (_filteredInverters.isEmpty)
+              else if (_inverters.isEmpty)
                 Container(
                   padding: const EdgeInsets.all(20),
                   margin: const EdgeInsets.only(bottom: 20),
@@ -175,7 +106,7 @@ class _InvertersScreenState extends State<InvertersScreen> {
                       ),
                       const SizedBox(height: 8),
                       const Text(
-                        'Qidiruv shartlaringizni o\'zgartiring yoki boshqa kategoriyani tanlang',
+                        'Hozircha inverterlar mavjud emas',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.grey),
                       ),
@@ -186,11 +117,11 @@ class _InvertersScreenState extends State<InvertersScreen> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _filteredInverters.length,
+                  itemCount: _inverters.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 20),
-                      child: InverterCard(inverter: _filteredInverters[index]),
+                      child: InverterCard(inverter: _inverters[index]),
                     );
                   },
                 ),
@@ -241,7 +172,7 @@ class _InvertersScreenState extends State<InvertersScreen> {
             ),
             const SizedBox(height: 12),
             const Text(
-              'Inverter turlari:',
+              'Inverter afzalliklari:',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -249,9 +180,9 @@ class _InvertersScreenState extends State<InvertersScreen> {
             ),
             const SizedBox(height: 8),
             const Text(
-              '• String Inverter - Bir nechta panelni ketma-ket ulash\n'
-              '• Hybrid Inverter - Batareya bilan ishlash imkoniyati\n'
-              '• Micro Inverter - Har bir panel uchun alohida',
+              '• Yuqori samaradorlik va ishonchlilik\n'
+              '• Uzoq muddatli kafolat\n'
+              '• Oson o\'rnatish va texnik xizmat ko\'rsatish',
               style: TextStyle(
                 fontSize: 14,
                 height: 1.5,

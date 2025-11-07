@@ -88,47 +88,72 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Colors.blue[50]!,
-              Colors.white,
+              Color(0xFF1E3A8A), // Quyuq ko'k
+              Color(0xFF3B82F6), // Ko'k
+              Color(0xFF60A5FA), // Och ko'k
+              Color(0xFFFBBF24), // Oltin
             ],
+            stops: [0.0, 0.3, 0.7, 1.0],
           ),
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo animatsiyasi
+              // Logo rasmi
               AnimatedBuilder(
                 animation: _logoScaleAnimation,
                 builder: (context, child) {
                   return Transform.scale(
                     scale: _logoScaleAnimation.value,
                     child: Container(
-                      width: 120,
-                      height: 120,
+                      width: 300,
+                      height: 200,
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          colors: [Colors.blue[900]!, Colors.blue[600]!],
-                        ),
+                        borderRadius: BorderRadius.circular(25),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.blue.withValues(alpha: 0.3),
-                            spreadRadius: 5,
-                            blurRadius: 15,
-                            offset: const Offset(0, 5),
+                            spreadRadius: 8,
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.wb_sunny,
-                        size: 60,
-                        color: Colors.white,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Image.asset(
+                          'assets/images/icon.png',
+                          width: 300,
+                          height: 200,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            // Agar rasm topilmasa, default icon
+                            return Container(
+                              width: 300,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.blue[900]!,
+                                    Colors.blue[600]!
+                                  ],
+                                ),
+                              ),
+                              child: const Icon(
+                                Icons.solar_power,
+                                size: 120,
+                                color: Colors.white,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   );
@@ -145,22 +170,54 @@ class _SplashScreenState extends State<SplashScreen>
                     opacity: _textFadeAnimation.value,
                     child: Column(
                       children: [
-                        Text(
-                          'Jahongir Solar',
+                        const Text(
+                          'JAHON GROUP',
                           style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue[900],
-                            letterSpacing: 1.2,
+                            fontSize: 36,
+                            fontWeight: FontWeight.w900,
+                            color: Color.fromRGBO(0, 51, 153, 1), // Quyuq ko'k
+                            letterSpacing: 3.0,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(2, 2),
+                                blurRadius: 4,
+                                color: Colors.black26,
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Quyosh Panellari',
+                        const SizedBox(height: 12),
+                        const Text(
+                          'QUYOSH STANSIYASI',
                           style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.blue[700],
-                            letterSpacing: 0.8,
+                            fontSize: 32,
+                            fontWeight: FontWeight.w800,
+                            color: Color.fromRGBO(255, 140, 0, 1), // Orange
+                            letterSpacing: 2.5,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(2, 2),
+                                blurRadius: 4,
+                                color: Colors.black26,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'O\'RNATISH',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: Color.fromRGBO(34, 139, 34, 1), // Yashil
+                            letterSpacing: 2.0,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(2, 2),
+                                blurRadius: 4,
+                                color: Colors.black26,
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -191,7 +248,7 @@ class _SplashScreenState extends State<SplashScreen>
                   return Opacity(
                     opacity: _textFadeAnimation.value * 0.7,
                     child: Text(
-                      'Toza energiya, yorqin kelajak',
+                      'Energiya tejash, tabiatni asrash',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[600],
