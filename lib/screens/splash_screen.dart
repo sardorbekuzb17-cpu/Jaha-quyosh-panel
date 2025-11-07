@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(milliseconds: 800));
     _textController.forward();
 
-    // Jami 3 soniya kutib keyingi sahifaga o'tish
+    // 3 soniya kutib keyingi sahifaga o'tish
     Timer(
       const Duration(seconds: 3),
       () {
@@ -78,8 +78,33 @@ class _SplashScreenState extends State<SplashScreen>
               transitionDuration: const Duration(milliseconds: 500),
             ),
           );
+          
+          // Dialog ko'rsatish
+          Timer(const Duration(seconds: 1), () {
+            _showUpdateDialog();
+          });
         }
       },
+    );
+  }
+  
+  void _showUpdateDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Yangilanish mavjud'),
+        content: const Text('Yangi versiya: 1.5.0'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Keyinroq'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Yuklab olish'),
+          ),
+        ],
+      ),
     );
   }
 

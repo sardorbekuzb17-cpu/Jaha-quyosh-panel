@@ -67,16 +67,12 @@ class ApiService {
   // Yangilanish ma'lumotlarini tekshirish
   Future<Map<String, dynamic>> checkForUpdates(String currentVersion) async {
     try {
-      print('Yangilanish tekshirilmoqda... Current: $currentVersion');
-      
       if (!await hasInternetConnection()) {
-        print('Internet aloqasi yo\'q');
         throw Exception('Internet aloqasi yo\'q');
       }
 
-      print('API ga so\'rov yuborilmoqda...');
       final response = await _dio.get('/version-check.json');
-      print('API javob: ${response.data}');
+      print('Current: $currentVersion, Latest: ${response.data['latest_version']}');
       
       return response.data ?? {};
     } catch (e) {

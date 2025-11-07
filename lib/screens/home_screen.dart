@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'panels_screen.dart';
 import 'inverters_screen.dart';
 import 'modullar_screen.dart';
@@ -139,6 +140,52 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         elevation: 8,
         shadowColor: Colors.black26,
         actions: [
+          // Yangilanish tugmasi
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Row(
+                    children: [
+                      Icon(Icons.system_update, color: Colors.green),
+                      SizedBox(width: 8),
+                      Text('Yangilanish mavjud'),
+                    ],
+                  ),
+                  content: const Text(
+                    'Yangi versiya: 1.5.0\n\n'
+                    'Yangi xususiyatlar:\n'
+                    '• YouTube videolar\n'
+                    '• Masofadan yangilanish\n'
+                    '• Xatolar tuzatildi',
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Keyinroq'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        final Uri uri = Uri.parse('https://drive.google.com/uc?export=download&id=1iaYH47qIoL9qe5wfj-IeeovQIbMoS_Km');
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri, mode: LaunchMode.externalApplication);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('Yuklab olish'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            icon: const Icon(Icons.system_update),
+            tooltip: 'Yangilanish',
+          ),
           // Admin panel tugmasi
           IconButton(
             onPressed: () {
