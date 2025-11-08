@@ -1,5 +1,5 @@
 {
-  "version": "1.7.0",
+  "version": "1.9.0",
   "downloadUrl": "https://www.google.com/demo-apk",
   "changelog": [
     "🚀 Play Market kabi yangilanish tizimi",
@@ -11,9 +11,10 @@
     "🖼️ Rasm formatlarini tuzatish",
     "📺 YouTube bo'limi qo'shildi",
     "🎬 Video qo'llanmalar",
+    "🧩 Code cleanup va optimizatsiya",
     "✨ Bug fixes va performance yaxshilandi"
   ],
   "isForced": false,
   "minVersion": "1.0.0",
-  "releaseNotes": "Bu yangilanishda YouTube bo'limi qo'shildi! Endi video qo'llanmalarni alohida bo'limda ko'rishingiz mumkin. Barcha rasmlar va yangilanish tizimi to'g'ri ishlaydi."
+  "releaseNotes": "Bu yangilanishda kod tozalandi va optimizatsiya qilindi. YouTube bo'limi, yangilanish tizimi va barcha funksiyalar mukammal ishlaydi!"
 }

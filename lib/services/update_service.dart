@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class UpdateService {
   static const String _updateUrl = 'https://raw.githubusercontent.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/main/update.json';
