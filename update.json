@@ -1,5 +1,5 @@
 {
-  "version": "1.5.0",
+  "version": "1.7.0",
   "downloadUrl": "https://www.google.com/demo-apk",
   "changelog": [
     "🚀 Play Market kabi yangilanish tizimi",
@@ -9,9 +9,11 @@
     "🛡️ Xavfsizlik yaxshilandi",
     "🎨 Yangi dizayn va animatsiyalar",
     "🖼️ Rasm formatlarini tuzatish",
+    "📺 YouTube bo'limi qo'shildi",
+    "🎬 Video qo'llanmalar",
     "✨ Bug fixes va performance yaxshilandi"
   ],
   "isForced": false,
   "minVersion": "1.0.0",
-  "releaseNotes": "Bu yangilanishda rasm ko'rsatish muammolari hal qilindi va professional yangilanish tizimi qo'shildi. Barcha rasmlar endi to'g'ri ko'rinadi."
+  "releaseNotes": "Bu yangilanishda YouTube bo'limi qo'shildi! Endi video qo'llanmalarni alohida bo'limda ko'rishingiz mumkin. Barcha rasmlar va yangilanish tizimi to'g'ri ishlaydi."
 }
