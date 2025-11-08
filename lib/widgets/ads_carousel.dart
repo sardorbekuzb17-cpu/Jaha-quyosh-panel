@@ -59,17 +59,17 @@ class _AdsCarouselState extends State<AdsCarousel> {
       {
         'title': 'Katta Loyihalar',
         'subtitle': 'Yuqori quvvatli tizimlar',
-        'image': 'assets/images/ads/3.jpg',
+        'image': 'assets/images/ads/3.png',
       },
       {
         'title': 'Samarali Energiya',
         'subtitle': 'Maksimal unumdorlik',
-        'image': 'assets/images/ads/4.jpg',
+        'image': 'assets/images/ads/photo_2_2025-11-06_14-06-18.jpg',
       },
       {
         'title': 'LONGi Mahsulotlari',
         'subtitle': 'Turli quvvatdagi panellar',
-        'image': 'assets/images/ads/5.jpg',
+        'image': 'assets/images/ads/photo_3_2025-11-06_14-06-18.jpg',
       },
       {
         'title': 'LONGi Brendi',
@@ -79,7 +79,7 @@ class _AdsCarouselState extends State<AdsCarousel> {
       {
         'title': 'LONGi Solar Fermalari',
         'subtitle': 'Katta hajmli loyihalar',
-        'image': 'assets/images/ads/7.jpg',
+        'image': 'assets/images/ads/7.png',
       },
       {
         'title': 'Quyosh Paneli Aksiyasi',
