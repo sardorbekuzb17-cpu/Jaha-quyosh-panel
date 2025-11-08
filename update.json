@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0",
+  "version": "1.5.0",
   "downloadUrl": "https://www.google.com/demo-apk",
   "changelog": [
     "🚀 Play Market kabi yangilanish tizimi",
@@ -8,9 +8,10 @@
     "⚡ Avtomatik APK o'rnatish",
     "🛡️ Xavfsizlik yaxshilandi",
     "🎨 Yangi dizayn va animatsiyalar",
+    "🖼️ Rasm formatlarini tuzatish",
     "✨ Bug fixes va performance yaxshilandi"
   ],
   "isForced": false,
   "minVersion": "1.0.0",
-  "releaseNotes": "Bu yangilanishda Play Market kabi professional yangilanish tizimi qo'shildi. Endi ilova avtomatik ravishda yangilanishlarni tekshiradi va foydalanuvchiga qulay interfeys orqali yangilanish taklif qiladi."
+  "releaseNotes": "Bu yangilanishda rasm ko'rsatish muammolari hal qilindi va professional yangilanish tizimi qo'shildi. Barcha rasmlar endi to'g'ri ko'rinadi."
 }
