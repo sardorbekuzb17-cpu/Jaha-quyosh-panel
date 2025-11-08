@@ -181,7 +181,7 @@ class _AdminInvertersScreenState extends State<AdminInvertersScreen> {
             child: const Text('Bekor qilish'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               setState(() {
                 inverters.removeAt(index);
               });
@@ -252,7 +252,7 @@ class _AdminInvertersScreenState extends State<AdminInvertersScreen> {
             child: const Text('Bekor qilish'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               final newInverter = {
                 'id': inverter?['id'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
                 'name': nameController.text,

@@ -111,7 +111,7 @@ class _AdminModullarScreenState extends State<AdminModullarScreen> {
             child: const Text('Yo\'q'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               setState(() => modullar.removeAt(index));
               await DataService.saveModules(modullar);
               Navigator.pop(context);
@@ -149,7 +149,7 @@ class _AdminModullarScreenState extends State<AdminModullarScreen> {
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('Bekor qilish')),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               final newModul = {
                 'id': modul?['id'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
                 'name': nameController.text,

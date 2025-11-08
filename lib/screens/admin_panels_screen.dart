@@ -181,7 +181,7 @@ class _AdminPanelsScreenState extends State<AdminPanelsScreen> {
             child: const Text('Bekor qilish'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               setState(() {
                 panels.removeAt(index);
               });
@@ -253,7 +253,7 @@ class _AdminPanelsScreenState extends State<AdminPanelsScreen> {
             child: const Text('Bekor qilish'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               final newPanel = {
                 'id': panel?['id'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
                 'name': nameController.text,
