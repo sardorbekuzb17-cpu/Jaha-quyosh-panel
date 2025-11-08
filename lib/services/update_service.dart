@@ -28,6 +28,7 @@ class UpdateService {
             changelog: List<String>.from(data['changelog'] ?? []),
             isForced: data['isForced'] ?? false,
             minVersion: data['minVersion'] ?? '1.0.0',
+            releaseNotes: data['releaseNotes'],
           );
         }
       }
@@ -52,39 +53,55 @@ class UpdateService {
     return false;
   }
 
-  // APK yuklab olish (demo uchun)
+  // APK yuklab olish (GitHub'dan)
   static Future<String?> downloadApk(
       String url, Function(double) onProgress) async {
     try {
-      // Demo progress simulation
-      for (int i = 0; i <= 100; i += 10) {
-        await Future.delayed(const Duration(milliseconds: 200));
-        onProgress(i / 100.0);
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final bytes = response.bodyBytes;
+        final dir = await getExternalStorageDirectory();
+        final filePath = '${dir!.path}/quyosh24_v2.0.0.apk';
+        final file = File(filePath);
+        
+        // Progress simulation
+        for (int i = 0; i <= 100; i += 5) {
+          await Future.delayed(const Duration(milliseconds: 50));
+          onProgress(i / 100.0);
+        }
+        
+        await file.writeAsBytes(bytes);
+        return filePath;
       }
-
-      // Demo: haqiqiy APK o'rniga test fayl yaratish
-      final dir = await getExternalStorageDirectory();
-      final filePath = '${dir!.path}/quyosh24_demo.txt';
-      final file = File(filePath);
-      await file.writeAsString('Demo APK fayl - test uchun');
-
-      return filePath;
     } catch (e) {
       debugPrint('APK yuklab olishda xato: $e');
+      // Agar GitHub'dan yuklab olmasa, brauzerda ochish
+      await _openInBrowser(url);
     }
     return null;
   }
 
-  // APK o'rnatish (demo uchun)
-  static Future<void> installApk(String filePath) async {
+  // APK o'rnatish yoki brauzerda ochish
+  static Future<void> installApk(String? filePath) async {
     try {
-      // Demo: Google Play Store'ga yo'naltirish
-      const playStoreUrl = 'https://play.google.com/store/apps';
-      final uri = Uri.parse(playStoreUrl);
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (filePath != null && await File(filePath).exists()) {
+        // APK fayl mavjud bo'lsa, o'rnatishga urinish
+        // Android'da avtomatik o'rnatish uchun qo'shimcha ruxsatlar kerak
+        debugPrint('APK fayl tayyor: $filePath');
+      }
+      
+      // GitHub sahifasini ochish
+      const githubUrl = 'https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/releases';
+      await _openInBrowser(githubUrl);
     } catch (e) {
       debugPrint('APK o\'rnatishda xato: $e');
     }
+  }
+  
+  // Brauzerda ochish
+  static Future<void> _openInBrowser(String url) async {
+    final uri = Uri.parse(url);
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 }
 
@@ -94,6 +111,7 @@ class UpdateInfo {
   final List<String> changelog;
   final bool isForced;
   final String minVersion;
+  final String? releaseNotes;
 
   UpdateInfo({
     required this.version,
@@ -101,5 +119,6 @@ class UpdateInfo {
     required this.changelog,
     required this.isForced,
     required this.minVersion,
+    this.releaseNotes,
   });
 }

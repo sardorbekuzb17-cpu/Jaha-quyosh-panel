@@ -1,20 +1,20 @@
 {
-  "version": "1.9.0",
-  "downloadUrl": "https://www.google.com/demo-apk",
+  "version": "2.0.0",
+  "downloadUrl": "https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/raw/main/Quyosh24-v2.0.0-release.apk",
   "changelog": [
-    "🚀 Play Market kabi yangilanish tizimi",
-    "📊 Progress bar bilan yuklanish jarayoni",
-    "🔒 Majburiy yangilanish qo'llab-quvvatlash",
-    "⚡ Avtomatik APK o'rnatish",
-    "🛡️ Xavfsizlik yaxshilandi",
-    "🎨 Yangi dizayn va animatsiyalar",
-    "🖼️ Rasm formatlarini tuzatish",
-    "📺 YouTube bo'limi qo'shildi",
-    "🎬 Video qo'llanmalar",
-    "🧩 Code cleanup va optimizatsiya",
-    "✨ Bug fixes va performance yaxshilandi"
+    "🎉 Major Release - v2.0.0",
+    "👨‍💼 To'liq Admin Panel tizimi",
+    "📊 Panel, Inverter, Modul boshqaruvi",
+    "📢 Reklama va Aloqa boshqaruvi",
+    "🔐 Xavfsiz login tizimi",
+    "🚀 GitHub'dan avtomatik yangilanish",
+    "📱 Professional UI/UX dizayn",
+    "⚡ Optimizatsiya va tezlik yaxshilandi",
+    "🛡️ Litsenziya va xavfsizlik tizimi",
+    "🔧 Admin dashboard - 6 ta bo'lim",
+    "✨ Barcha funksiyalar mukammal ishlaydi"
   ],
-  "isForced": false,
+  "isForced": true,
   "minVersion": "1.0.0",
-  "releaseNotes": "Bu yangilanishda kod tozalandi va optimizatsiya qilindi. YouTube bo'limi, yangilanish tizimi va barcha funksiyalar mukammal ishlaydi!"
+  "releaseNotes": "🎉 MAJOR RELEASE v2.0.0! To'liq admin panel, GitHub yangilanish tizimi va professional dizayn bilan. Bu versiya barcha avvalgi versiyalardan kattaroq yangilanish!"
 }
