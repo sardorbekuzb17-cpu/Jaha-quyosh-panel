@@ -58,6 +58,13 @@ flutter:
     - assets/images/inverters/SDTG217-25kW-红色（有屏）-1.png
     - assets/images/inverters/sungrow-wr-front-93a341701c3a51bebed934a797b01891.png
     - assets/images/inverters/sets2_.jpg
+    - assets/images/modullar/photo_2025-11-07_21-55-23.jpg
+    - assets/images/modullar/photo_2025-11-07_21-55-24.jpg
+    - assets/images/modullar/photo_2025-11-07_21-55-25 (2).jpg
+    - assets/images/modullar/photo_2025-11-07_21-55-25 (3).jpg
+    - assets/images/modullar/photo_2025-11-07_21-55-25.jpg
+    - assets/images/modullar/photo_2025-11-07_23-00-32.jpg
+    - assets/images/modullar/photo_2025-11-07_23-00-43.jpg
     - public/panels.json
 
 flutter_launcher_icons:
