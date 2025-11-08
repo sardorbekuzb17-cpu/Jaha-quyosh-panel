@@ -52,6 +52,12 @@ flutter:
     - assets/images/panels/photo_2025-11-07_21-55-24 (3).jpg
     - assets/images/panels/photo_2025-11-07_21-59-37.jpg
     - assets/images/panels/photo_2025-11-07_22-18-19.jpg
+    - assets/images/inverters/34062.jpg
+    - assets/images/inverters/goodwe25kw_3c045e2e-2321-4740-a5cd-c4ff7f0e7203.webp
+    - assets/images/inverters/inversor-solar-trifasico-goodwe-gw30k-mt.jpg
+    - assets/images/inverters/SDTG217-25kW-红色（有屏）-1.png
+    - assets/images/inverters/sungrow-wr-front-93a341701c3a51bebed934a797b01891.png
+    - assets/images/inverters/sets2_.jpg
     - public/panels.json
 
 flutter_launcher_icons:
