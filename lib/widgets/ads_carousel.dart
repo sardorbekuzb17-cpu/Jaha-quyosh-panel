@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
+import '../screens/license_screen.dart';
 
 class AdsCarousel extends StatefulWidget {
   const AdsCarousel({Key? key}) : super(key: key);
@@ -304,7 +305,18 @@ class _AdsCarouselState extends State<AdsCarousel> {
               const Text('Batafsil ma\'lumot uchun biz bilan bog\'laning:'),
               const SizedBox(height: 8),
               const Text('📞 +998 93 087 47 58'),
-              const Text('✈️ @jahonbas'),
+              const Text('✈️ @quyosh24_sun24'),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const LicenseScreen(),
+                    ),
+                  );
+                },
+                child: const Text('Litsenziya ko\'rish'),
+              ),
             ],
           ),
           actions: [

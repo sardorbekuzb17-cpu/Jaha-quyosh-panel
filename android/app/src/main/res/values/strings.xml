@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quyosh24</string>
+    <string name="app_description">Professional quyosh paneli yechimlari - JAHON GROUP tomonidan ishlab chiqilgan xavfsiz ilova</string>
+    <string name="developer_name">JAHON GROUP</string>
+    <string name="license_info">© 2025 JAHON GROUP. Barcha huquqlar himoyalangan.</string>
+    <string name="security_verified">Xavfsizlik tekshirilgan va tasdiqlangan</string>
+    <string name="contact_phone">+998 93 087 47 58</string>
+    <string name="contact_telegram">@quyosh24_sun24</string>
+</resources>

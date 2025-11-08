@@ -1,359 +1,218 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../services/cache_service.dart';
 import 'admin_panels_screen.dart';
+import 'admin_inverters_screen.dart';
+import 'admin_modullar_screen.dart';
 import 'admin_contact_screen.dart';
-import 'admin_stats_screen.dart';
+import 'admin_ads_screen.dart';
 
-class AdminDashboardScreen extends StatefulWidget {
+class AdminDashboardScreen extends StatelessWidget {
   const AdminDashboardScreen({Key? key}) : super(key: key);
-
-  @override
-  _AdminDashboardScreenState createState() => _AdminDashboardScreenState();
-}
-
-class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
-  String _adminEmail = '';
-  int _totalPanels = 0;
-  int _totalUsers = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadAdminInfo();
-    _loadStats();
-  }
-
-  void _loadAdminInfo() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _adminEmail = prefs.getString('admin_email') ?? '';
-    });
-  }
-
-  void _loadStats() async {
-    // Statistikalarni yuklash
-    final stats = await CacheService.getUsageStats();
-    setState(() {
-      _totalUsers = stats.length;
-      _totalPanels = 5; // Demo ma'lumot
-    });
-  }
-
-  Future<void> _logout() async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Chiqish'),
-        content: const Text('Haqiqatan ham tizimdan chiqmoqchimisiz?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Bekor qilish'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Chiqish', style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed == true) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('admin_logged_in');
-      await prefs.remove('admin_email');
-      await prefs.remove('login_time');
-
-      if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/');
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Dashboard'),
+        title: const Text('Admin Panel'),
         backgroundColor: Colors.blue[900],
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: _logout,
+            onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(Icons.logout),
             tooltip: 'Chiqish',
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Salomlashish
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blue[900]!, Colors.blue[700]!],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Xush kelibsiz!',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    _adminEmail,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white70,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      const Icon(Icons.access_time,
-                          color: Colors.white70, size: 16),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Oxirgi kirish: ${DateTime.now().toString().substring(0, 16)}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Statistika kartlari
-            const Text(
-              'Umumiy statistika',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            Row(
-              children: [
-                Expanded(
-                  child: _buildStatCard(
-                    'Panel turlari',
-                    _totalPanels.toString(),
-                    Icons.solar_power,
-                    Colors.orange,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _buildStatCard(
-                    'Foydalanuvchilar',
-                    _totalUsers.toString(),
-                    Icons.people,
-                    Colors.purple,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-
-            Row(
-              children: [
-                Expanded(
-                  child: _buildStatCard(
-                    'Bugungi ko\'rishlar',
-                    '24',
-                    Icons.visibility,
-                    Colors.blue,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _buildStatCard(
-                    'Inverterlar',
-                    '6',
-                    Icons.electrical_services,
-                    Colors.green,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-
-            // Boshqaruv bo'limlari
-            const Text(
-              'Boshqaruv bo\'limlari',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            _buildMenuCard(
-              'Panel turlari',
-              'Quyosh paneli turlarini boshqarish',
-              Icons.solar_power,
-              Colors.orange,
-              () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const AdminPanelsScreen()),
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            _buildMenuCard(
-              'Aloqa ma\'lumotlari',
-              'Kontakt ma\'lumotlarini yangilash',
-              Icons.contact_phone,
-              Colors.blue,
-              () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const AdminContactScreen()),
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            _buildMenuCard(
-              'Statistika',
-              'Batafsil statistika va hisobotlar',
-              Icons.analytics,
-              Colors.purple,
-              () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const AdminStatsScreen()),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatCard(
-      String title, String value, IconData icon, Color color) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.1),
-            spreadRadius: 1,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFF8FAFC),
+              Color(0xFFE2E8F0),
+              Colors.white,
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, color: color, size: 24),
               Text(
-                value,
+                'Kontent Boshqaruvi',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: color,
+                  color: Colors.blue[900],
+                ),
+              ),
+              const SizedBox(height: 20),
+              
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  children: [
+                    _buildAdminCard(
+                      context,
+                      title: 'Panellar',
+                      subtitle: 'Quyosh panellarini boshqarish',
+                      icon: Icons.solar_power,
+                      color: Colors.orange,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AdminPanelsScreen()),
+                      ),
+                    ),
+                    
+                    _buildAdminCard(
+                      context,
+                      title: 'Inverterlar',
+                      subtitle: 'Inverterlarni boshqarish',
+                      icon: Icons.electrical_services,
+                      color: Colors.green,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AdminInvertersScreen()),
+                      ),
+                    ),
+                    
+                    _buildAdminCard(
+                      context,
+                      title: 'Modullar',
+                      subtitle: 'Modullarni boshqarish',
+                      icon: Icons.view_module,
+                      color: Colors.purple,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AdminModullarScreen()),
+                      ),
+                    ),
+                    
+                    _buildAdminCard(
+                      context,
+                      title: 'Reklamalar',
+                      subtitle: 'Reklama karuselini boshqarish',
+                      icon: Icons.campaign,
+                      color: Colors.red,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AdminAdsScreen()),
+                      ),
+                    ),
+                    
+                    _buildAdminCard(
+                      context,
+                      title: 'Aloqa',
+                      subtitle: 'Kontakt ma\'lumotlarini boshqarish',
+                      icon: Icons.contact_phone,
+                      color: Colors.blue,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AdminContactScreen()),
+                      ),
+                    ),
+                    
+                    _buildAdminCard(
+                      context,
+                      title: 'Statistika',
+                      subtitle: 'Foydalanuvchi statistikasi',
+                      icon: Icons.analytics,
+                      color: Colors.teal,
+                      onTap: () => _showComingSoon(context),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildMenuCard(String title, String subtitle, IconData icon,
-      Color color, VoidCallback onTap) {
+  Widget _buildAdminCard(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(15),
       child: Container(
-        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.1),
-              spreadRadius: 1,
-              blurRadius: 6,
-              offset: const Offset(0, 3),
+              color: Colors.black.withValues(alpha: 0.1),
+              spreadRadius: 2,
+              blurRadius: 8,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
+                  size: 40,
+                  color: color,
+                ),
               ),
-              child: Icon(icon, color: color, size: 24),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: Colors.grey[400],
-            ),
-          ],
+              const SizedBox(height: 8),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  void _showComingSoon(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Tez orada'),
+        content: const Text('Bu funksiya tez orada qo\'shiladi.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
   }

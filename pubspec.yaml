@@ -3,7 +3,7 @@ description: Quyosh24 - Quyosh paneli yechimlari
 
 publish_to: 'none'
 
-version: 1.8.0+6
+version: 1.9.0+7
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -25,6 +25,7 @@ dependencies:
   permission_handler: ^11.0.1
 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -34,11 +35,23 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/
-    - assets/images/ads/
-    - assets/images/panels/
-    - assets/images/inverters/
-    - assets/images/modullar/
+    - assets/images/icon.png
+    - assets/images/ads/1.jpg
+    - assets/images/ads/2.jpg
+    - assets/images/ads/3.png
+    - assets/images/ads/6.jpg
+    - assets/images/ads/7.png
+    - assets/images/ads/photo_1_2025-11-06_14-06-18.jpg
+    - assets/images/ads/photo_5_2025-11-06_14-06-18.jpg
+    - assets/images/ads/photo_6_2025-11-06_14-06-18.jpg
+    - assets/images/panels/Longi_550w_copy.jpg
+    - assets/images/panels/5a75d156fe23f110123e90ad66a236d8_medium.jpg
+    - assets/images/panels/Longi-590-600-watt-solar-panel-high-efficiency-solar-pv-module.jpg
+    - assets/images/panels/photo_2025-11-07_21-55-24.jpg
+    - assets/images/panels/photo_2025-11-07_21-55-24 (2).jpg
+    - assets/images/panels/photo_2025-11-07_21-55-24 (3).jpg
+    - assets/images/panels/photo_2025-11-07_21-59-37.jpg
+    - assets/images/panels/photo_2025-11-07_22-18-19.jpg
     - public/panels.json
 
 flutter_launcher_icons:

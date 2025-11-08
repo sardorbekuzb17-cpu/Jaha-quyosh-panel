@@ -8,237 +8,104 @@ class AdminContactScreen extends StatefulWidget {
 }
 
 class _AdminContactScreenState extends State<AdminContactScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _phoneController = TextEditingController(text: '+998930874758');
-  final _emailController = TextEditingController(text: '@jahonbas');
-  final _addressController = TextEditingController(
-    text: 'Navoiy viloyati, Uchquduq tumani !3 A28\nMarkaziy ko\'cha, 15-uy',
-  );
-  final _workingHoursController = TextEditingController(
-    text:
-        'Dushanba - Juma: 9:00 - 18:00\nShanba: 10:00 - 16:00\nYakshanba: Dam olish kuni',
-  );
-  final _telegramController = TextEditingController(text: '@jahonbas');
-  final _instagramController =
-      TextEditingController(text: '@jahongir_solar_panels');
-
-  bool _isLoading = false;
-
-  Future<void> _saveChanges() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _isLoading = true);
-
-    // Server ga yuborish simulatsiyasi
-    await Future.delayed(const Duration(seconds: 2));
-
-    setState(() => _isLoading = false);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Aloqa ma\'lumotlari yangilandi!'),
-        backgroundColor: Colors.green,
-      ),
-    );
-  }
+  final _phoneController = TextEditingController(text: '+998 93 087 47 58');
+  final _telegramController = TextEditingController(text: '@quyosh24_sun24');
+  final _instagramController = TextEditingController(text: '@quyosh24_');
+  final _addressController = TextEditingController(text: 'Navoiy viloyati, Uchquduq tumani, 13-A28');
+  final _emailController = TextEditingController(text: 'info@jahongroup.uz');
+  final _websiteController = TextEditingController(text: 'www.jahongroup.uz');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Aloqa ma\'lumotlari'),
-        backgroundColor: Colors.blue[900],
+        title: const Text('Aloqa Ma\'lumotlari'),
+        backgroundColor: Colors.blue[700],
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: _isLoading ? null : _saveChanges,
-            icon: _isLoading
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                      strokeWidth: 2,
-                    ),
-                  )
-                : const Icon(Icons.save),
+            onPressed: _saveContact,
+            icon: const Icon(Icons.save),
             tooltip: 'Saqlash',
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFF8FAFC), Colors.white],
+          ),
+        ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Asosiy ma'lumotlar
-              _buildSectionTitle('Asosiy ma\'lumotlar'),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(
-                  labelText: 'Telefon raqami',
-                  prefixIcon: Icon(Icons.phone),
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Telefon raqamini kiriting';
-                  }
-                  return null;
-                },
+              _buildContactCard(
+                'Telefon',
+                Icons.phone,
+                Colors.green,
+                _phoneController,
+                'Telefon raqamini kiriting',
               ),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email manzil',
-                  prefixIcon: Icon(Icons.email),
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Email manzilni kiriting';
-                  }
-                  if (!value.contains('@')) {
-                    return 'To\'g\'ri email manzil kiriting';
-                  }
-                  return null;
-                },
+              
+              _buildContactCard(
+                'Telegram',
+                Icons.telegram,
+                Colors.blue,
+                _telegramController,
+                'Telegram username kiriting',
               ),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _addressController,
-                decoration: const InputDecoration(
-                  labelText: 'Manzil',
-                  prefixIcon: Icon(Icons.location_on),
-                  border: OutlineInputBorder(),
-                ),
+              
+              _buildContactCard(
+                'Instagram',
+                Icons.camera_alt,
+                Colors.purple,
+                _instagramController,
+                'Instagram username kiriting',
+              ),
+              
+              _buildContactCard(
+                'Email',
+                Icons.email,
+                Colors.red,
+                _emailController,
+                'Email manzilini kiriting',
+              ),
+              
+              _buildContactCard(
+                'Website',
+                Icons.web,
+                Colors.orange,
+                _websiteController,
+                'Website manzilini kiriting',
+              ),
+              
+              _buildContactCard(
+                'Manzil',
+                Icons.location_on,
+                Colors.teal,
+                _addressController,
+                'To\'liq manzilni kiriting',
                 maxLines: 3,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Manzilni kiriting';
-                  }
-                  return null;
-                },
               ),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _workingHoursController,
-                decoration: const InputDecoration(
-                  labelText: 'Ish vaqti',
-                  prefixIcon: Icon(Icons.access_time),
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: 3,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Ish vaqtini kiriting';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 32),
-
-              // Ijtimoiy tarmoqlar
-              _buildSectionTitle('Ijtimoiy tarmoqlar'),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _telegramController,
-                decoration: const InputDecoration(
-                  labelText: 'Telegram',
-                  prefixIcon: Icon(Icons.telegram),
-                  border: OutlineInputBorder(),
-                  hintText: '@username',
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _instagramController,
-                decoration: const InputDecoration(
-                  labelText: 'Instagram',
-                  prefixIcon: Icon(Icons.camera_alt),
-                  border: OutlineInputBorder(),
-                  hintText: '@username',
-                ),
-              ),
-              const SizedBox(height: 32),
-
+              
+              const SizedBox(height: 20),
+              
               // Saqlash tugmasi
               SizedBox(
                 width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _saveChanges,
+                child: ElevatedButton.icon(
+                  onPressed: _saveContact,
+                  icon: const Icon(Icons.save),
+                  label: const Text('Barcha Ma\'lumotlarni Saqlash'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[900],
+                    backgroundColor: Colors.blue[700],
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: _isLoading
-                      ? const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            ),
-                            SizedBox(width: 12),
-                            Text(
-                              'Saqlanmoqda...',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        )
-                      : const Text(
-                          'O\'zgarishlarni saqlash',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // Ma'lumot
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.info, color: Colors.blue[700]),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        'O\'zgarishlar darhol ilovada ko\'rinadi va barcha foydalanuvchilar yangi ma\'lumotlarni ko\'radi.',
-                        style: TextStyle(
-                          color: Colors.blue[700],
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ],
@@ -248,24 +115,113 @@ class _AdminContactScreenState extends State<AdminContactScreen> {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
+  Widget _buildContactCard(
+    String title,
+    IconData icon,
+    Color color,
+    TextEditingController controller,
+    String hint, {
+    int maxLines = 1,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(icon, color: color, size: 24),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: controller,
+              maxLines: maxLines,
+              decoration: InputDecoration(
+                hintText: hint,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey[300]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: color, width: 2),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  void _saveContact() {
+    // Bu yerda ma'lumotlarni saqlash logikasi bo'ladi
+    // Hozircha faqat xabar ko'rsatamiz
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Muvaffaqiyat'),
+        content: const Text('Aloqa ma\'lumotlari saqlandi!'),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+    
+    // Ma'lumotlarni console'ga chiqarish (debug uchun)
+    debugPrint('Telefon: ${_phoneController.text}');
+    debugPrint('Telegram: ${_telegramController.text}');
+    debugPrint('Instagram: ${_instagramController.text}');
+    debugPrint('Email: ${_emailController.text}');
+    debugPrint('Website: ${_websiteController.text}');
+    debugPrint('Manzil: ${_addressController.text}');
   }
 
   @override
   void dispose() {
     _phoneController.dispose();
-    _emailController.dispose();
-    _addressController.dispose();
-    _workingHoursController.dispose();
     _telegramController.dispose();
     _instagramController.dispose();
+    _addressController.dispose();
+    _emailController.dispose();
+    _websiteController.dispose();
     super.dispose();
   }
 }

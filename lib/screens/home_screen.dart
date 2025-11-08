@@ -6,7 +6,8 @@ import 'modullar_screen.dart';
 import 'contact_screen.dart';
 import 'info_screen.dart';
 import 'admin_login_screen.dart';
-import 'youtube_screen.dart';
+
+import 'license_screen.dart';
 import '../services/update_service.dart';
 import '../widgets/update_dialog_pro.dart';
 
@@ -28,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     PanelsScreen(),
     ModullarScreen(),
     InvertersScreen(),
-    YouTubeScreen(),
     ContactScreen(),
   ];
 
@@ -165,6 +165,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             icon: const Icon(Icons.system_update),
             tooltip: 'Yangilanish tekshirish',
           ),
+          // Litsenziya tugmasi
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => const LicenseScreen()),
+              );
+            },
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'Litsenziya',
+          ),
           // Admin panel tugmasi
           IconButton(
             onPressed: () {
@@ -235,10 +246,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             BottomNavigationBarItem(
               icon: Icon(Icons.electrical_services),
               label: 'Inverterlar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.play_circle_filled),
-              label: 'YouTube',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.contact_phone),
