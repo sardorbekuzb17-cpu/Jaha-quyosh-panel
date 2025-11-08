@@ -10,6 +10,7 @@ import 'admin_login_screen.dart';
 import 'license_screen.dart';
 import '../services/update_service.dart';
 import '../widgets/update_dialog_pro.dart';
+import '../services/native_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -175,6 +176,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             },
             icon: const Icon(Icons.info_outline),
             tooltip: 'Litsenziya',
+          ),
+          // Qurilma ma'lumotlari tugmasi
+          IconButton(
+            onPressed: () async {
+              final deviceInfo = await NativeService.getDeviceInfo();
+              if (deviceInfo != null) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Qurilma Ma\'lumotlari'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Model: ${deviceInfo['model']}'),
+                        Text('Ishlab chiqaruvchi: ${deviceInfo['manufacturer']}'),
+                        Text('Android versiya: ${deviceInfo['version']}'),
+                        Text('SDK: ${deviceInfo['sdk']}'),
+                        Text('Brand: ${deviceInfo['brand']}'),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Yopish'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          NativeService.shareApp();
+                        },
+                        child: const Text('Ulashish'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
+            icon: const Icon(Icons.phone_android),
+            tooltip: 'Qurilma Ma\'lumotlari',
           ),
           // Admin panel tugmasi
           IconButton(

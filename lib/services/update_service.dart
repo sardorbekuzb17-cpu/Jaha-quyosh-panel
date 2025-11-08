@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'native_service.dart';
 
 class UpdateService {
   static const String _updateUrl =
@@ -85,16 +86,22 @@ class UpdateService {
   static Future<void> installApk(String? filePath) async {
     try {
       if (filePath != null && await File(filePath).exists()) {
-        // APK fayl mavjud bo'lsa, o'rnatishga urinish
-        // Android'da avtomatik o'rnatish uchun qo'shimcha ruxsatlar kerak
-        debugPrint('APK fayl tayyor: $filePath');
+        // Native Android orqali APK o'rnatish
+        final success = await NativeService.installApk(filePath);
+        if (success) {
+          debugPrint('APK o\'rnatish boshlandi: $filePath');
+          return;
+        }
       }
       
-      // GitHub sahifasini ochish
+      // Agar native o'rnatish ishlamasa, GitHub sahifasini ochish
       const githubUrl = 'https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/releases';
       await _openInBrowser(githubUrl);
     } catch (e) {
       debugPrint('APK o\'rnatishda xato: $e');
+      // Xato bo'lsa ham GitHub sahifasini ochish
+      const githubUrl = 'https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/releases';
+      await _openInBrowser(githubUrl);
     }
   }
   
