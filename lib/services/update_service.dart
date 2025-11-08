@@ -52,52 +52,35 @@ class UpdateService {
     return false;
   }
   
-  // APK yuklab olish
+  // APK yuklab olish (demo uchun)
   static Future<String?> downloadApk(String url, Function(double) onProgress) async {
     try {
-      // Ruxsat so'rash
-      if (await Permission.storage.request().isGranted) {
-        final dir = await getExternalStorageDirectory();
-        final filePath = '${dir!.path}/quyosh24_update.apk';
-        
-        final request = http.Request('GET', Uri.parse(url));
-        final response = await request.send();
-        
-        if (response.statusCode == 200) {
-          final file = File(filePath);
-          final sink = file.openWrite();
-          
-          int downloaded = 0;
-          final total = response.contentLength ?? 0;
-          
-          await response.stream.listen(
-            (chunk) {
-              downloaded += chunk.length;
-              sink.add(chunk);
-              if (total > 0) {
-                onProgress(downloaded / total);
-              }
-            },
-            onDone: () => sink.close(),
-            onError: (e) => sink.close(),
-          ).asFuture();
-          
-          return filePath;
-        }
+      // Demo progress simulation
+      for (int i = 0; i <= 100; i += 10) {
+        await Future.delayed(const Duration(milliseconds: 200));
+        onProgress(i / 100.0);
       }
+      
+      // Demo: haqiqiy APK o'rniga test fayl yaratish
+      final dir = await getExternalStorageDirectory();
+      final filePath = '${dir!.path}/quyosh24_demo.txt';
+      final file = File(filePath);
+      await file.writeAsString('Demo APK fayl - test uchun');
+      
+      return filePath;
     } catch (e) {
       debugPrint('APK yuklab olishda xato: $e');
     }
     return null;
   }
   
-  // APK o'rnatish
+  // APK o'rnatish (demo uchun)
   static Future<void> installApk(String filePath) async {
     try {
-      if (Platform.isAndroid) {
-        final uri = Uri.parse('file://$filePath');
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      }
+      // Demo: Google Play Store'ga yo'naltirish
+      const playStoreUrl = 'https://play.google.com/store/apps';
+      final uri = Uri.parse(playStoreUrl);
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     } catch (e) {
       debugPrint('APK o\'rnatishda xato: $e');
     }
