@@ -46,4 +46,15 @@ class NativeService {
       return false;
     }
   }
+
+  // Toast xabar ko'rsatish
+  static Future<bool> showToast(String message) async {
+    try {
+      await _channel.invokeMethod('showToast', {'message': message});
+      return true;
+    } catch (e) {
+      print('Toast ko\'rsatishda xato: $e');
+      return false;
+    }
+  }
 }
