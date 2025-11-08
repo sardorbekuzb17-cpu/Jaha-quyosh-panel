@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/data_service.dart';
 
 class AdminPanelsScreen extends StatefulWidget {
   const AdminPanelsScreen({Key? key}) : super(key: key);
@@ -18,31 +19,9 @@ class _AdminPanelsScreenState extends State<AdminPanelsScreen> {
   }
 
   Future<void> _loadPanels() async {
-    // Demo ma'lumotlar
-    panels = [
-      {
-        'id': '1',
-        'name': 'LONGi Hi-MO 5 5kW Tizim',
-        'description': 'LONGi Hi-MO 5 seriyasi, 5kW tizim. Kichik uylar uchun ideal yechim.',
-        'image_url': 'assets/images/panels/photo_2025-11-07_21-55-24.jpg',
-        'power': 5000,
-        'efficiency': 21.5,
-        'warranty': '25 yil',
-        'price': 45000000,
-      },
-      {
-        'id': '2',
-        'name': 'LONGi Hi-MO 6 10kW Tizim',
-        'description': 'LONGi Hi-MO 6 seriyasi, 10kW to\'liq tizim. N-type TOPCon texnologiya.',
-        'image_url': 'assets/images/panels/Longi_550w_copy.jpg',
-        'power': 10000,
-        'efficiency': 21.8,
-        'warranty': '25 yil',
-        'price': 80000000,
-      },
-    ];
-    
+    final loadedPanels = await DataService.getPanels();
     setState(() {
+      panels = loadedPanels;
       isLoading = false;
     });
   }
@@ -206,6 +185,9 @@ class _AdminPanelsScreenState extends State<AdminPanelsScreen> {
               setState(() {
                 panels.removeAt(index);
               });
+              
+              // Ma'lumotlarni saqlash
+              await DataService.savePanels(panels);
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Panel o\'chirildi')),
@@ -290,6 +272,9 @@ class _AdminPanelsScreenState extends State<AdminPanelsScreen> {
                   panels.add(newPanel);
                 }
               });
+              
+              // Ma'lumotlarni saqlash
+              await DataService.savePanels(panels);
 
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import '../models/panel_model.dart';
 import '../widgets/panel_card.dart';
+import '../services/data_service.dart';
 
 class PanelsScreen extends StatefulWidget {
   const PanelsScreen({Key? key}) : super(key: key);
@@ -25,16 +26,30 @@ class _PanelsScreenState extends State<PanelsScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // To'g'ridan-to'g'ri local JSON'dan o'qish
-      await _loadLocalPanels();
+      // DataService'dan ma'lumotlarni yuklash
+      final panelsData = await DataService.getPanels();
+      final panels = panelsData.map((data) => PanelModel(
+        id: data['id'],
+        name: data['name'],
+        description: data['description'],
+        imageUrl: data['image_url'] ?? '',
+        power: data['power'],
+        efficiency: data['efficiency'].toDouble(),
+        warranty: data['warranty'],
+        price: data['price'],
+        features: ['Yuqori sifat', 'Ishonchli', 'Samarali'],
+      )).toList();
+      
+      setState(() {
+        _panels = panels;
+        _isLoading = false;
+        _errorMessage = '';
+      });
     } catch (e) {
       setState(() {
         _errorMessage = 'Ma\'lumotlarni yuklashda xatolik: $e';
         _isLoading = false;
       });
-
-      // Offline ma'lumotlarni yuklash
-      _loadOfflineData();
     }
   }
 
