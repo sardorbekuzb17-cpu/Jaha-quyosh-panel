@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/data_service.dart';
 
 class AdminModullarScreen extends StatefulWidget {
   const AdminModullarScreen({Key? key}) : super(key: key);
@@ -16,26 +17,11 @@ class _AdminModullarScreenState extends State<AdminModullarScreen> {
     _loadModullar();
   }
 
-  void _loadModullar() {
-    modullar = [
-      {
-        'id': '1',
-        'name': 'LONGi 550W Modul',
-        'description': 'Yuqori samaradorlikli monokristalin modul',
-        'power': 550,
-        'efficiency': 22.3,
-        'price': 850000,
-      },
-      {
-        'id': '2', 
-        'name': 'LONGi 600W Modul',
-        'description': 'Eng yangi texnologiya bilan',
-        'power': 600,
-        'efficiency': 22.8,
-        'price': 950000,
-      },
-    ];
-    setState(() {});
+  void _loadModullar() async {
+    final loadedModules = await DataService.getModules();
+    setState(() {
+      modullar = loadedModules;
+    });
   }
 
   @override
@@ -127,6 +113,7 @@ class _AdminModullarScreenState extends State<AdminModullarScreen> {
           ElevatedButton(
             onPressed: () {
               setState(() => modullar.removeAt(index));
+              await DataService.saveModules(modullar);
               Navigator.pop(context);
             },
             child: const Text('Ha'),
@@ -178,6 +165,7 @@ class _AdminModullarScreenState extends State<AdminModullarScreen> {
                   modullar.add(newModul);
                 }
               });
+              await DataService.saveModules(modullar);
               Navigator.pop(context);
             },
             child: const Text('Saqlash'),

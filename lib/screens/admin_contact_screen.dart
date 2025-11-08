@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/data_service.dart';
 
 class AdminContactScreen extends StatefulWidget {
   const AdminContactScreen({Key? key}) : super(key: key);
@@ -8,12 +9,28 @@ class AdminContactScreen extends StatefulWidget {
 }
 
 class _AdminContactScreenState extends State<AdminContactScreen> {
-  final _phoneController = TextEditingController(text: '+998 93 087 47 58');
-  final _telegramController = TextEditingController(text: '@quyosh24_sun24');
-  final _instagramController = TextEditingController(text: '@quyosh24_');
-  final _addressController = TextEditingController(text: 'Navoiy viloyati, Uchquduq tumani, 13-A28');
-  final _emailController = TextEditingController(text: 'info@jahongroup.uz');
-  final _websiteController = TextEditingController(text: 'www.jahongroup.uz');
+  final _phoneController = TextEditingController();
+  final _telegramController = TextEditingController();
+  final _instagramController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _websiteController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadContactInfo();
+  }
+
+  void _loadContactInfo() async {
+    final contact = await DataService.getContact();
+    _phoneController.text = contact['phone'] ?? '';
+    _telegramController.text = contact['telegram'] ?? '';
+    _instagramController.text = contact['instagram'] ?? '';
+    _addressController.text = contact['address'] ?? '';
+    _emailController.text = contact['email'] ?? '';
+    _websiteController.text = contact['website'] ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,9 +204,18 @@ class _AdminContactScreenState extends State<AdminContactScreen> {
     );
   }
 
-  void _saveContact() {
-    // Bu yerda ma'lumotlarni saqlash logikasi bo'ladi
-    // Hozircha faqat xabar ko'rsatamiz
+  void _saveContact() async {
+    final contactData = {
+      'phone': _phoneController.text,
+      'telegram': _telegramController.text,
+      'instagram': _instagramController.text,
+      'address': _addressController.text,
+      'email': _emailController.text,
+      'website': _websiteController.text,
+      'services': 'Quyosh paneli o\'rnatish, texnik xizmat ko\'rsatish, konsultatsiya',
+    };
+    
+    await DataService.saveContact(contactData);
     
     showDialog(
       context: context,
@@ -204,14 +230,6 @@ class _AdminContactScreenState extends State<AdminContactScreen> {
         ],
       ),
     );
-    
-    // Ma'lumotlarni console'ga chiqarish (debug uchun)
-    debugPrint('Telefon: ${_phoneController.text}');
-    debugPrint('Telegram: ${_telegramController.text}');
-    debugPrint('Instagram: ${_instagramController.text}');
-    debugPrint('Email: ${_emailController.text}');
-    debugPrint('Website: ${_websiteController.text}');
-    debugPrint('Manzil: ${_addressController.text}');
   }
 
   @override

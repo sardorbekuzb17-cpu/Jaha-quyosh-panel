@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/data_service.dart';
 
 class AdminInvertersScreen extends StatefulWidget {
   const AdminInvertersScreen({Key? key}) : super(key: key);
@@ -18,27 +19,9 @@ class _AdminInvertersScreenState extends State<AdminInvertersScreen> {
   }
 
   Future<void> _loadInverters() async {
-    // Demo ma'lumotlar
-    inverters = [
-      {
-        'id': '1',
-        'name': 'GoodWe 25kW Inverter',
-        'description': 'Yuqori sifatli 3-fazali inverter',
-        'power': 25000,
-        'efficiency': 98.5,
-        'price': 25000000,
-      },
-      {
-        'id': '2',
-        'name': 'Sungrow 30kW Inverter',
-        'description': 'Professional darajadagi inverter',
-        'power': 30000,
-        'efficiency': 98.8,
-        'price': 30000000,
-      },
-    ];
-    
+    final loadedInverters = await DataService.getInverters();
     setState(() {
+      inverters = loadedInverters;
       isLoading = false;
     });
   }
@@ -202,6 +185,8 @@ class _AdminInvertersScreenState extends State<AdminInvertersScreen> {
               setState(() {
                 inverters.removeAt(index);
               });
+              
+              await DataService.saveInverters(inverters);
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Inverter o\'chirildi')),
@@ -284,6 +269,8 @@ class _AdminInvertersScreenState extends State<AdminInvertersScreen> {
                   inverters.add(newInverter);
                 }
               });
+              
+              await DataService.saveInverters(inverters);
 
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(

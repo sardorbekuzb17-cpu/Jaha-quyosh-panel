@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/inverter_model.dart';
 import '../widgets/inverter_card.dart';
+import '../services/data_service.dart';
 
 class InvertersScreen extends StatefulWidget {
   const InvertersScreen({Key? key}) : super(key: key);
@@ -19,17 +20,34 @@ class _InvertersScreenState extends State<InvertersScreen> {
     _loadInverters();
   }
 
-  void _loadInverters() {
+  void _loadInverters() async {
     setState(() => _isLoading = true);
 
-    // Simulate loading delay
-    Future.delayed(const Duration(seconds: 1), () {
-      final inverters = InverterData.getInverters();
+    try {
+      final invertersData = await DataService.getInverters();
+      final inverters = invertersData.map((data) => Inverter(
+        id: data['id'],
+        name: data['name'],
+        brand: data['brand'] ?? 'Unknown',
+        description: data['description'],
+        price: data['price'].toDouble(),
+        power: data['power'].toDouble(),
+        efficiency: data['efficiency'] ?? '95%',
+        warranty: data['warranty'] ?? '5 yil',
+        type: data['type'] ?? 'Inverter',
+        features: List<String>.from(data['features'] ?? []),
+        imageUrl: data['imageUrl'] ?? '',
+      )).toList();
+      
       setState(() {
         _inverters = inverters;
         _isLoading = false;
       });
-    });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
