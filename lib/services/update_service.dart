@@ -1,194 +1,121 @@
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'api_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UpdateService {
-  static const String _lastCheckKey = 'last_update_check';
-  static const String _skipVersionKey = 'skip_version';
-
-  final ApiService _apiService = ApiService();
-
-  // Yangilanishni tekshirish
-  Future<void> checkForUpdates(BuildContext context,
-      {bool forceCheck = false}) async {
+  static const String _updateUrl = 'https://raw.githubusercontent.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/main/update.json';
+  
+  // Yangilanish ma'lumotlari
+  static Future<UpdateInfo?> checkForUpdate() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final now = DateTime.now().millisecondsSinceEpoch;
-      final lastCheck = prefs.getInt(_lastCheckKey) ?? 0;
-
-      // Har 24 soatda bir marta tekshirish (majburiy emas bo'lsa)
-      if (!forceCheck && (now - lastCheck) < 86400000) {
-        return;
-      }
-
       final packageInfo = await PackageInfo.fromPlatform();
       final currentVersion = packageInfo.version;
-
-      // Demo: Yangilanish simulyatsiyasi
-      // Haqiqiy loyihada bu GitHub API yoki boshqa server API dan keladi
-      final updateInfo = await _checkForUpdatesDemo(currentVersion);
-
-      if (updateInfo.isNotEmpty) {
-        final latestVersion = updateInfo['latest_version'];
-        final isRequired = updateInfo['is_required'] ?? false;
-        final downloadUrl = updateInfo['download_url'];
-        final releaseNotes = updateInfo['release_notes'] ?? '';
-
-        final skippedVersion = prefs.getString(_skipVersionKey);
-
-        if (latestVersion != currentVersion &&
-            (isRequired || skippedVersion != latestVersion)) {
-          _showUpdateDialog(
-              context, latestVersion, downloadUrl, releaseNotes, isRequired);
-        }
-      }
-
-      // Oxirgi tekshirish vaqtini saqlash
-      await prefs.setInt(_lastCheckKey, now);
-    } catch (e) {
-      // Debug: Yangilanish tekshirishda xatolik: $e
-    }
-  }
-
-  // Real yangilanish tekshiruvi
-  Future<Map<String, dynamic>> _checkForUpdatesDemo(
-      String currentVersion) async {
-    try {
-      final updateInfo = await _apiService.checkForUpdates(currentVersion);
       
-      if (updateInfo.isNotEmpty) {
-        final latestVersion = updateInfo['latest_version'];
+      final response = await http.get(Uri.parse(_updateUrl));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final latestVersion = data['version'];
         
-        // Versiyalarni string sifatida taqqoslash
-        if (latestVersion.toString() != currentVersion.toString()) {
-          return {
-            'latest_version': latestVersion.toString(),
-            'is_required': updateInfo['force_update'] ?? false,
-            'download_url': updateInfo['download_url'].toString(),
-            'release_notes': updateInfo['changelog']?.toString() ?? 'Yangilanish mavjud'
-          };
+        if (_isNewerVersion(currentVersion, latestVersion)) {
+          return UpdateInfo(
+            version: latestVersion,
+            downloadUrl: data['downloadUrl'],
+            changelog: List<String>.from(data['changelog'] ?? []),
+            isForced: data['isForced'] ?? false,
+            minVersion: data['minVersion'] ?? '1.0.0',
+          );
         }
       }
     } catch (e) {
-      // Xatolik bo'lsa yangilanish yo'q
+      debugPrint('Yangilanish tekshirishda xato: $e');
     }
+    return null;
+  }
+  
+  // Versiya taqqoslash
+  static bool _isNewerVersion(String current, String latest) {
+    final currentParts = current.split('.').map(int.parse).toList();
+    final latestParts = latest.split('.').map(int.parse).toList();
     
-    return {};
-  }
-
-  // Yangilanish dialogini ko'rsatish
-  void _showUpdateDialog(BuildContext context, String version,
-      String downloadUrl, String releaseNotes, bool isRequired) {
-    showDialog(
-      context: context,
-      barrierDismissible: !isRequired,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Row(
-            children: [
-              Icon(Icons.system_update, color: Colors.blue),
-              SizedBox(width: 10),
-              Text('Yangilanish mavjud'),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Yangi versiya: $version'),
-              const SizedBox(height: 10),
-              if (releaseNotes.isNotEmpty) ...[
-                const Text('Yangiliklar:',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 5),
-                Text(releaseNotes),
-                const SizedBox(height: 10),
-              ],
-              if (isRequired)
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.red[50],
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.warning, color: Colors.red, size: 16),
-                      SizedBox(width: 5),
-                      Expanded(
-                          child: Text('Bu yangilanish majburiy!',
-                              style:
-                                  TextStyle(color: Colors.red, fontSize: 12))),
-                    ],
-                  ),
-                ),
-            ],
-          ),
-          actions: [
-            if (!isRequired)
-              TextButton(
-                onPressed: () async {
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.setString(_skipVersionKey, version);
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Keyinroq'),
-              ),
-            if (!isRequired)
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Bekor qilish'),
-              ),
-            ElevatedButton(
-              onPressed: () async {
-                Navigator.of(context).pop();
-                await _launchDownloadUrl(downloadUrl);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Yuklab olish'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // APK avtomatik yuklab olish
-  Future<void> _launchDownloadUrl(String url) async {
-    try {
-      // Avtomatik yuklab olish uchun direct download link
-      final Uri uri = Uri.parse('https://drive.google.com/uc?export=download&id=1iaYH47qIoL9qe5wfj-IeeovQIbMoS_Km');
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } catch (e) {
-      // Xatolik bo'lsa oddiy link
-      final Uri uri = Uri.parse(url);
-      await launchUrl(uri);
+    for (int i = 0; i < 3; i++) {
+      final currentPart = i < currentParts.length ? currentParts[i] : 0;
+      final latestPart = i < latestParts.length ? latestParts[i] : 0;
+      
+      if (latestPart > currentPart) return true;
+      if (latestPart < currentPart) return false;
     }
+    return false;
   }
-
-  // Majburiy yangilanishni tekshirish
-  Future<bool> isForceUpdateRequired() async {
+  
+  // APK yuklab olish
+  static Future<String?> downloadApk(String url, Function(double) onProgress) async {
     try {
-      final packageInfo = await PackageInfo.fromPlatform();
-      final currentVersion = packageInfo.version;
-
-      final updateInfo = await _apiService.checkForUpdates(currentVersion);
-
-      if (updateInfo.isNotEmpty) {
-        final latestVersion = updateInfo['latest_version'];
-        final isRequired = updateInfo['is_required'] ?? false;
-
-        return isRequired && latestVersion != currentVersion;
+      // Ruxsat so'rash
+      if (await Permission.storage.request().isGranted) {
+        final dir = await getExternalStorageDirectory();
+        final filePath = '${dir!.path}/quyosh24_update.apk';
+        
+        final request = http.Request('GET', Uri.parse(url));
+        final response = await request.send();
+        
+        if (response.statusCode == 200) {
+          final file = File(filePath);
+          final sink = file.openWrite();
+          
+          int downloaded = 0;
+          final total = response.contentLength ?? 0;
+          
+          await response.stream.listen(
+            (chunk) {
+              downloaded += chunk.length;
+              sink.add(chunk);
+              if (total > 0) {
+                onProgress(downloaded / total);
+              }
+            },
+            onDone: () => sink.close(),
+            onError: (e) => sink.close(),
+          ).asFuture();
+          
+          return filePath;
+        }
       }
-
-      return false;
     } catch (e) {
-      return false;
+      debugPrint('APK yuklab olishda xato: $e');
+    }
+    return null;
+  }
+  
+  // APK o'rnatish
+  static Future<void> installApk(String filePath) async {
+    try {
+      if (Platform.isAndroid) {
+        final uri = Uri.parse('file://$filePath');
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    } catch (e) {
+      debugPrint('APK o\'rnatishda xato: $e');
     }
   }
+}
+
+class UpdateInfo {
+  final String version;
+  final String downloadUrl;
+  final List<String> changelog;
+  final bool isForced;
+  final String minVersion;
+  
+  UpdateInfo({
+    required this.version,
+    required this.downloadUrl,
+    required this.changelog,
+    required this.isForced,
+    required this.minVersion,
+  });
 }

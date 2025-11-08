@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/splash_screen.dart';
 import 'services/update_service.dart';
+import 'widgets/update_dialog_pro.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,19 +16,31 @@ class SolarPanelApp extends StatefulWidget {
 }
 
 class _SolarPanelAppState extends State<SolarPanelApp> {
-  final UpdateService _updateService = UpdateService();
-
   @override
   void initState() {
     super.initState();
-    _checkForUpdates();
+    _checkForUpdateOnStart();
   }
-
-  void _checkForUpdates() async {
-    // Ilova ochilganda avtomatik yangilanish tekshiruvi
+  
+  Future<void> _checkForUpdateOnStart() async {
     await Future.delayed(const Duration(seconds: 3));
     if (mounted) {
-      _updateService.checkForUpdates(context, forceCheck: true);
+      await _checkForUpdate();
+    }
+  }
+  
+  Future<void> _checkForUpdate() async {
+    try {
+      final updateInfo = await UpdateService.checkForUpdate();
+      if (updateInfo != null && mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: !updateInfo.isForced,
+          builder: (context) => UpdateDialogPro(updateInfo: updateInfo),
+        );
+      }
+    } catch (e) {
+      debugPrint('Yangilanish tekshirishda xato: $e');
     }
   }
 

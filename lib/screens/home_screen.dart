@@ -6,6 +6,8 @@ import 'modullar_screen.dart';
 import 'contact_screen.dart';
 import 'info_screen.dart';
 import 'admin_login_screen.dart';
+import '../services/update_service.dart';
+import '../widgets/update_dialog_pro.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -139,6 +141,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         elevation: 8,
         shadowColor: Colors.black26,
         actions: [
+          // Yangilanish tekshirish tugmasi
+          IconButton(
+            onPressed: () async {
+              final updateInfo = await UpdateService.checkForUpdate();
+              if (updateInfo != null) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: !updateInfo.isForced,
+                  builder: (context) => UpdateDialogPro(updateInfo: updateInfo),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('✅ Siz eng so\'nggi versiyadan foydalanmoqdasiz'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+            },
+            icon: const Icon(Icons.system_update),
+            tooltip: 'Yangilanish tekshirish',
+          ),
           // Admin panel tugmasi
           IconButton(
             onPressed: () {

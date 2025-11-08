@@ -1,0 +1,15 @@
+{
+  "version": "1.1.0",
+  "downloadUrl": "https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/releases/download/v1.1.0/quyosh24.apk",
+  "changelog": [
+    "🚀 Play Market kabi yangilanish tizimi",
+    "📊 Progress bar bilan yuklanish jarayoni",
+    "🔒 Majburiy yangilanish qo'llab-quvvatlash",
+    "⚡ Avtomatik APK o'rnatish",
+    "🛡️ Xavfsizlik yaxshilandi",
+    "🎨 Yangi dizayn va animatsiyalar"
+  ],
+  "isForced": false,
+  "minVersion": "1.0.0",
+  "releaseNotes": "Bu yangilanishda Play Market kabi professional yangilanish tizimi qo'shildi. Endi ilova avtomatik ravishda yangilanishlarni tekshiradi va foydalanuvchiga qulay interfeys orqali yangilanish taklif qiladi."
+}
