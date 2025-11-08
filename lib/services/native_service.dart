@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 class NativeService {
   static const MethodChannel _channel = MethodChannel('quyosh24/native');
@@ -9,7 +10,7 @@ class NativeService {
       final result = await _channel.invokeMethod('getDeviceInfo');
       return Map<String, String>.from(result);
     } catch (e) {
-      print('Qurilma ma\'lumotlarini olishda xato: $e');
+      debugPrint('Qurilma ma\'lumotlarini olishda xato: $e');
       return null;
     }
   }
@@ -20,7 +21,7 @@ class NativeService {
       await _channel.invokeMethod('openAppSettings');
       return true;
     } catch (e) {
-      print('Sozlamalarni ochishda xato: $e');
+      debugPrint('Sozlamalarni ochishda xato: $e');
       return false;
     }
   }
@@ -31,7 +32,7 @@ class NativeService {
       await _channel.invokeMethod('installApk', {'filePath': filePath});
       return true;
     } catch (e) {
-      print('APK o\'rnatishda xato: $e');
+      debugPrint('APK o\'rnatishda xato: $e');
       return false;
     }
   }
@@ -42,7 +43,7 @@ class NativeService {
       await _channel.invokeMethod('shareApp');
       return true;
     } catch (e) {
-      print('Ilovani ulashishda xato: $e');
+      debugPrint('Ilovani ulashishda xato: $e');
       return false;
     }
   }
@@ -53,7 +54,7 @@ class NativeService {
       await _channel.invokeMethod('showToast', {'message': message});
       return true;
     } catch (e) {
-      print('Toast ko\'rsatishda xato: $e');
+      debugPrint('Toast ko\'rsatishda xato: $e');
       return false;
     }
   }
