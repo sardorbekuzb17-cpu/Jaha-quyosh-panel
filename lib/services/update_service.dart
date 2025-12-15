@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'native_service.dart';
 
 class UpdateService {
   static const String _updateUrl =
@@ -54,57 +51,38 @@ class UpdateService {
     return false;
   }
 
-  // APK yuklab olish (GitHub'dan)
+  // Play Store'ga yo'naltirish (yuklab olish o'rniga)
   static Future<String?> downloadApk(
       String url, Function(double) onProgress) async {
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        final bytes = response.bodyBytes;
-        final dir = await getExternalStorageDirectory();
-        final filePath = '${dir!.path}/quyosh24_v2.0.0.apk';
-        final file = File(filePath);
-        
-        // Progress simulation
-        for (int i = 0; i <= 100; i += 5) {
-          await Future.delayed(const Duration(milliseconds: 50));
-          onProgress(i / 100.0);
-        }
-        
-        await file.writeAsBytes(bytes);
-        return filePath;
-      }
-    } catch (e) {
-      debugPrint('APK yuklab olishda xato: $e');
-      // Agar GitHub'dan yuklab olmasa, brauzerda ochish
-      await _openInBrowser(url);
+    // Progress simulation
+    for (int i = 0; i <= 100; i += 10) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      onProgress(i / 100.0);
     }
+    // Play Store'ni ochish
+    await openPlayStore();
     return null;
   }
 
-  // APK o'rnatish yoki brauzerda ochish
+  // Play Store'ga yo'naltirish
   static Future<void> installApk(String? filePath) async {
     try {
-      if (filePath != null && await File(filePath).exists()) {
-        // Native Android orqali APK o'rnatish
-        final success = await NativeService.installApk(filePath);
-        if (success) {
-          debugPrint('APK o\'rnatish boshlandi: $filePath');
-          return;
-        }
-      }
-      
-      // Agar native o'rnatish ishlamasa, GitHub sahifasini ochish
-      const githubUrl = 'https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/releases';
-      await _openInBrowser(githubUrl);
+      // Play Store'ni ochish
+      const playStoreUrl =
+          'https://play.google.com/store/apps/details?id=com.jahongroup.quyosh24';
+      await _openInBrowser(playStoreUrl);
     } catch (e) {
-      debugPrint('APK o\'rnatishda xato: $e');
-      // Xato bo'lsa ham GitHub sahifasini ochish
-      const githubUrl = 'https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/releases';
-      await _openInBrowser(githubUrl);
+      debugPrint('Play Store ochishda xato: $e');
     }
   }
-  
+
+  // Play Store'ni ochish
+  static Future<void> openPlayStore() async {
+    const playStoreUrl =
+        'https://play.google.com/store/apps/details?id=com.jahongroup.quyosh24';
+    await _openInBrowser(playStoreUrl);
+  }
+
   // Brauzerda ochish
   static Future<void> _openInBrowser(String url) async {
     final uri = Uri.parse(url);

@@ -1,20 +1,17 @@
 {
-  "version": "2.0.0",
-  "downloadUrl": "https://github.com/sardorbekuzb17-cpu/Jaha-quyosh-panel/raw/main/Quyosh24-v2.0.0-release.apk",
+  "version": "2.1.0",
+  "downloadUrl": "https://play.google.com/store/apps/details?id=com.jahongroup.quyosh24",
+  "playStoreUrl": "https://play.google.com/store/apps/details?id=com.jahongroup.quyosh24",
   "changelog": [
-    "🎉 Major Release - v2.0.0",
-    "👨‍💼 To'liq Admin Panel tizimi",
-    "📊 Panel, Inverter, Modul boshqaruvi",
-    "📢 Reklama va Aloqa boshqaruvi",
-    "🔐 Xavfsiz login tizimi",
-    "🚀 GitHub'dan avtomatik yangilanish",
-    "📱 Professional UI/UX dizayn",
-    "⚡ Optimizatsiya va tezlik yaxshilandi",
-    "🛡️ Litsenziya va xavfsizlik tizimi",
-    "🔧 Admin dashboard - 6 ta bo'lim",
-    "✨ Barcha funksiyalar mukammal ishlaydi"
+    "🛒 Savat funksiyasi qo'shildi",
+    "📱 Online buyurtma berish",
+    "🏭 Quyosh stansiyalari bo'limi yangilandi",
+    "📞 2 ta telefon raqam qo'shildi",
+    "🎨 Professional dizayn",
+    "⚡ Tezlik optimizatsiyasi",
+    "🔄 Server bilan sinxronizatsiya"
   ],
   "isForced": true,
-  "minVersion": "1.0.0",
-  "releaseNotes": "🎉 MAJOR RELEASE v2.0.0! To'liq admin panel, GitHub yangilanish tizimi va professional dizayn bilan. Bu versiya barcha avvalgi versiyalardan kattaroq yangilanish!"
+  "minVersion": "2.0.0",
+  "releaseNotes": "🎉 Yangi versiya! Savat, online buyurtma va yangilangan dizayn bilan."
 }

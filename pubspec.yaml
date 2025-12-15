@@ -1,9 +1,9 @@
 name: quyosh24
 description: Quyosh24 - Quyosh paneli yechimlari
 
-publish_to: 'none'
+publish_to: "none"
 
-version: 2.0.1+9
+version: 2.1.0+10
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -11,6 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
   cupertino_icons: ^1.0.2
   url_launcher: ^6.1.0
   http: ^1.1.0
@@ -23,8 +26,8 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   path_provider: ^2.1.1
   permission_handler: ^11.0.1
-
-
+  video_player: ^2.8.1
+  chewie: ^1.7.4
 
 dev_dependencies:
   flutter_test:
@@ -35,37 +38,40 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    # Main assets
     - assets/images/icon.png
-    - assets/images/ads/1.jpg
-    - assets/images/ads/2.jpg
-    - assets/images/ads/3.png
-    - assets/images/ads/6.jpg
-    - assets/images/ads/7.png
-    - assets/images/ads/photo_1_2025-11-06_14-06-18.jpg
-    - assets/images/ads/photo_5_2025-11-06_14-06-18.jpg
-    - assets/images/ads/photo_6_2025-11-06_14-06-18.jpg
-    - assets/images/panels/Longi_550w_copy.jpg
-    - assets/images/panels/5a75d156fe23f110123e90ad66a236d8_medium.jpg
-    - assets/images/panels/Longi-590-600-watt-solar-panel-high-efficiency-solar-pv-module.jpg
-    - assets/images/panels/photo_2025-11-07_21-55-24.jpg
-    - assets/images/panels/photo_2025-11-07_21-55-24 (2).jpg
-    - assets/images/panels/photo_2025-11-07_21-55-24 (3).jpg
-    - assets/images/panels/photo_2025-11-07_21-59-37.jpg
-    - assets/images/panels/photo_2025-11-07_22-18-19.jpg
-    - assets/images/inverters/34062.jpg
-    - assets/images/inverters/goodwe25kw_3c045e2e-2321-4740-a5cd-c4ff7f0e7203.webp
-    - assets/images/inverters/inversor-solar-trifasico-goodwe-gw30k-mt.jpg
-    - assets/images/inverters/SDTG217-25kW-红色（有屏）-1.png
-    - assets/images/inverters/sungrow-wr-front-93a341701c3a51bebed934a797b01891.png
-    - assets/images/inverters/sets2_.jpg
-    - assets/images/modullar/photo_2025-11-07_21-55-23.jpg
-    - assets/images/modullar/photo_2025-11-07_21-55-24.jpg
+    - assets/images/1233.jpg
+    - assets/videos/
+    - assets/videos/intro.mp4
+
+    # Ads (50+ yangi rasm - CopiaApk dan!)
+    - assets/images/ads/
+
+    # Panels (CopiaApk dan yangi rasmlar)
+    - assets/images/panels/
+
+    # Inverters (CopiaApk dan yangi rasmlar)
+    - assets/images/inverters/
+
+    # Modules (CopiaApk dan yangi rasmlar)
+    - assets/images/modullar/
+
+    # Solar Stations (yangi bo'lim!)
+    - assets/images/solar_station/1.jpg
+    - assets/images/solar_station/2.jpg
+    - assets/images/solar_station/3.jpg
+    - assets/images/solar_station/4.jpg
+    - assets/images/solar_station/5.jpg
+    - assets/images/solar_station/6.jpg
+    - assets/images/solar_station/7.jpg
+
+    # YouTube icons
+    - assets/images/icon_youtube/1.png
     - assets/images/modullar/photo_2025-11-07_21-55-25 (2).jpg
     - assets/images/modullar/photo_2025-11-07_21-55-25 (3).jpg
     - assets/images/modullar/photo_2025-11-07_21-55-25.jpg
     - assets/images/modullar/photo_2025-11-07_23-00-32.jpg
     - assets/images/modullar/photo_2025-11-07_23-00-43.jpg
-    - public/panels.json
 
 flutter_launcher_icons:
   android: true
