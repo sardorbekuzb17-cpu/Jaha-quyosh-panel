@@ -45,6 +45,12 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.INVALID_AMOUNT };
     }
 
+    // quyosh24 parametrini tekshirish (agar mavjud bo'lsa)
+    const quyosh24 = account.quyosh24 || account.Quyosh24 || '';
+    if (quyosh24 && quyosh24.length < 3) {
+        return { error: ERRORS.INVALID_ACCOUNT };
+    }
+
     // order_id mavjud bo'lsa, holatini tekshirish
     const orderId = account.order_id || '';
 
