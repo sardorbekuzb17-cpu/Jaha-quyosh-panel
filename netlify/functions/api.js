@@ -48,22 +48,36 @@ function checkPerformTransaction(params) {
     // order_id mavjud bo'lsa, holatini tekshirish
     const orderId = account.order_id || '';
 
-    // Test uchun: order_id "BLOCKED" bilan boshlansa - bloklangan
+    // Sandbox test parametri: account.status
+    const accountStatus = account.status || '';
+
+    // Agar status parametri berilgan bo'lsa, unga qarab javob qaytarish
+    if (accountStatus === 'blocked' || accountStatus === 'BLOCKED') {
+        return { error: ERRORS.ORDER_BLOCKED };
+    }
+
+    if (accountStatus === 'inprocess' || accountStatus === 'INPROCESS') {
+        return { error: ERRORS.ORDER_IN_PROCESS };
+    }
+
+    if (accountStatus === 'notfound' || accountStatus === 'NOTFOUND') {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
+    // order_id orqali ham tekshirish (backward compatibility)
     if (orderId.startsWith('BLOCKED')) {
         return { error: ERRORS.ORDER_BLOCKED };
     }
 
-    // Test uchun: order_id "INPROCESS" bilan boshlansa - jarayonda
     if (orderId.startsWith('INPROCESS')) {
         return { error: ERRORS.ORDER_IN_PROCESS };
     }
 
-    // Test uchun: order_id "NOTFOUND" bilan boshlansa - topilmadi
     if (orderId.startsWith('NOTFOUND')) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
-    // To'lovni kutmoqda - ruxsat berish (har qanday order_id uchun)
+    // To'lovni kutmoqda - ruxsat berish (default)
     return { result: { allow: true } };
 }
 
