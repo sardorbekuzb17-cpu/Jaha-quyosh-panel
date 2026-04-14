@@ -48,19 +48,19 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
-    // Sandbox test uchun: maxsus qiymatlar
-    // "fjj" - jarayonda (test uchun)
-    if (quyosh24 === 'fjj' || quyosh24 === 'inprocess') {
+    // Sandbox test uchun: FAQAT aniq test qiymatlari
+    // "test_inprocess" - jarayonda
+    if (quyosh24 === 'test_inprocess') {
         return { error: ERRORS.ORDER_IN_PROCESS };
     }
 
-    // "blocked" - bloklangan
-    if (quyosh24 === 'blocked' || quyosh24 === 'blk') {
+    // "test_blocked" - bloklangan
+    if (quyosh24 === 'test_blocked') {
         return { error: ERRORS.ORDER_BLOCKED };
     }
 
-    // "notfound" - topilmadi
-    if (quyosh24 === 'notfound' || quyosh24 === 'nf') {
+    // "test_notfound" - topilmadi
+    if (quyosh24 === 'test_notfound') {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
