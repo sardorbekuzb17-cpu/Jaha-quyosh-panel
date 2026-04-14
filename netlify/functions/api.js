@@ -238,12 +238,23 @@ exports.handler = async (event, context) => {
         };
     }
 
-    // Auth check
+    // Auth check - noto'g'ri auth uchun ham HTTP 200 qaytarish kerak
     if (!checkAuth(event.headers)) {
         return {
-            statusCode: 401,
+            statusCode: 200, // 401 emas, 200!
             headers,
-            body: JSON.stringify({ error: 'Unauthorized' }),
+            body: JSON.stringify({
+                jsonrpc: '2.0',
+                id: null,
+                error: {
+                    code: -32504,
+                    message: {
+                        uz: 'Avtorizatsiya xatosi',
+                        ru: 'Ошибка авторизации',
+                        en: 'Authorization error'
+                    }
+                }
+            }),
         };
     }
 
