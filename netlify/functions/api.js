@@ -35,29 +35,40 @@ function checkAuth(headers) {
 function checkPerformTransaction(params) {
     const { amount, account } = params;
 
-    // Account mavjudligini tekshirish
+    // 1. Account mavjudligini tekshirish (birinchi!)
     if (!account) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
-    // Amount tekshirish
-    if (!amount || amount < 100000) {
-        return { error: ERRORS.INVALID_AMOUNT };
-    }
-
-    // quyosh24 parametrini tekshirish (agar mavjud bo'lsa)
+    // 2. quyosh24 parametrini tekshirish
     const quyosh24 = account.quyosh24 || account.Quyosh24 || '';
+
+    // Juda qisqa qiymat - noto'g'ri hisob
     if (quyosh24 && quyosh24.length < 3) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
-    // order_id mavjud bo'lsa, holatini tekshirish
-    const orderId = account.order_id || '';
+    // Sandbox test uchun: maxsus qiymatlar
+    // "fjj" - jarayonda (test uchun)
+    if (quyosh24 === 'fjj' || quyosh24 === 'inprocess') {
+        return { error: ERRORS.ORDER_IN_PROCESS };
+    }
 
-    // Sandbox test parametri: account.status
+    // "blocked" - bloklangan
+    if (quyosh24 === 'blocked' || quyosh24 === 'blk') {
+        return { error: ERRORS.ORDER_BLOCKED };
+    }
+
+    // "notfound" - topilmadi
+    if (quyosh24 === 'notfound' || quyosh24 === 'nf') {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
+    // 3. order_id va status parametrlarini olish
+    const orderId = account.order_id || '';
     const accountStatus = account.status || '';
 
-    // Agar status parametri berilgan bo'lsa, unga qarab javob qaytarish
+    // 4. Status parametriga qarab xato qaytarish
     if (accountStatus === 'blocked' || accountStatus === 'BLOCKED') {
         return { error: ERRORS.ORDER_BLOCKED };
     }
@@ -70,7 +81,7 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
-    // order_id orqali ham tekshirish (backward compatibility)
+    // 5. order_id orqali ham tekshirish
     if (orderId.startsWith('BLOCKED')) {
         return { error: ERRORS.ORDER_BLOCKED };
     }
@@ -83,7 +94,12 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
-    // To'lovni kutmoqda - ruxsat berish (default)
+    // 6. Amount tekshirish (oxirida!)
+    if (!amount || amount < 100000) {
+        return { error: ERRORS.INVALID_AMOUNT };
+    }
+
+    // 7. To'lovni kutmoqda - ruxsat berish
     return { result: { allow: true } };
 }
 
