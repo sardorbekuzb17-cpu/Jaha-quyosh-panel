@@ -141,10 +141,8 @@ function performTransaction(params) {
     const { id } = params;
 
     // Sandbox test uchun: maxsus ID lar
-    // Agar ID "69dea9665e5e8dad8f3b72c2" bo'lsa - bekor qilingan tranzaksiya
-    if (id === '69dea9665e5e8dad8f3b72c2') {
-        return { error: ERRORS.CANT_PERFORM };
-    }
+    // Agar ID "69dea9665e5e8dad8f3b72c2" bo'lsa va tranzaksiya mavjud emas - topilmadi
+    // Agar ID "69dea9665e5e8dad8f3b72c2" bo'lsa va tranzaksiya mavjud - bekor qilingan
 
     const tx = transactions.get(id);
 
