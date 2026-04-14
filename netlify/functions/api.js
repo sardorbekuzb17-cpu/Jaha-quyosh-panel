@@ -12,6 +12,8 @@ const transactions = new Map();
 const ERRORS = {
     INVALID_AMOUNT: { code: -31001, message: "Noto'g'ri summa" },
     ORDER_NOT_FOUND: { code: -31050, message: "Buyurtma topilmadi" },
+    ORDER_BLOCKED: { code: -31051, message: "Hisob bloklangan, to'lov qilib bo'lmaydi" },
+    ORDER_IN_PROCESS: { code: -31052, message: "Hisob jarayonda, boshqa tranzaksiya kutilmoqda" },
     INVALID_ACCOUNT: { code: -31053, message: "Noto'g'ri hisob" },
     TRANSACTION_NOT_FOUND: { code: -31003, message: "Tranzaksiya topilmadi" },
     CANT_PERFORM: { code: -31008, message: "Amalga oshirib bo'lmaydi" },
@@ -46,12 +48,12 @@ function checkPerformTransaction(params) {
 
     // Test uchun: order_id "BLOCKED" bilan boshlansa - bloklangan
     if (orderId.startsWith('BLOCKED')) {
-        return { error: { code: -31099, message: "Hisob bloklangan, to'lov qilib bo'lmaydi" } };
+        return { error: ERRORS.ORDER_BLOCKED };
     }
 
     // Test uchun: order_id "INPROCESS" bilan boshlansa - jarayonda
     if (orderId.startsWith('INPROCESS')) {
-        return { error: { code: -31099, message: "Hisob jarayonda, boshqa tranzaksiya kutilmoqda" } };
+        return { error: ERRORS.ORDER_IN_PROCESS };
     }
 
     // Test uchun: order_id "NOTFOUND" bilan boshlansa - topilmadi
