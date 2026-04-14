@@ -35,16 +35,18 @@ function checkAuth(headers) {
 function checkPerformTransaction(params) {
     const { amount, account } = params;
 
-    if (!account || !account.order_id) {
+    // Account mavjudligini tekshirish
+    if (!account) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
-    if (amount < 100000) {
+    // Amount tekshirish
+    if (!amount || amount < 100000) {
         return { error: ERRORS.INVALID_AMOUNT };
     }
 
-    // Order holatini tekshirish
-    const orderId = account.order_id;
+    // order_id mavjud bo'lsa, holatini tekshirish
+    const orderId = account.order_id || '';
 
     // Test uchun: order_id "BLOCKED" bilan boshlansa - bloklangan
     if (orderId.startsWith('BLOCKED')) {
@@ -61,6 +63,7 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
+    // To'lovni kutmoqda - ruxsat berish (har qanday order_id uchun)
     return { result: { allow: true } };
 }
 
