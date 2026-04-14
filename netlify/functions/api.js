@@ -41,6 +41,24 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.INVALID_AMOUNT };
     }
 
+    // Order holatini tekshirish
+    const orderId = account.order_id;
+
+    // Test uchun: order_id "BLOCKED" bilan boshlansa - bloklangan
+    if (orderId.startsWith('BLOCKED')) {
+        return { error: { code: -31099, message: "Hisob bloklangan, to'lov qilib bo'lmaydi" } };
+    }
+
+    // Test uchun: order_id "INPROCESS" bilan boshlansa - jarayonda
+    if (orderId.startsWith('INPROCESS')) {
+        return { error: { code: -31099, message: "Hisob jarayonda, boshqa tranzaksiya kutilmoqda" } };
+    }
+
+    // Test uchun: order_id "NOTFOUND" bilan boshlansa - topilmadi
+    if (orderId.startsWith('NOTFOUND')) {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
     return { result: { allow: true } };
 }
 
