@@ -1,0 +1,23 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "api/payme.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/payme",
+            "dest": "api/payme.js"
+        },
+        {
+            "src": "/payme-callback",
+            "dest": "api/payme.js"
+        }
+    ],
+    "env": {
+        "PAYME_MERCHANT_ID": "69d6d6113663bd982443630d",
+        "PAYME_SECRET_KEY": "4EkYNKATgBk2tyBENNfCaAn&QPVRSGjP2FAj"
+    }
+}
