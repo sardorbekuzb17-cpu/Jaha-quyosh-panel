@@ -4,6 +4,10 @@
         {
             "src": "api/payme.js",
             "use": "@vercel/node"
+        },
+        {
+            "src": "admin-panel/**",
+            "use": "@vercel/static"
         }
     ],
     "routes": [
@@ -14,6 +18,10 @@
         {
             "src": "/payme-callback",
             "dest": "api/payme.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "admin-panel/$1"
         }
     ],
     "env": {
