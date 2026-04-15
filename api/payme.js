@@ -161,29 +161,11 @@ function performTransaction(params) {
 
     let tx = transactions.get(id);
 
-    // Agar tranzaksiya topilmasa - Sandbox test uchun avtomatik yaratish
+    // Agar tranzaksiya topilmasa
     if (!tx) {
-        // Sandbox test rejimi: tranzaksiyani yaratib, darhol bajarish
-        tx = {
-            id,
-            time: Date.now(),
-            amount: 100000, // Default qiymat
-            account: { quyosh24: 'sandbox_test' },
-            create_time: Date.now(),
-            perform_time: Date.now(),
-            cancel_time: 0,
-            state: 2, // Darhol bajarilgan holatga o'tkazish
-            reason: null,
-        };
-        transactions.set(id, tx);
-
-        return {
-            result: {
-                transaction: tx.id,
-                perform_time: tx.perform_time,
-                state: tx.state,
-            },
-        };
+        // Payme spetsifikatsiyasi: tranzaksiya topilmasa -31003 qaytarish kerak
+        // Sandbox test uchun: avval CreateTransaction chaqirilishi kerak
+        return { error: ERRORS.TRANSACTION_NOT_FOUND };
     }
 
     // Agar tranzaksiya bekor qilingan bo'lsa (-1 yoki -2)
