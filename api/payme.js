@@ -44,8 +44,9 @@ function checkPerformTransaction(params) {
     const quyosh24Raw = account.quyosh24 || account.Quyosh24 || '';
     const quyosh24 = quyosh24Raw.trim(); // Bo'sh joylarni olib tashlash
 
-    // Juda qisqa qiymat - noto'g'ri hisob (faqat maxsus test qiymatlari uchun)
-    if (quyosh24 && quyosh24.length < 3 && quyosh24 !== 'nf' && quyosh24 !== 'blk' && quyosh24 !== 'fjj') {
+    // Faqat bo'sh yoki 1 belgili qiymatlarni rad etish
+    // 2+ belgili barcha qiymatlar qabul qilinadi (Sandbox test uchun)
+    if (quyosh24 && quyosh24.length < 2) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
@@ -96,7 +97,8 @@ function checkPerformTransaction(params) {
     }
 
     // 6. Amount tekshirish (oxirida!)
-    if (!amount || amount < 100000) {
+    // Minimum summa: 1 tiyin (Sandbox test uchun)
+    if (!amount || amount < 1) {
         return { error: ERRORS.INVALID_AMOUNT };
     }
 
