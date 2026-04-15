@@ -163,30 +163,9 @@ function performTransaction(params) {
 
     // Agar tranzaksiya topilmasa
     if (!tx) {
-        // ID formatini tekshirish: Payme tranzaksiya ID 24 belgili hex string bo'lishi kerak
-        // Masalan: "507f1f77bcf86cd799439011" yoki "69dfda7e5e5e8dad8f3b7576"
-        const isValidId = /^[0-9a-fA-F]{24}$/.test(id);
-
-        if (!isValidId) {
-            // Noto'g'ri format - tranzaksiya topilmadi
-            return { error: ERRORS.TRANSACTION_NOT_FOUND };
-        }
-
-        // Sandbox test rejimi: to'g'ri formatdagi ID uchun mock yaratish
-        // Bu faqat test uchun - production'da CreateTransaction avval chaqirilishi kerak
-        console.log(`[Sandbox] Creating mock transaction for ID: ${id}`);
-        tx = {
-            id,
-            time: Date.now(),
-            amount: 100000, // Default test qiymati
-            account: { quyosh24: 'sandbox_test' },
-            create_time: Date.now(),
-            perform_time: 0,
-            cancel_time: 0,
-            state: 1, // Yaratilgan holat
-            reason: null,
-        };
-        transactions.set(id, tx);
+        // Payme spetsifikatsiyasi: topilmagan tranzaksiya uchun -31008 qaytarish
+        // (faqat bekor qilingan tranzaksiyalar uchun -31003)
+        return { error: ERRORS.CANT_PERFORM };
     }
 
     // Agar tranzaksiya bekor qilingan bo'lsa (-1 yoki -2)
