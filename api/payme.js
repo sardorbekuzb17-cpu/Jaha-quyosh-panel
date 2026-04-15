@@ -161,11 +161,6 @@ function performTransaction(params) {
 
     let tx = transactions.get(id);
 
-    // Agar tranzaksiya bekor qilingan bo'lsa (-1 yoki -2)
-    if (tx && (tx.state === -1 || tx.state === -2)) {
-        return { error: ERRORS.TRANSACTION_NOT_FOUND };
-    }
-
     // Agar tranzaksiya topilmasa - Sandbox test uchun avtomatik yaratish
     if (!tx) {
         // Sandbox test rejimi: tranzaksiyani yaratib, darhol bajarish
@@ -189,6 +184,12 @@ function performTransaction(params) {
                 state: tx.state,
             },
         };
+    }
+
+    // Agar tranzaksiya bekor qilingan bo'lsa (-1 yoki -2)
+    // Payme spetsifikatsiyasi: bekor qilingan tranzaksiyani bajarib bo'lmaydi
+    if (tx.state === -1 || tx.state === -2) {
+        return { error: ERRORS.CANT_PERFORM };
     }
 
     // Agar tranzaksiya allaqachon bajarilgan bo'lsa (state=2)
