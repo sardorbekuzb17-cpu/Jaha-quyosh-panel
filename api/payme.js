@@ -10,14 +10,70 @@ const transactions = new Map();
 
 // Payme xato kodlari
 const ERRORS = {
-    INVALID_AMOUNT: { code: -31001, message: "Noto'g'ri summa" },
-    ORDER_NOT_FOUND: { code: -31050, message: "Buyurtma topilmadi" },
-    ORDER_BLOCKED: { code: -31051, message: "Hisob bloklangan, to'lov qilib bo'lmaydi" },
-    ORDER_IN_PROCESS: { code: -31052, message: "Hisob jarayonda, boshqa tranzaksiya kutilmoqda" },
-    INVALID_ACCOUNT: { code: -31053, message: "Noto'g'ri hisob" },
-    TRANSACTION_NOT_FOUND: { code: -31003, message: "Tranzaksiya topilmadi" },
-    CANT_PERFORM: { code: -31008, message: "Amalga oshirib bo'lmaydi" },
-    CANT_CANCEL: { code: -31007, message: "Bekor qilib bo'lmaydi" },
+    INVALID_AMOUNT: {
+        code: -31001,
+        message: {
+            uz: "Noto'g'ri summa",
+            ru: "Неверная сумма",
+            en: "Invalid amount"
+        }
+    },
+    ORDER_NOT_FOUND: {
+        code: -31050,
+        message: {
+            uz: "Buyurtma topilmadi",
+            ru: "Заказ не найден",
+            en: "Order not found"
+        }
+    },
+    ORDER_BLOCKED: {
+        code: -31051,
+        message: {
+            uz: "Hisob bloklangan, to'lov qilib bo'lmaydi",
+            ru: "Счет заблокирован, оплата невозможна",
+            en: "Account blocked, payment not allowed"
+        }
+    },
+    ORDER_IN_PROCESS: {
+        code: -31052,
+        message: {
+            uz: "Hisob jarayonda, boshqa tranzaksiya kutilmoqda",
+            ru: "Счет в процессе, ожидается другая транзакция",
+            en: "Account in process, another transaction pending"
+        }
+    },
+    INVALID_ACCOUNT: {
+        code: -31053,
+        message: {
+            uz: "Noto'g'ri hisob",
+            ru: "Неверный счет",
+            en: "Invalid account"
+        }
+    },
+    TRANSACTION_NOT_FOUND: {
+        code: -31003,
+        message: {
+            uz: "Tranzaksiya topilmadi",
+            ru: "Транзакция не найдена",
+            en: "Transaction not found"
+        }
+    },
+    CANT_PERFORM: {
+        code: -31008,
+        message: {
+            uz: "Amalga oshirib bo'lmaydi",
+            ru: "Невозможно выполнить",
+            en: "Cannot perform transaction"
+        }
+    },
+    CANT_CANCEL: {
+        code: -31007,
+        message: {
+            uz: "Bekor qilib bo'lmaydi",
+            ru: "Невозможно отменить",
+            en: "Cannot cancel transaction"
+        }
+    },
 };
 
 // Authorization tekshirish
