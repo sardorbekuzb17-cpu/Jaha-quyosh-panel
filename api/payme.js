@@ -181,9 +181,9 @@ function performTransaction(params) {
     }
 
     // Agar tranzaksiya bekor qilingan bo'lsa (-1 yoki -2)
-    // Payme spetsifikatsiyasi: bekor qilingan tranzaksiyani bajarib bo'lmaydi
+    // Payme spetsifikatsiyasi: bekor qilingan tranzaksiya "topilmagan" deb hisoblanadi
     if (tx.state === -1 || tx.state === -2) {
-        return { error: ERRORS.CANT_PERFORM };
+        return { error: ERRORS.TRANSACTION_NOT_FOUND };
     }
 
     // Agar tranzaksiya allaqachon bajarilgan bo'lsa (state=2)
