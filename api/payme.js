@@ -343,12 +343,24 @@ module.exports = async (req, res) => {
         return;
     }
 
+    // -32300: Method must be POST
     if (req.method !== 'POST') {
-        res.status(405).json({ error: 'Method not allowed' });
+        res.status(200).json({
+            jsonrpc: '2.0',
+            id: null,
+            error: {
+                code: -32300,
+                message: {
+                    uz: "So'rov usuli POST bo'lishi kerak",
+                    ru: "Метод запроса должен быть POST",
+                    en: "Request method must be POST"
+                }
+            }
+        });
         return;
     }
 
-    // Auth check - noto'g'ri auth uchun ham HTTP 200 qaytarish kerak
+    // -32504: Authorization error
     if (!checkAuth(req.headers)) {
         res.status(200).json({
             jsonrpc: '2.0',
@@ -367,13 +379,39 @@ module.exports = async (req, res) => {
 
     try {
         const request = req.body;
+
+        // -32700: Parse error
+        if (!request || typeof request !== 'object') {
+            res.status(200).json({
+                jsonrpc: '2.0',
+                id: null,
+                error: {
+                    code: -32700,
+                    message: {
+                        uz: "JSON tahlil qilishda xato",
+                        ru: "Ошибка парсинга JSON",
+                        en: "JSON parse error"
+                    }
+                }
+            });
+            return;
+        }
+
         const { jsonrpc, id, method, params } = request;
 
+        // -32600: Invalid Request
         if (jsonrpc !== '2.0') {
             res.status(200).json({
                 jsonrpc: '2.0',
                 id,
-                error: { code: -32600, message: 'Invalid Request' },
+                error: {
+                    code: -32600,
+                    message: {
+                        uz: "Noto'g'ri so'rov",
+                        ru: "Неверный запрос",
+                        en: "Invalid Request"
+                    }
+                }
             });
             return;
         }
@@ -400,7 +438,18 @@ module.exports = async (req, res) => {
                 result = getStatement(params);
                 break;
             default:
-                result = { error: { code: -32601, message: 'Method not found' } };
+                // -32601: Method not found
+                result = {
+                    error: {
+                        code: -32601,
+                        message: {
+                            uz: "Usul topilmadi",
+                            ru: "Метод не найден",
+                            en: "Method not found"
+                        },
+                        data: method
+                    }
+                };
                 break;
         }
 
@@ -410,11 +459,19 @@ module.exports = async (req, res) => {
             ...result,
         });
     } catch (error) {
+        // -32400: System error
         console.error('Payme error:', error);
         res.status(200).json({
             jsonrpc: '2.0',
             id: null,
-            error: { code: -32603, message: 'Internal error' },
+            error: {
+                code: -32400,
+                message: {
+                    uz: "Tizim xatosi",
+                    ru: "Системная ошибка",
+                    en: "System error"
+                }
+            }
         });
     }
 };
