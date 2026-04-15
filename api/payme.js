@@ -40,7 +40,23 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
-    // 2. quyosh24 parametrini tekshirish
+    // 2. Payme Sandbox test sozlamalari: params.status orqali hisob holatini olish
+    // Sandbox test sozlamalarida "Joriy hisob holati" tanlanadi va bu params.status da keladi
+    const testStatus = params.status || '';
+
+    if (testStatus === 'inprocess' || testStatus === 'in_process') {
+        return { error: ERRORS.ORDER_IN_PROCESS };
+    }
+
+    if (testStatus === 'blocked') {
+        return { error: ERRORS.ORDER_BLOCKED };
+    }
+
+    if (testStatus === 'notfound' || testStatus === 'not_found') {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
+    // 3. quyosh24 parametrini tekshirish
     const quyosh24Raw = account.quyosh24 || account.Quyosh24 || '';
     const quyosh24 = quyosh24Raw.trim(); // Bo'sh joylarni olib tashlash
 
@@ -66,11 +82,11 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
-    // 3. order_id va status parametrlarini olish
+    // 4. order_id va status parametrlarini olish
     const orderId = account.order_id || '';
     const accountStatus = account.status || '';
 
-    // 4. Status parametriga qarab xato qaytarish
+    // 5. Status parametriga qarab xato qaytarish
     if (accountStatus === 'blocked' || accountStatus === 'BLOCKED') {
         return { error: ERRORS.ORDER_BLOCKED };
     }
@@ -83,7 +99,7 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
-    // 5. order_id orqali ham tekshirish
+    // 6. order_id orqali ham tekshirish
     if (orderId.startsWith('BLOCKED')) {
         return { error: ERRORS.ORDER_BLOCKED };
     }
@@ -96,13 +112,13 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
-    // 6. Amount tekshirish (oxirida!)
+    // 7. Amount tekshirish (oxirida!)
     // Minimum summa: 1 tiyin (Sandbox test uchun)
     if (!amount || amount < 1) {
         return { error: ERRORS.INVALID_AMOUNT };
     }
 
-    // 7. To'lovni kutmoqda - ruxsat berish
+    // 8. To'lovni kutmoqda - ruxsat berish
     return { result: { allow: true } };
 }
 
