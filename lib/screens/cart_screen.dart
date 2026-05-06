@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/cart_service.dart';
-import '../services/api_service.dart';
+import '../services/click_service.dart';
+import '../services/payme_service.dart';
 import '../widgets/gradient_button.dart';
+import 'click_webview_screen.dart';
+import 'payme_webview_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -13,6 +16,8 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final CartService _cartService = CartService();
+  bool _isProcessingPayment = false;
+  String? _activePaymentMethod;
 
   @override
   void initState() {
@@ -40,7 +45,7 @@ class _CartScreenState extends State<CartScreen> {
     return price.toStringAsFixed(0);
   }
 
-  Future<void> _sendOrder() async {
+  Future<void> _startPayment(String method) async {
     if (_cartService.items.isEmpty) return;
 
     // Buyurtma dialog oynasi
@@ -51,60 +56,184 @@ class _CartScreenState extends State<CartScreen> {
 
     if (result == null) return;
 
-    // Loading ko'rsatish
+    // Buyurtma ID yaratish - CartService dan
+    final orderId = _cartService.generateOrderId();
+
+    // Debug: Buyurtma ID ni ko'rsatish
+    print('🛒 Yangi buyurtma ID: $orderId');
+
+    setState(() {
+      _isProcessingPayment = true;
+      _activePaymentMethod = method;
+    });
+
+    try {
+      final paymentResult = method == 'payme'
+          ? await _processPaymePayment(
+              orderId: orderId,
+              customerName: result['name']!,
+              customerPhone: result['phone']!,
+            )
+          : await _processClickPayment(
+              orderId: orderId,
+              customerName: result['name']!,
+            );
+
+      if (!mounted || paymentResult != true) return;
+
+      _cartService.clearCart();
+      _showSuccessDialog(method);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Xato: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isProcessingPayment = false;
+          _activePaymentMethod = null;
+        });
+      }
+    }
+  }
+
+  Future<bool> _processPaymePayment({
+    required String orderId,
+    required String customerName,
+    required String customerPhone,
+  }) async {
+    final result = await PaymeService.createPayment(
+      orderId: orderId,
+      amount: _cartService.totalPrice,
+      customerName: customerName,
+      phone: customerPhone,
+    );
+
+    if (!mounted) return false;
+
+    if (result['success'] != true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result['error'] ?? 'Payme to\'lovida xato yuz berdi'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
+
+    final paymentResult = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PaymeWebViewScreen(
+          checkoutUrl: result['checkoutUrl'],
+          orderId: orderId,
+        ),
+      ),
+    );
+
+    return paymentResult != null && paymentResult['success'] == true;
+  }
+
+  Future<bool> _processClickPayment({
+    required String orderId,
+    required String customerName,
+  }) async {
+    final result = await ClickService.createPayment(
+      orderId: orderId,
+      amount: _cartService.totalPrice,
+      customerName: customerName,
+    );
+
+    if (!mounted) return false;
+
+    if (result['success'] != true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result['error'] ?? 'Click to\'lovida xato yuz berdi'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
+
+    final paymentResult = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ClickWebViewScreen(
+          paymentUrl: result['paymentUrl'],
+          orderId: orderId,
+        ),
+      ),
+    );
+
+    return paymentResult != null && paymentResult['success'] == true;
+  }
+
+  void _showSuccessDialog(String method) {
+    final paymentLabel = method == 'payme' ? 'Payme' : 'Click';
+
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => const Center(child: CircularProgressIndicator()),
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Column(
+          children: [
+            Icon(Icons.check_circle, color: Colors.green, size: 60),
+            SizedBox(height: 16),
+            Text('To\'lov muvaffaqiyatli!', textAlign: TextAlign.center),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Buyurtmangiz $paymentLabel orqali yuborildi. Tez orada siz bilan bog\'lanamiz.',
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[300]!),
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    'Buyurtma ID:',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  SelectableText(
+                    _cartService.generateOrderId(),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'monospace',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
-
-    try {
-      // Serverga buyurtma yuborish
-      final orderData = {
-        'customerName': result['name'],
-        'customerPhone': result['phone'],
-        'items': _cartService.items
-            .map((item) => {
-                  'name': item.name,
-                  'type': item.type,
-                  'price': item.price,
-                  'quantity': item.quantity,
-                })
-            .toList(),
-        'totalPrice': _cartService.totalPrice,
-        'status': 'pending',
-        'createdAt': DateTime.now().toIso8601String(),
-      };
-
-      await ApiService.createOrder(orderData);
-
-      // Loading yopish
-      Navigator.pop(context);
-
-      // Muvaffaqiyat xabari
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('✅ Buyurtma muvaffaqiyatli yuborildi!'),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 3),
-        ),
-      );
-
-      // Savatni tozalash
-      _cartService.clearCart();
-    } catch (e) {
-      // Loading yopish
-      Navigator.pop(context);
-
-      // Xato xabari
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('❌ Xato: ${e.toString()}'),
-          backgroundColor: Colors.red,
-          duration: const Duration(seconds: 4),
-        ),
-      );
-    }
   }
 
   @override
@@ -380,19 +509,129 @@ class _CartScreenState extends State<CartScreen> {
                   },
                 ),
               ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'To\'lov orqali buyurtma',
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.85),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _buildPaymentButton(
+                  method: 'payme',
+                  title: 'Payme',
+                  subtitle: 'Karta orqali',
+                  gradientColors: const [Color(0xFF00BFA5), Color(0xFF00ACC1)],
+                  icon: Icons.account_balance_wallet,
+                ),
+              ),
               const SizedBox(width: 12),
               Expanded(
-                flex: 2,
-                child: GradientFilledButton(
-                  text: 'Buyurtma berish',
-                  icon: Icons.send,
-                  gradientColors: const [Color(0xFF4CAF50), Color(0xFF8BC34A)],
-                  onPressed: _sendOrder,
+                child: _buildPaymentButton(
+                  method: 'click',
+                  title: 'Click',
+                  subtitle: 'Karta orqali',
+                  gradientColors: const [Color(0xFF00AEEF), Color(0xFF0077C8)],
+                  icon: Icons.credit_card,
                 ),
               ),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPaymentButton({
+    required String method,
+    required String title,
+    required String subtitle,
+    required List<Color> gradientColors,
+    required IconData icon,
+  }) {
+    final isLoading = _isProcessingPayment && _activePaymentMethod == method;
+
+    return SizedBox(
+      height: 72,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: gradientColors),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: gradientColors.first.withValues(alpha: 0.35),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: _isProcessingPayment ? null : () => _startPayment(method),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.18),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: isLoading
+                        ? const Padding(
+                            padding: EdgeInsets.all(10),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.4,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : Icon(icon, color: Colors.white, size: 22),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          isLoading ? 'Yuklanmoqda...' : subtitle,
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.88),
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
