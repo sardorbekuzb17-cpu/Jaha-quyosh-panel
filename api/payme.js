@@ -91,90 +91,32 @@ function checkAuth(headers) {
 function checkPerformTransaction(params) {
     const { amount, account } = params;
 
-    // 1. Account mavjudligini tekshirish (birinchi!)
+    // 1. Amount tekshirish (BIRINCHI!)
+    // Minimal summa: 1000 so'm = 100,000 tiyin
+    if (!amount || amount < 100000) {
+        return { error: ERRORS.INVALID_AMOUNT };
+    }
+
+    // Maksimal summa: 500,000,000 so'm = 50,000,000,000 tiyin
+    if (amount > 50000000000) {
+        return { error: ERRORS.INVALID_AMOUNT };
+    }
+
+    // 2. Account mavjudligini tekshirish
     if (!account) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
-    // 2. Payme Sandbox test sozlamalari: params.status orqali hisob holatini olish
-    // Sandbox test sozlamalarida "Joriy hisob holati" tanlanadi va bu params.status da keladi
-    const testStatus = params.status || '';
+    // 3. Payme Sandbox test sozlamalari
+    // Sandbox "Quyosh24" yoki "quyosh24" parametrini yuboradi
+    const quyosh24 = account.Quyosh24 || account.quyosh24 || account.order_id || '';
 
-    if (testStatus === 'inprocess' || testStatus === 'in_process') {
-        return { error: ERRORS.ORDER_IN_PROCESS };
-    }
-
-    if (testStatus === 'blocked') {
-        return { error: ERRORS.ORDER_BLOCKED };
-    }
-
-    if (testStatus === 'notfound' || testStatus === 'not_found') {
-        return { error: ERRORS.ORDER_NOT_FOUND };
-    }
-
-    // 3. quyosh24 parametrini tekshirish
-    const quyosh24Raw = account.quyosh24 || account.Quyosh24 || '';
-    const quyosh24 = quyosh24Raw.trim(); // Bo'sh joylarni olib tashlash
-
-    // Faqat bo'sh yoki 1 belgili qiymatlarni rad etish
-    // 2+ belgili barcha qiymatlar qabul qilinadi (Sandbox test uchun)
-    if (quyosh24 && quyosh24.length < 2) {
+    // Agar account parametri bo'sh bo'lsa
+    if (!quyosh24 || quyosh24.trim().length === 0) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
-    // Sandbox test uchun: aniq test qiymatlari
-    // "test_inprocess", "fjj", "inprocess" - jarayonda
-    if (quyosh24 === 'test_inprocess' || quyosh24 === 'fjj' || quyosh24 === 'inprocess') {
-        return { error: ERRORS.ORDER_IN_PROCESS };
-    }
-
-    // "test_blocked", "blk", "blocked" - bloklangan
-    if (quyosh24 === 'test_blocked' || quyosh24 === 'blk' || quyosh24 === 'blocked') {
-        return { error: ERRORS.ORDER_BLOCKED };
-    }
-
-    // "test_notfound", "nf", "notfound" - topilmadi
-    if (quyosh24 === 'test_notfound' || quyosh24 === 'nf' || quyosh24 === 'notfound') {
-        return { error: ERRORS.ORDER_NOT_FOUND };
-    }
-
-    // 4. order_id va status parametrlarini olish
-    const orderId = account.order_id || '';
-    const accountStatus = account.status || '';
-
-    // 5. Status parametriga qarab xato qaytarish
-    if (accountStatus === 'blocked' || accountStatus === 'BLOCKED') {
-        return { error: ERRORS.ORDER_BLOCKED };
-    }
-
-    if (accountStatus === 'inprocess' || accountStatus === 'INPROCESS') {
-        return { error: ERRORS.ORDER_IN_PROCESS };
-    }
-
-    if (accountStatus === 'notfound' || accountStatus === 'NOTFOUND') {
-        return { error: ERRORS.ORDER_NOT_FOUND };
-    }
-
-    // 6. order_id orqali ham tekshirish
-    if (orderId.startsWith('BLOCKED')) {
-        return { error: ERRORS.ORDER_BLOCKED };
-    }
-
-    if (orderId.startsWith('INPROCESS')) {
-        return { error: ERRORS.ORDER_IN_PROCESS };
-    }
-
-    if (orderId.startsWith('NOTFOUND')) {
-        return { error: ERRORS.ORDER_NOT_FOUND };
-    }
-
-    // 7. Amount tekshirish (oxirida!)
-    // Minimum summa: 1 tiyin (Sandbox test uchun)
-    if (!amount || amount < 1) {
-        return { error: ERRORS.INVALID_AMOUNT };
-    }
-
-    // 8. To'lovni kutmoqda - ruxsat berish
+    // 4. To'lovni kutmoqda - ruxsat berish
     return { result: { allow: true } };
 }
 
@@ -192,6 +134,24 @@ function createTransaction(params) {
         };
     }
 
+    // 1. Amount tekshirish (BIRINCHI!)
+    // Minimal summa: 1000 so'm = 100,000 tiyin
+    if (!amount || amount < 100000) {
+        return { error: ERRORS.INVALID_AMOUNT };
+    }
+
+    // 2. Account tekshirish
+    if (!account) {
+        return { error: ERRORS.INVALID_ACCOUNT };
+    }
+
+    // 3. Account parametrini tekshirish
+    const quyosh24 = account.Quyosh24 || account.quyosh24 || account.order_id || '';
+    if (!quyosh24 || quyosh24.trim().length === 0) {
+        return { error: ERRORS.INVALID_ACCOUNT };
+    }
+
+    // 4. Yangi tranzaksiya yaratish
     const tx = {
         id, time, amount, account,
         create_time: Date.now(),
