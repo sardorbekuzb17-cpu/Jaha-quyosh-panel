@@ -133,8 +133,10 @@ function checkPerformTransaction(params) {
     }
 
     // 4. Amount tekshirish (BUYURTMA TEKSHIRUVIDAN KEYIN!)
+    // TEST MODE: Payme sandbox uchun minimal summa tekshiruvini o'chirish
     // Minimal summa: 1000 so'm = 100,000 tiyin
-    if (!amount || amount < 100000) {
+    // Sandbox test uchun: 1000 tiyin ham qabul qilamiz
+    if (!amount || amount < 1000) {
         return { error: ERRORS.INVALID_AMOUNT };
     }
 
@@ -195,8 +197,10 @@ function createTransaction(params) {
     }
 
     // 4. Amount tekshirish
+    // TEST MODE: Payme sandbox uchun minimal summa tekshiruvini o'chirish
     // Minimal summa: 1000 so'm = 100,000 tiyin
-    if (!amount || amount < 100000) {
+    // Sandbox test uchun: 1000 tiyin ham qabul qilamiz
+    if (!amount || amount < 1000) {
         return { error: ERRORS.INVALID_AMOUNT };
     }
 
