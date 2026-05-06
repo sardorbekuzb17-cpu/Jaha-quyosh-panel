@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class PaymeService {
-  // Payme konfiguratsiyasi - TEST MODE
+  // Payme konfiguratsiyasi - PRODUCTION MODE
   static const String _merchantId = '69d6d6113663bd982443630d';
   static const String _secretKey =
-      '4EkYNKATgBk2tyBENNfCaAn&QPVRSGjP2FAj'; // Payme Test Secret Key
+      '60t8uMuuzoh#K%d3XKemv#zJ0S21RouEJ0hx'; // Payme Production Secret Key
 
-  // Checkout URL - TEST MODE
-  static const String _checkoutBaseUrl = 'https://test.paycom.uz';
+  // Checkout URL - PRODUCTION MODE
+  static const String _checkoutBaseUrl = 'https://checkout.paycom.uz';
 
   // Backend API URL (sizning serveringiz)
   static const String _backendUrl = 'https://quyosh24.uz/api/payme';

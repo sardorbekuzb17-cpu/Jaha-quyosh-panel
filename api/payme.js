@@ -1,9 +1,9 @@
 // Payme Merchant API callback handler for Vercel
 // JSON-RPC 2.0 protokoli
 
-// Payme konfiguratsiyasi - TEST MODE
+// Payme konfiguratsiyasi - PRODUCTION MODE
 const PAYME_MERCHANT_ID = process.env.PAYME_MERCHANT_ID || '69d6d6113663bd982443630d';
-const PAYME_SECRET_KEY = process.env.PAYME_SECRET_KEY || '4EkYNKATgBk2tyBENNfCaAn&QPVRSGjP2FAj';
+const PAYME_SECRET_KEY = process.env.PAYME_SECRET_KEY || '60t8uMuuzoh#K%d3XKemv#zJ0S21RouEJ0hx';
 
 // In-memory storage
 const transactions = new Map();
