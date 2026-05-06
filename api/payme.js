@@ -116,14 +116,19 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
-    // Agar 10 ta belgidan kam bo'lsa - noto'g'ri
-    if (quyosh24.length < 10) {
+    // Agar 3 ta belgidan kam bo'lsa - noto'g'ri
+    if (quyosh24.length < 3) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
     // Real tizimda bu yerda database'dan buyurtma mavjudligini tekshirish kerak
-    // Hozircha QUYOSH24 bilan boshlanganlarni qabul qilamiz
-    if (!quyosh24.startsWith('QUYOSH24-') && quyosh24 !== 'Quyosh24') {
+    // Test uchun: QUYOSH24 bilan boshlanganlar yoki "Quyosh24" yoki 6+ ta harf/raqam aralashmasi
+    const isValidFormat =
+        quyosh24.startsWith('QUYOSH24-') ||
+        quyosh24 === 'Quyosh24' ||
+        /^[A-Z0-9]{6,}$/i.test(quyosh24); // 6+ ta harf/raqam (masalan: A7B9C2)
+
+    if (!isValidFormat) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
@@ -174,13 +179,18 @@ function createTransaction(params) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
-    // Agar 10 ta belgidan kam bo'lsa - noto'g'ri
-    if (quyosh24.length < 10) {
+    // Agar 3 ta belgidan kam bo'lsa - noto'g'ri
+    if (quyosh24.length < 3) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
-    // QUYOSH24 bilan boshlanganlarni qabul qilamiz
-    if (!quyosh24.startsWith('QUYOSH24-') && quyosh24 !== 'Quyosh24') {
+    // QUYOSH24 bilan boshlanganlar yoki "Quyosh24" yoki 6+ ta harf/raqam aralashmasi
+    const isValidFormat =
+        quyosh24.startsWith('QUYOSH24-') ||
+        quyosh24 === 'Quyosh24' ||
+        /^[A-Z0-9]{6,}$/i.test(quyosh24);
+
+    if (!isValidFormat) {
         return { error: ERRORS.ORDER_NOT_FOUND };
     }
 
