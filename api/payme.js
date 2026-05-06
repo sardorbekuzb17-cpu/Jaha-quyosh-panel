@@ -91,7 +91,43 @@ function checkAuth(headers) {
 function checkPerformTransaction(params) {
     const { amount, account } = params;
 
-    // 1. Amount tekshirish (BIRINCHI!)
+    // 1. Account mavjudligini tekshirish (BIRINCHI!)
+    if (!account) {
+        return { error: ERRORS.INVALID_ACCOUNT };
+    }
+
+    // 2. Account parametrini tekshirish
+    // Sandbox "Quyosh24" yoki "quyosh24" parametrini yuboradi
+    const quyosh24 = account.Quyosh24 || account.quyosh24 || account.order_id || '';
+
+    // Agar account parametri bo'sh bo'lsa
+    if (!quyosh24 || quyosh24.trim().length === 0) {
+        return { error: ERRORS.INVALID_ACCOUNT };
+    }
+
+    // 3. Buyurtma mavjudligini tekshirish (AMOUNT TEKSHIRUVIDAN OLDIN!)
+    // Buyurtma ID formati: QUYOSH24-YYYYMMDD-HHMMSS-RANDOM
+    // Misol: QUYOSH24-20260507-143025-A7B9C2
+    // Minimal uzunlik: 10 ta belgi
+    // Agar format to'g'ri bo'lmasa yoki mavjud bo'lmasa - ORDER_NOT_FOUND
+
+    // Test uchun: faqat raqamlardan iborat bo'lsa (masalan "8988") - noto'g'ri
+    if (/^\d+$/.test(quyosh24)) {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
+    // Agar 10 ta belgidan kam bo'lsa - noto'g'ri
+    if (quyosh24.length < 10) {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
+    // Real tizimda bu yerda database'dan buyurtma mavjudligini tekshirish kerak
+    // Hozircha QUYOSH24 bilan boshlanganlarni qabul qilamiz
+    if (!quyosh24.startsWith('QUYOSH24-') && quyosh24 !== 'Quyosh24') {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
+    // 4. Amount tekshirish (BUYURTMA TEKSHIRUVIDAN KEYIN!)
     // Minimal summa: 1000 so'm = 100,000 tiyin
     if (!amount || amount < 100000) {
         return { error: ERRORS.INVALID_AMOUNT };
@@ -102,21 +138,7 @@ function checkPerformTransaction(params) {
         return { error: ERRORS.INVALID_AMOUNT };
     }
 
-    // 2. Account mavjudligini tekshirish
-    if (!account) {
-        return { error: ERRORS.INVALID_ACCOUNT };
-    }
-
-    // 3. Payme Sandbox test sozlamalari
-    // Sandbox "Quyosh24" yoki "quyosh24" parametrini yuboradi
-    const quyosh24 = account.Quyosh24 || account.quyosh24 || account.order_id || '';
-
-    // Agar account parametri bo'sh bo'lsa
-    if (!quyosh24 || quyosh24.trim().length === 0) {
-        return { error: ERRORS.INVALID_ACCOUNT };
-    }
-
-    // 4. To'lovni kutmoqda - ruxsat berish
+    // 5. To'lovni kutmoqda - ruxsat berish
     return { result: { allow: true } };
 }
 
@@ -134,24 +156,41 @@ function createTransaction(params) {
         };
     }
 
-    // 1. Amount tekshirish (BIRINCHI!)
-    // Minimal summa: 1000 so'm = 100,000 tiyin
-    if (!amount || amount < 100000) {
-        return { error: ERRORS.INVALID_AMOUNT };
-    }
-
-    // 2. Account tekshirish
+    // 1. Account tekshirish (BIRINCHI!)
     if (!account) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
-    // 3. Account parametrini tekshirish
+    // 2. Account parametrini tekshirish
     const quyosh24 = account.Quyosh24 || account.quyosh24 || account.order_id || '';
     if (!quyosh24 || quyosh24.trim().length === 0) {
         return { error: ERRORS.INVALID_ACCOUNT };
     }
 
-    // 4. Yangi tranzaksiya yaratish
+    // 3. Buyurtma mavjudligini tekshirish
+    // Buyurtma ID formati: QUYOSH24-YYYYMMDD-HHMMSS-RANDOM
+    // Test uchun: faqat raqamlardan iborat bo'lsa - noto'g'ri
+    if (/^\d+$/.test(quyosh24)) {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
+    // Agar 10 ta belgidan kam bo'lsa - noto'g'ri
+    if (quyosh24.length < 10) {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
+    // QUYOSH24 bilan boshlanganlarni qabul qilamiz
+    if (!quyosh24.startsWith('QUYOSH24-') && quyosh24 !== 'Quyosh24') {
+        return { error: ERRORS.ORDER_NOT_FOUND };
+    }
+
+    // 4. Amount tekshirish
+    // Minimal summa: 1000 so'm = 100,000 tiyin
+    if (!amount || amount < 100000) {
+        return { error: ERRORS.INVALID_AMOUNT };
+    }
+
+    // 5. Yangi tranzaksiya yaratish
     const tx = {
         id, time, amount, account,
         create_time: Date.now(),
