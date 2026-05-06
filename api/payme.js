@@ -276,39 +276,10 @@ function cancelTransaction(params) {
     const { id, reason } = params;
     let tx = transactions.get(id);
 
-    // Agar tranzaksiya topilmasa, test tranzaksiyasini yaratamiz
-    // (Sandbox test uchun - ID formatini tekshiramiz)
-    if (!tx && id && id.length >= 20) {
-        // Test tranzaksiyasini yaratish - ID ning oxirgi belgisiga qarab holatni belgilaymiz
-        const lastChar = id.charAt(id.length - 1).toLowerCase();
-
-        let initialState = 1; // Default: yaratilgan
-        let performTime = 0;
-
-        // ID oxirgi belgisi 'p' yoki '2' bo'lsa - bajarilgan (state=2)
-        if (lastChar === 'p' || lastChar === '2') {
-            initialState = 2;
-            performTime = Date.now() - 5000;
-        }
-
-        // Test tranzaksiyasini yaratish
-        tx = {
-            id: id,
-            time: Date.now() - 10000,
-            amount: 500000,
-            account: { order_id: 'TEST_CANCEL' },
-            create_time: Date.now() - 10000,
-            perform_time: performTime,
-            cancel_time: 0,
-            state: initialState,
-            reason: null,
-        };
-
-        // Tranzaksiyani saqlash
-        transactions.set(id, tx);
+    // Agar tranzaksiya topilmasa - TRANSACTION_NOT_FOUND xatosini qaytarish
+    if (!tx) {
+        return { error: ERRORS.TRANSACTION_NOT_FOUND };
     }
-
-    if (!tx) return { error: ERRORS.TRANSACTION_NOT_FOUND };
 
     // Agar tranzaksiya allaqachon bekor qilingan bo'lsa
     if (tx.state === -1 || tx.state === -2) {
@@ -339,45 +310,11 @@ function checkTransaction(params) {
     const { id } = params;
     let tx = transactions.get(id);
 
-    // Agar tranzaksiya topilmasa, test tranzaksiyasini yaratamiz
-    // (Sandbox test uchun - ID formatini tekshiramiz)
-    if (!tx && id && id.length >= 20) {
-        // Test tranzaksiyasini yaratish - ID ning oxirgi belgisiga qarab holatni belgilaymiz
-        const lastChar = id.charAt(id.length - 1).toLowerCase();
-
-        let state = 1; // Default: yaratilgan
-        let performTime = 0;
-        let cancelTime = 0;
-
-        // ID oxirgi belgisi 'p' yoki '2' bo'lsa - bajarilgan (state=2)
-        if (lastChar === 'p' || lastChar === '2') {
-            state = 2;
-            performTime = Date.now() - 5000;
-        }
-        // ID oxirgi belgisi 'c' yoki 'x' bo'lsa - bekor qilingan (state=-1)
-        else if (lastChar === 'c' || lastChar === 'x') {
-            state = -1;
-            cancelTime = Date.now() - 3000;
-        }
-
-        // Test tranzaksiyasini yaratish
-        tx = {
-            id: id,
-            time: Date.now() - 10000,
-            amount: 500000,
-            account: { order_id: 'TEST_CHECK' },
-            create_time: Date.now() - 10000,
-            perform_time: performTime,
-            cancel_time: cancelTime,
-            state: state,
-            reason: cancelTime > 0 ? 3 : null,
-        };
-
-        // Tranzaksiyani saqlash
-        transactions.set(id, tx);
+    // Agar tranzaksiya topilmasa - TRANSACTION_NOT_FOUND xatosini qaytarish
+    // Payme spetsifikatsiyasi: mavjud bo'lmagan tranzaksiya uchun -31003 qaytarish
+    if (!tx) {
+        return { error: ERRORS.TRANSACTION_NOT_FOUND };
     }
-
-    if (!tx) return { error: ERRORS.TRANSACTION_NOT_FOUND };
 
     return {
         result: {
